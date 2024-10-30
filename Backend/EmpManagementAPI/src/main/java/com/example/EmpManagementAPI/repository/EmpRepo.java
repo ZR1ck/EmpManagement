@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 public interface EmpRepo extends JpaRepository<Emp, String> {
     @Query("SELECT e.position FROM Emp e WHERE e.empid = :id")
     String getEmpPositionById(String id);
+
+    Emp findEmpByName(String name);
 }
