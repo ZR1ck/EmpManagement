@@ -63,10 +63,11 @@ CREATE TABLE Account (
 	EmpID text primary key,
 	Username text,
 	Password text,
-	Role text,
+	Role text[],
 	CreateDate date,
 	LastUpdate date,
-	IsActive boolean
+	IsActive boolean,
+	LastLogin date
 );
 ALTER TABLE Account
 ADD CONSTRAINT fk_account
