@@ -34,6 +34,13 @@ dependencies {
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
 	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
+
+	// lombok
+	compileOnly("org.projectlombok:lombok")
+	annotationProcessor("org.projectlombok:lombok")
+
+	//hypersistence-utils
+	implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.8.3")
 }
 
 tasks.withType<Test> {
