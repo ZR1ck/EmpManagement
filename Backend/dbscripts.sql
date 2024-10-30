@@ -6,6 +6,7 @@
 
 CREATE TABLE Emp (
 	EmpID text primary key,
+	Name text,
 	PermanentAddress text,
 	TempAddress text,
 	PersonalEmail text[],
@@ -281,13 +282,13 @@ INSERT INTO Dept (Description, EmpNum, CreateDate, LastUpdate, ManagerID) VALUES
 ('IT Department', 15, '2024-01-02', '2024-10-02', NULL);
 
 -- Emp
-INSERT INTO Emp (EmpID, PermanentAddress, TempAddress, PersonalEmail, PhoneNum, EmergencyNum, BankAccountNo, Gender, Birth, Nationality, Position, JobType, StartDate, QRUrl, AvatarUrl, CreateDate, LastUpdate, DeptNo) VALUES
-('E001', '123 Main St, City A', '456 Second St, City B', ARRAY['e001@example.com'], ARRAY['0123456789'], ARRAY['0987654321'], ARRAY['123456789'], 'Male', '1990-01-15', 'American', 'HR Manager', 'Full-time', '2022-05-01', 'http://qr.url/e001', 'http://avatar.url/e001', '2024-01-01', '2024-10-01', 1),
-('E002', '789 Third St, City A', '321 Fourth St, City B', ARRAY['e002@example.com'], ARRAY['0123456780'], ARRAY['0987654320'], ARRAY['987654321'], 'Female', '1995-05-20', 'Canadian', 'Software Engineer Manager', 'Full-time', '2022-06-01', 'http://qr.url/e002', 'http://avatar.url/e002', '2024-01-01', '2024-10-01', 2),
-('E003', '654 Fifth St, City A', '987 Sixth St, City B', ARRAY['e003@example.com'], ARRAY['0123456790'], ARRAY['0987654310'], ARRAY['456789123'], 'Male', '1985-10-30', 'British', 'Sortware Engineer', 'Part-time', '2022-07-01', 'http://qr.url/e003', 'http://avatar.url/e003', '2024-01-01', '2024-10-01', 2),
-('E004', '123 Main St, City A', '456 Second St, City B', ARRAY['e001@example.com'], ARRAY['0123456789'], ARRAY['0987654321'], ARRAY['123456789'], 'Male', '1990-01-15', 'American', 'Sortware Engineer', 'Full-time', '2022-05-01', 'http://qr.url/e001', 'http://avatar.url/e001', '2024-01-01', '2024-10-01', 2),
-('E005', '789 Third St, City A', '321 Fourth St, City B', ARRAY['e002@example.com'], ARRAY['0123456780'], ARRAY['0987654320'], ARRAY['987654321'], 'Female', '1995-05-20', 'Canadian', 'Software Engineer', 'Full-time', '2022-06-01', 'http://qr.url/e002', 'http://avatar.url/e002', '2024-01-01', '2024-10-01', 2),
-('E006', '654 Fifth St, City A', '987 Sixth St, City B', ARRAY['e003@example.com'], ARRAY['0123456790'], ARRAY['0987654310'], ARRAY['456789123'], 'Male', '1985-10-30', 'British', 'Sortware Engineer', 'Part-time', '2022-07-01', 'http://qr.url/e003', 'http://avatar.url/e003', '2024-01-01', '2024-10-01', 1);
+INSERT INTO Emp (EmpID, Name, PermanentAddress, TempAddress, PersonalEmail, PhoneNum, EmergencyNum, BankAccountNo, Gender, Birth, Nationality, Position, JobType, StartDate, QRUrl, AvatarUrl, CreateDate, LastUpdate, DeptNo) VALUES
+('E001', 'John', '123 Main St, City A', '456 Second St, City B', ARRAY['e001@example.com'], ARRAY['0123456789'], ARRAY['0987654321'], ARRAY['123456789'], 'Male', '1990-01-15', 'American', 'HR Manager', 'Full-time', '2022-05-01', 'http://qr.url/e001', 'http://avatar.url/e001', '2024-01-01', '2024-10-01', 1),
+('E002', 'Hannah', '789 Third St, City A', '321 Fourth St, City B', ARRAY['e002@example.com'], ARRAY['0123456780'], ARRAY['0987654320'], ARRAY['987654321'], 'Female', '1995-05-20', 'Canadian', 'Software Engineer Manager', 'Full-time', '2022-06-01', 'http://qr.url/e002', 'http://avatar.url/e002', '2024-01-01', '2024-10-01', 2),
+('E003', 'Tim', '654 Fifth St, City A', '987 Sixth St, City B', ARRAY['e003@example.com'], ARRAY['0123456790'], ARRAY['0987654310'], ARRAY['456789123'], 'Male', '1985-10-30', 'British', 'Sortware Engineer', 'Part-time', '2022-07-01', 'http://qr.url/e003', 'http://avatar.url/e003', '2024-01-01', '2024-10-01', 2),
+('E004', 'Ben', '123 Main St, City A', '456 Second St, City B', ARRAY['e001@example.com'], ARRAY['0123456789'], ARRAY['0987654321'], ARRAY['123456789'], 'Male', '1990-01-15', 'American', 'Sortware Engineer', 'Full-time', '2022-05-01', 'http://qr.url/e001', 'http://avatar.url/e001', '2024-01-01', '2024-10-01', 2),
+('E005', 'Marry', '789 Third St, City A', '321 Fourth St, City B', ARRAY['e002@example.com'], ARRAY['0123456780'], ARRAY['0987654320'], ARRAY['987654321'], 'Female', '1995-05-20', 'Canadian', 'Software Engineer', 'Full-time', '2022-06-01', 'http://qr.url/e002', 'http://avatar.url/e002', '2024-01-01', '2024-10-01', 2),
+('E006', 'Josh', '654 Fifth St, City A', '987 Sixth St, City B', ARRAY['e003@example.com'], ARRAY['0123456790'], ARRAY['0987654310'], ARRAY['456789123'], 'Male', '1985-10-30', 'British', 'Sortware Engineer', 'Part-time', '2022-07-01', 'http://qr.url/e003', 'http://avatar.url/e003', '2024-01-01', '2024-10-01', 1);
 
 UPDATE Dept
 SET ManagerID = 'E001'

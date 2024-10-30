@@ -19,6 +19,7 @@ import java.util.Set;
 public class Emp {
     @Id
     private String empid;
+    private String name;
     private String permanentaddress;
     private String tempaddress;
 
