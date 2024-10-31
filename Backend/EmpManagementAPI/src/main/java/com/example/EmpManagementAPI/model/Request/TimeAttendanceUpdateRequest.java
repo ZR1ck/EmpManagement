@@ -20,6 +20,5 @@ public class TimeAttendanceUpdateRequest extends BaseRequest {
 
     @OneToOne
     @JoinColumn(name = "recordid")
-    @JsonManagedReference
     private AttendanceRecords record;
 }

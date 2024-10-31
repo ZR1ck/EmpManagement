@@ -18,10 +18,11 @@ import java.util.Date;
 public class ActivityApproval {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private Date createdate;
     private String approvalstatus;
-//    private int activityid;
+    private int activityid;
     private String empid;
     private String managerid;
 

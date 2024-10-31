@@ -23,6 +23,7 @@ import java.util.List;
 @MappedSuperclass
 public abstract class BaseRequest {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int requestid;
     private Date createdate;
     private String approvalstatus;

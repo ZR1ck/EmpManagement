@@ -21,11 +21,5 @@ public class Dept {
     private int empnum;
     private Date createdate;
     private Date lastupdate;
-
     private String managerid;
-
-    @OneToMany(mappedBy = "dept", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonBackReference
-    private List<Emp> emps;
-
 }
