@@ -52,7 +52,6 @@ public class Emp {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "deptno", nullable = false)
-    @JsonManagedReference
     private Dept dept;
 
 //    @OneToMany(mappedBy = "emp", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
