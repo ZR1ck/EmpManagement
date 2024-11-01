@@ -7,8 +7,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin
@@ -18,7 +25,7 @@ public class EmpController {
     @Autowired
     private EmpService empService;
 
-//    @PreAuthorize("hasAuthority('Manager')")
+//    @PreAuthorize("hasAnyAuthority('Manager', 'HR')")
     @GetMapping("/employees")
     public ResponseEntity<List<Emp>> getAllEmployees() {
         try {
@@ -44,4 +51,14 @@ public class EmpController {
         }
     }
 
+//    @PreAuthorize("hasAnyAuthority('HR', 'Manager')")
+    @PostMapping("/employee")
+    public ResponseEntity<Emp> addEmp(@RequestPart("emp") Emp emp, @RequestPart("avatar") MultipartFile avatar) {
+        try {
+            return new ResponseEntity<>(empService.addEmp(emp, avatar), HttpStatus.CREATED);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
