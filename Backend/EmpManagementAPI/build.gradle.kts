@@ -41,6 +41,14 @@ dependencies {
 
 	//hypersistence-utils
 	implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.8.3")
+
+	// https://mvnrepository.com/artifact/io.nayuki/qrcodegen
+	implementation("io.nayuki:qrcodegen:1.8.0")
+
+	// https://mvnrepository.com/artifact/commons-io/commons-io
+	implementation("commons-io:commons-io:2.17.0")
+
+
 }
 
 tasks.withType<Test> {
