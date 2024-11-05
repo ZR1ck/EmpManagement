@@ -14,7 +14,7 @@ const Sidebar = () => {
 
   const [allNav, setAllNav] = useState([]);
 
-  const role = "employee";
+  const role = "manager";
 
   const userInfo = {
     userName: "Duc Huy",
@@ -22,8 +22,8 @@ const Sidebar = () => {
   }
 
   useEffect(() => {
-    console.log(basePath)
-  }, [basePath])
+    console.log("baser path: ", basePath)
+  }, [basePath, allNav],)
 
   useEffect(() => {
     const navs = getAllNav(role);
@@ -49,7 +49,7 @@ const Sidebar = () => {
           {
             allNav.map((nav, i) => (
               <Link to={nav.path}>
-                <li key={i} className={` ${nav.path.includes(basePath) && basePath !== '/' ? 'bg-blue-medium text-white' : 'text-gray-medium'} transition-colors cursor-pointer  rounded-lg flex flex-row items-center gap-4 px-2 
+                <li key={i} onClick={console.log("path nav: ", nav.path)} className={` ${nav.path.includes(basePath) && basePath !== '/' ? 'bg-blue-medium text-white' : 'text-gray-medium'} transition-colors cursor-pointer  rounded-lg flex flex-row items-center gap-4 px-2 
                 font-semibold py-2 hover:bg-blue-medium hover:text-white`}>
                   <span>{nav.icon}</span>
                   <span>{nav.title}</span>

@@ -4,7 +4,7 @@ import { BiQrScan } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
 import Sidebar from './Sidebar';
 
-const AccountContact = () => {
+const AccountContact = (userRole) => {
 
   const [normalPhoneNumber, setNormalPhoneNumber] = useState([
     '0981672372',
@@ -62,7 +62,7 @@ const AccountContact = () => {
       {/* Info */}
       <div className='mt-2 gap-4 flex flex-row'>
         {/* Sidebar */}
-        <Sidebar pathname='account-contact' />
+        <Sidebar pathname='account-contact' role={userRole.role}/>
         {/* Content */}
         <div className='flex flex-col overflow-y-auto max-h-[550px] w-full gap-4 '>
           {/* Phone Number */}
