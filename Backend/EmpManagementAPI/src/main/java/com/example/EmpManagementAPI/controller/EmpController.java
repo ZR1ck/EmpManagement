@@ -77,5 +77,14 @@ public class EmpController {
 	public ResponseEntity<?> sendLeaveRequest(@RequestBody LeaveRequest leaveRequest) {
 		return requestService.addRequest(leaveRequest);
 	}
-    
+
+    @GetMapping("leaveTypes/{empId}/{year}")
+    public ResponseEntity<?> getLeaveType(@PathVariable String empId, @PathVariable int year) {
+        try {
+            return new ResponseEntity<>(empService.getLeaveTypeByEmpIdAndYear(empId, year), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
