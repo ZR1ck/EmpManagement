@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.EmpManagementAPI.model.Request.HalfDayLeaveRequest;
 
-public interface HalfDayLeaveRequestRepo extends JpaRepository<HalfDayLeaveRequest, String> {
+public interface HalfDayLeaveRequestRepo extends JpaRepository<HalfDayLeaveRequest, Integer> {
 }

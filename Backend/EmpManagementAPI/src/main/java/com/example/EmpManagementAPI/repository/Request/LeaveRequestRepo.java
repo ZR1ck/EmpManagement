@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.EmpManagementAPI.model.Emp;
 import com.example.EmpManagementAPI.model.Request.LeaveRequest;
 
-public interface LeaveRequestRepo extends JpaRepository<LeaveRequest, String> {
+public interface LeaveRequestRepo extends JpaRepository<LeaveRequest, Integer> {
 
-	List<LeaveRequest> findByManager(Emp manager);
+	List<LeaveRequest> findByManagerId(String managerId);
 
-	LeaveRequest findByRequestIdAndManager(String requestId, Emp manager);
+	LeaveRequest findByRequestIdAndManagerId(int requestId, String managerId);
 
 }

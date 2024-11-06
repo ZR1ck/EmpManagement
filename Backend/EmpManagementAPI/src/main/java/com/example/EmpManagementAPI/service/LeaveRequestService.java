@@ -2,6 +2,7 @@ package com.example.EmpManagementAPI.service;
 
 import java.util.List;
 
+import ch.qos.logback.core.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,34 +14,27 @@ import com.example.EmpManagementAPI.repository.Request.LeaveRequestRepo;
 
 @Service
 public class LeaveRequestService {
-	    @Autowired
+	@Autowired
     private LeaveRequestRepo requestRepo;
 
-
-	public ResponseEntity<?> getRequests(Emp manager) {
+	public ResponseEntity<?> getRequests(String managerId) {
 		try {
-			if (manager == null) {
+			if (StringUtil.isNullOrEmpty(managerId)) {
 				return ResponseEntity.status(401).body("Unauthorized");
 			}
-			if (!manager.getPosition().contains("Manager")) {
-				return ResponseEntity.status(403).body("Forbidden");
-			}
-			List<LeaveRequest> requests = requestRepo.findByManager(manager);
+			List<LeaveRequest> requests = requestRepo.findByManagerId(managerId);
 			return ResponseEntity.ok(requests);
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body("Internal Server Error");
 		}
 	}
 
-	public ResponseEntity<?> getRequestById(Emp manager, String requestId) {
+	public ResponseEntity<?> getRequestById(String manager, int requestId) {
 		try {
 			if (manager == null) {
 				return ResponseEntity.status(401).body("Unauthorized");
 			}
-			if (!manager.getPosition().equals("Manager")) {
-				return ResponseEntity.status(403).body("Forbidden");
-			}
-			LeaveRequest request = requestRepo.findByRequestIdAndManager(requestId, manager);
+			LeaveRequest request = requestRepo.findByRequestIdAndManagerId(requestId, manager);
 			if (request != null) {
 				return ResponseEntity.ok(request);
 			} else {

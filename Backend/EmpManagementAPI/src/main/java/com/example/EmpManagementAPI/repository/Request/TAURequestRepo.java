@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.EmpManagementAPI.model.Request.TimeAttendanceUpdateRequest;
 
-public interface TAURequestRepo extends JpaRepository<TimeAttendanceUpdateRequest, String> {
+public interface TAURequestRepo extends JpaRepository<TimeAttendanceUpdateRequest, Integer> {
 }

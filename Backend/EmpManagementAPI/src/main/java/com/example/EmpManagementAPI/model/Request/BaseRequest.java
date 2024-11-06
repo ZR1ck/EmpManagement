@@ -34,7 +34,7 @@ public abstract class BaseRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "requestid") // Ensure this matches the column name in the database
-    private String requestId;
+    private int requestId;
     @Column(name = "createdate") // Ensure this matches the column name in the database
     private Date createDate;
     @Column(name = "approvalstatus") // Ensure this matches the column name in the database
@@ -46,11 +46,9 @@ public abstract class BaseRequest {
     @Column(name = "attachmenturl", columnDefinition = "text[]")
     private List<String> attachmentUrl;
 
-    @ManyToOne
-    @JoinColumn(name = "empid") // Ensure this matches the column name in the database
-    private Emp emp;
+    @Column(name = "empid")
+    private String empId;
 
-    @ManyToOne
-    @JoinColumn(name = "managerid") // Ensure this matches the column name in the database
-    private Emp manager;
+    @Column(name = "managerid")
+    private String managerId;
 }
