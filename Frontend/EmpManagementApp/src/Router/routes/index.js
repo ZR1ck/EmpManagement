@@ -1,6 +1,8 @@
 import MainLayout from "../../layout/MainLayout"
 import employeeRoutes from "./employeeRoutes"
 import managerRoutes from './managerRoute';
+import Login from '../../layout/Login';
+import Register from '../../layout/Register';
 
 
 
@@ -10,11 +12,21 @@ const getRoutes = () => {
     ...managerRoutes
   ]
 
-  return {
-    path: '/',
-    element: <MainLayout/>,
-    children: allRoutes
-  }
+  return [
+    {
+      path: '/login',
+      element: <Login />,
+    },
+    {
+      path: '/register',
+      element: <Register />,
+    },
+    {
+      path: '/',
+      element: <MainLayout />,
+      children: allRoutes
+    }
+  ]
 }
 
 export default getRoutes
