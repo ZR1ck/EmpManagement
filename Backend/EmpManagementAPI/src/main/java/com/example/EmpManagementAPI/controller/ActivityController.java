@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/activity")
 public class ActivityController {
 
@@ -56,7 +57,7 @@ public class ActivityController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Activity> addActivity(@RequestBody Activity activity, @RequestParam("images") MultipartFile[] images) {
+    public ResponseEntity<Activity> addActivity(@RequestPart("activity") Activity activity, @RequestParam("images") MultipartFile[] images) {
         try {
             return new ResponseEntity<>(activityService.addActivity(activity, images), HttpStatus.CREATED);
         }

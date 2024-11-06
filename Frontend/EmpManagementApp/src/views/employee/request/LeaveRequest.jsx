@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Notification from '../../../components/Notification';
+import { ErrorIcon } from 'react-hot-toast';
 
 export const LeaveRequest = () => {
 
@@ -25,6 +26,7 @@ export const LeaveRequest = () => {
     const [detailIsVisible, setDetailIsVisible] = useState(false);
     const [position, setPosition] = useState({ top: 0, left: 0 });
     const [showNotification, setShowNotification] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     const parentRef = useRef(null);
     const [notificationPosition, setNotificationPosition] = useState({ top: 0, left: 0 });
@@ -84,6 +86,7 @@ export const LeaveRequest = () => {
             case '1':
                 if (data.annual <= 0) {
                     setMsg('Đã hết ngày nghỉ hằng năm')
+                    setSuccess(false);
                     handleShowNotification();
                     return;
                 }
@@ -91,6 +94,7 @@ export const LeaveRequest = () => {
             case '2':
                 if (data.marriage <= 0) {
                     setMsg('Đã hết ngày nghỉ đám cưới')
+                    setSuccess(false);
                     handleShowNotification();
                     return;
                 }
@@ -98,12 +102,15 @@ export const LeaveRequest = () => {
             case '3':
                 if (data.funeral <= 0) {
                     setMsg('Đã hết ngày nghỉ đám tang')
+                    setSuccess(false);
                     handleShowNotification();
                     return;
                 }
                 break;
         }
-        alert('submitted');
+        setSuccess(true);
+        setMsg("Gửi đơn thành công")
+        handleShowNotification();
         console.log(formData);
     };
 
@@ -112,6 +119,7 @@ export const LeaveRequest = () => {
             {showNotification && (
                 <>
                     <Notification
+                        type={success ? "success" : "error"}
                         message={msg}
                         onClose={() => setShowNotification(false)}
                         position={notificationPosition}
