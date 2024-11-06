@@ -1,0 +1,14 @@
+{
+  "java.jdt.ls.java.home": "",
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "Project",
+      "database": "empmanagement",
+      "username": "postgres"
+    }
+  ]
+}

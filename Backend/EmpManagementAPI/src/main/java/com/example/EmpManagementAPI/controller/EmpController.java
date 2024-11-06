@@ -1,5 +1,3 @@
-package com.example.EmpManagementAPI.controller;
-
 import com.example.EmpManagementAPI.model.Emp;
 import com.example.EmpManagementAPI.service.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,4 +59,21 @@ public class EmpController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    @GetMapping("/leaveRequest")
+	public ResponseEntity<?> getLeaveRequests(@RequestBody Emp manager) {
+		return requestService.getRequests(manager);
+	}
+
+	@GetMapping("/leaveRequest/{Id}")
+	public ResponseEntity<?> getLeaveRequestById(@RequestBody Emp manager, @PathVariable("Id") String id) {
+		return requestService.getRequestById(manager, id);
+	}
+	
+	@PostMapping("/leaveRequest")
+	public ResponseEntity<?> sendLeaveRequest(@RequestBody LeaveRequest leaveRequest) {
+		return requestService.addRequest(leaveRequest);
+	}
+    
 }
