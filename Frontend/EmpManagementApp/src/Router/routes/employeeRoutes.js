@@ -7,13 +7,13 @@ import AccountContact from './../../views/employee/account-info/AccountContact';
 
 const employeeRoutes = [
   {
-    path: '/home',
+    path: '/employee/home',
     element: <Home/>,
     role: 'employee',
   },
   {
     path: '/employee/account/detail',
-    element: <AccountDetail/>,
+    element: <AccountDetail role="employee"/>,
     role: 'employee',
   },
   {

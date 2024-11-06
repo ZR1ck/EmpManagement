@@ -13,7 +13,7 @@ const InputField = ({ label, value, type }) => {
   )
 }
 
-const Work = () => {
+const Work = (userRole) => {
 
   const [workInfo, setWorkInfo] = useState({
     employeeID: 'NV001',
@@ -35,7 +35,7 @@ const Work = () => {
       {/* Info */}
       <div className='mt-2 gap-4 flex flex-row'>
         {/* Sidebar */}
-        <Sidebar pathname='account-work'/>
+        <Sidebar pathname='account-work' role={userRole.role}/>
         {/* Content */}
         <div className='flex flex-col overflow-y-auto max-h-[550px] w-full gap-4 '>
           {/* Personal Info */}

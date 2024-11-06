@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import avatar from './../../../assets/avatar.jpg'
 import { BiQrScan } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
@@ -32,7 +32,7 @@ const QRCode = ({showQRCode, setShowQRCode}) => {
   )
 }
 
-const AccountDetail = () => {
+const AccountDetail = (userRole) => {
 
   const [showQRCode, setShowQRCode] = useState(false);
   const [userInfo, setUserInfo] = useState({
@@ -66,7 +66,7 @@ const AccountDetail = () => {
       {/* Info */}
       <div className='mt-2 gap-4 flex flex-row'>
         {/* Sidebar */}
-        <Sidebar pathname='account-detail'/>
+        <Sidebar pathname='account-detail' role={userRole.role}/>
         {/* Content */}
         <div className='flex flex-col overflow-y-auto max-h-[550px] w-full gap-4 '>
           {/* Intro */}
