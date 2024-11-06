@@ -5,12 +5,12 @@ import Router from "./Router/Router";
 
 
 function App() {
-  const [allRoutes, setAllRoutes] = useState([...getRoutes()]);
+  const [allRoutes, setAllRoutes] = useState(getRoutes());
 
   useEffect(() => {
     // const routes = getRoutes();
-
-    setAllRoutes([...allRoutes, ...getRoutes()])
+    console.log('test');
+    setAllRoutes(getRoutes())
   }, [])
 
   return <Router allRoutes={allRoutes}/>;

@@ -24,7 +24,8 @@ const getRoutes = () => {
     {
       path: '/',
       element: <MainLayout />,
-      children: allRoutes
+      children: allRoutes,
+      protected: true
     }
   ]
 }

@@ -4,17 +4,20 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import './index.css';
 import App from './App';
+import { AuthProvider } from './contexts/AuthProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Suspense>
-      <App />
-      <Toaster
-        toastOptions={{
-          duration: 2000,
-        }}
-      />
+      <AuthProvider>
+        <App />
+        <Toaster
+          toastOptions={{
+            duration: 2000,
+          }}
+        />
+      </AuthProvider>
     </Suspense>
   </BrowserRouter>
 );

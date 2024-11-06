@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../contexts/AuthProvider';
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
+    const { login } = useAuthContext();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,9 +21,8 @@ function Login() {
             });
             const token = response.data.token;
 
-            localStorage.setItem('token', token);
-
-            // navigate
+            login(token);
+            navigate('/', { replace: true });
             console.log('Login successful:', token);
         } catch (err) {
 
