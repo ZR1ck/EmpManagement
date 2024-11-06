@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -86,7 +88,10 @@ public class AccountService {
                     new UsernamePasswordAuthenticationToken(account.getUsername(), account.getPassword()));
 
             if (authentication.isAuthenticated()) {
-                String token = jwtService.generateToken(account.getUsername());
+                List<String> roles = authentication.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .toList();
+                String token = jwtService.generateToken(account.getUsername(), roles);
                 response.put("token", token);
                 response.put("message", "Login successful");
                 return ResponseEntity.ok(response);

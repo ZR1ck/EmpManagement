@@ -7,14 +7,16 @@ import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getAllNav } from '../navigation';
 import { Link } from 'react-router-dom';
+import { useAuthContext } from '../contexts/AuthProvider';
 
-const Sidebar = () => {
+const Sidebar = ({ roles }) => {
   const pathName = useLocation();
   const basePath = pathName.pathname.split('/').slice(0, 3).join('/');
 
   const [allNav, setAllNav] = useState([]);
 
-  const role = "manager";
+  const role = roles.includes("manager") ? "manager" : "employee";
+  const { logout } = useAuthContext();
 
   const userInfo = {
     userName: "Duc Huy",
@@ -67,7 +69,7 @@ const Sidebar = () => {
           <p className='text-[13px]'>{userInfo.userName}</p>
           <p className='text-gray-500 text-[10px]'>{userInfo.email}</p>
         </div>
-        <FiLogOut className='text-gray-500 ml-4 cursor-pointer' />
+        <FiLogOut className='text-gray-500 ml-4 cursor-pointer' onClick={() => logout()} />
       </div>
     </div>
   )

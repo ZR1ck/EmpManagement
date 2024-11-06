@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import MainLayout from "./layout/MainLayout";
 import getRoutes from "./Router/routes";
 import Router from "./Router/Router";
 
@@ -9,7 +8,6 @@ function App() {
 
   useEffect(() => {
     // const routes = getRoutes();
-    console.log('test');
     setAllRoutes(getRoutes())
   }, [])
 

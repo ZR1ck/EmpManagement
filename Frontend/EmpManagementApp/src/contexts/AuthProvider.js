@@ -1,5 +1,5 @@
-import { jwtDecode } from 'jwt-decode';
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { isTokenExpired } from '../utils/tokenUtils';
 
 const AuthContext = createContext();
 
@@ -14,15 +14,6 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         localStorage.removeItem('token');
         setIsAuthenticated(false);
-    };
-
-    const isTokenExpired = (token) => {
-        try {
-            const { exp } = jwtDecode(token);
-            return Date.now() >= exp * 1000;
-        } catch {
-            return true;
-        }
     };
 
     useEffect(() => {
