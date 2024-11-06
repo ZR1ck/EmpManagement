@@ -1,5 +1,13 @@
 package com.example.EmpManagementAPI.service;
 
+import java.util.List;
+
+import com.example.EmpManagementAPI.model.LeaveTypes;
+import com.example.EmpManagementAPI.repository.LeaveTypesRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
 import com.example.EmpManagementAPI.model.Emp;
 import com.example.EmpManagementAPI.repository.EmpRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +30,8 @@ public class EmpService {
 
     @Autowired
     private EmpRepo empRepo;
+    @Autowired
+    private LeaveTypesRepo leaveTypesRepo;
 
     public String getEmpPositionById(String id) {
         return empRepo.getEmpPositionById(id);
@@ -54,5 +64,7 @@ public class EmpService {
         return empRepo.save(emp);
     }
 
-
+    public LeaveTypes getLeaveTypeByEmpIdAndYear(String empId, int year) {
+        return leaveTypesRepo.findByEmpidAndYear(empId, year);
+    }
 }

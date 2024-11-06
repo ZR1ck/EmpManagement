@@ -1,14 +1,23 @@
 package com.example.EmpManagementAPI.model.Request;
 
+import java.util.Date;
+import java.util.List;
+
+import org.hibernate.annotations.Type;
+
+import com.example.EmpManagementAPI.model.Emp;
+
 import io.hypersistence.utils.hibernate.type.array.ListArrayType;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * This class is the highest node in the request hierarchy
@@ -24,15 +33,22 @@ import java.util.List;
 public abstract class BaseRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int requestid;
-    private Date createdate;
-    private String approvalstatus;
+    @Column(name = "requestid") // Ensure this matches the column name in the database
+    private int requestId;
+    @Column(name = "createdate") // Ensure this matches the column name in the database
+    private Date createDate;
+    @Column(name = "approvalstatus") // Ensure this matches the column name in the database
+    private String approvalStatus;
+    @Column(name = "notes") // Ensure this matches the column name in the database
     private String notes;
 
     @Type(ListArrayType.class)
     @Column(name = "attachmenturl", columnDefinition = "text[]")
-    private List<String> attachmenturl;
+    private List<String> attachmentUrl;
 
-    private String empid;
-    private String managerid;
+    @Column(name = "empid")
+    private String empId;
+
+    @Column(name = "managerid")
+    private String managerId;
 }

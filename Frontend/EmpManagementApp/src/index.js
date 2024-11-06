@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import './index.css';
 import App from './App';
@@ -12,7 +12,7 @@ root.render(
       <App />
       <Toaster
         toastOptions={{
-          duration:2000,
+          duration: 2000,
         }}
       />
     </Suspense>
