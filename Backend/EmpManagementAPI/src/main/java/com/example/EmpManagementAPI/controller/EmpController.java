@@ -2,7 +2,9 @@ package com.example.EmpManagementAPI.controller;
 
 import com.example.EmpManagementAPI.model.Emp;
 import com.example.EmpManagementAPI.model.LeaveTypes;
+import com.example.EmpManagementAPI.model.Request.HalfDayLeaveRequest;
 import com.example.EmpManagementAPI.model.Request.LeaveRequest;
+import com.example.EmpManagementAPI.repository.Request.HalfDayLeaveRequestRepo;
 import com.example.EmpManagementAPI.service.EmpService;
 import com.example.EmpManagementAPI.service.LeaveRequestService;
 import com.example.EmpManagementAPI.service.LeaveTypesService;
@@ -27,8 +29,9 @@ public class EmpController {
 
     @Autowired
     LeaveTypesService leaveTypesService;
+    private HalfDayLeaveRequestRepo halfDayLeaveRequestRepo;
 
-//    @PreAuthorize("hasAnyAuthority('Manager', 'HR')")
+    //    @PreAuthorize("hasAnyAuthority('Manager', 'HR')")
     @GetMapping("/employees")
     public ResponseEntity<List<Emp>> getAllEmployees() {
         try {
@@ -76,11 +79,26 @@ public class EmpController {
 	public ResponseEntity<?> getLeaveRequestById(@RequestPart("managerId") String managerId, @PathVariable int Id) {
 		return requestService.getRequestById(managerId, Id);
 	}
+
+    @PreAuthorize("hasAuthority('Manager')")
+    @GetMapping("/halfDayLeaveRequest")
+    public ResponseEntity<?> getHalfDayLeaveRequest(@RequestPart("managerId") String managerId) {
+        try {
+            return new ResponseEntity<>(requestService.getHalfDayLeaveRequests(managerId), HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 	
 	@PostMapping("/leaveRequest")
 	public ResponseEntity<?> sendLeaveRequest(@RequestBody LeaveRequest leaveRequest) {
 		return requestService.addRequest(leaveRequest);
 	}
+
+    @PostMapping("/halfDayLeaveRequest")
+    public ResponseEntity<?> sendLeaveRequest(@RequestBody HalfDayLeaveRequest leaveRequest) {
+        return requestService.addHalfDayRequest(leaveRequest);
+    }
 
     @GetMapping("leaveTypes/{empId}/{year}")
     public ResponseEntity<?> getLeaveType(@PathVariable String empId, @PathVariable int year) {
