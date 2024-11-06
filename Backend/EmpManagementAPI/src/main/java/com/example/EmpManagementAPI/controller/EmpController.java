@@ -1,9 +1,11 @@
 package com.example.EmpManagementAPI.controller;
 
 import com.example.EmpManagementAPI.model.Emp;
+import com.example.EmpManagementAPI.model.LeaveTypes;
 import com.example.EmpManagementAPI.model.Request.LeaveRequest;
 import com.example.EmpManagementAPI.service.EmpService;
 import com.example.EmpManagementAPI.service.LeaveRequestService;
+import com.example.EmpManagementAPI.service.LeaveTypesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @CrossOrigin
@@ -23,6 +24,9 @@ public class EmpController {
 
     @Autowired
     private LeaveRequestService requestService;
+
+    @Autowired
+    LeaveTypesService leaveTypesService;
 
 //    @PreAuthorize("hasAnyAuthority('Manager', 'HR')")
     @GetMapping("/employees")
@@ -81,7 +85,17 @@ public class EmpController {
     @GetMapping("leaveTypes/{empId}/{year}")
     public ResponseEntity<?> getLeaveType(@PathVariable String empId, @PathVariable int year) {
         try {
-            return new ResponseEntity<>(empService.getLeaveTypeByEmpIdAndYear(empId, year), HttpStatus.OK);
+            return new ResponseEntity<>(leaveTypesService.getLeaveTypeByEmpIdAndYear(empId, year), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("updateLeaveTypes/{empId}")
+    public ResponseEntity<?> updateLeaveType(@RequestBody LeaveTypes leaveTypes, @PathVariable String empId) {
+        try {
+            return new ResponseEntity<>(leaveTypesService.updateLeaveType(leaveTypes, empId), HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

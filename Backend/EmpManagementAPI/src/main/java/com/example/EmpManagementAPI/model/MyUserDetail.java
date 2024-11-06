@@ -17,6 +17,10 @@ public class MyUserDetail implements UserDetails {
         this.account = account;
     }
 
+    public String getId() {
+        return account.getEmpid();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return account.getRole().stream()

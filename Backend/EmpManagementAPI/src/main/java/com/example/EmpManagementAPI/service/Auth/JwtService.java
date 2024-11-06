@@ -1,5 +1,6 @@
 package com.example.EmpManagementAPI.service.Auth;
 
+import com.example.EmpManagementAPI.model.Account;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.Claims;
@@ -26,15 +27,16 @@ public class JwtService {
         }
     }
 
-    public String generateToken(String username, List<String> role) {
+    public String generateToken(Account account) {
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put("roles", String.join(",", role));
+        claims.put("roles", String.join(",", account.getRole()));
+        claims.put("userId", account.getEmpid());
 
         return Jwts.builder()
                 .claims()
                 .add(claims)
-                .subject(username)
+                .subject(account.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 60 * 1000)) // 1 min
                 .and().signWith(getKey())

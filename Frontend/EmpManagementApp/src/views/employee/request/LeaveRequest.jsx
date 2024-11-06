@@ -37,6 +37,10 @@ export const LeaveRequest = () => {
         };
     }, []);
 
+    useEffect(() => {
+        // fetch data here
+    }, [])
+
     const calculateNotificationPosition = () => {
         if (parentRef.current) {
             const rect = parentRef.current.getBoundingClientRect();

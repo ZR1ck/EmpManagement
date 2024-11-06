@@ -14,7 +14,7 @@ function Login() {
         console.log('EmpId:', empid, 'Username:', username, 'Password:', password);
 
         try {
-            const response = await axios.post('https://localhost:8080/register', {
+            const response = await axios.post('http://localhost:8080/register', {
                 empid,
                 username,
                 password,

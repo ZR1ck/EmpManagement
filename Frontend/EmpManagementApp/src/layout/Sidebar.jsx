@@ -15,7 +15,7 @@ const Sidebar = ({ roles }) => {
 
   const [allNav, setAllNav] = useState([]);
 
-  const role = roles.includes("manager") ? "manager" : "employee";
+  const role = roles.includes("Manager") ? "manager" : "employee";
   const { logout } = useAuthContext();
 
   const userInfo = {
@@ -25,6 +25,7 @@ const Sidebar = ({ roles }) => {
 
   useEffect(() => {
     console.log("baser path: ", basePath)
+    // console.log('role: ', role);
   }, [basePath, allNav],)
 
   useEffect(() => {

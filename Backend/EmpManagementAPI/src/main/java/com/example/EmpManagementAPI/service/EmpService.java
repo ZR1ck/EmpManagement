@@ -30,8 +30,6 @@ public class EmpService {
 
     @Autowired
     private EmpRepo empRepo;
-    @Autowired
-    private LeaveTypesRepo leaveTypesRepo;
 
     public String getEmpPositionById(String id) {
         return empRepo.getEmpPositionById(id);
@@ -62,9 +60,5 @@ public class EmpService {
         emp.setAvatarurl(avatarUrl);
 
         return empRepo.save(emp);
-    }
-
-    public LeaveTypes getLeaveTypeByEmpIdAndYear(String empId, int year) {
-        return leaveTypesRepo.findByEmpidAndYear(empId, year);
     }
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.example.EmpManagementAPI.model.MyUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -91,10 +93,16 @@ public class AccountService {
                 List<String> roles = authentication.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
                         .toList();
-                String token = jwtService.generateToken(account.getUsername(), roles);
-                response.put("token", token);
-                response.put("message", "Login successful");
-                return ResponseEntity.ok(response);
+                Object principal = authentication.getPrincipal();
+                if (principal instanceof MyUserDetail userDetails) {
+                    account.setEmpid(userDetails.getId());
+                    account.setRole(roles);
+
+                    String token = jwtService.generateToken(account);
+                    response.put("token", token);
+                    response.put("message", "Login successful");
+                    return ResponseEntity.ok(response);
+                }
             }
 
             response.put("message", "Authentication failed.");

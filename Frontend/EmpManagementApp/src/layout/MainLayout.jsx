@@ -11,7 +11,7 @@ const MainLayout = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if (token && isTokenExpired(token)) {
+        if (token && !isTokenExpired(token)) {
             const roles = jwtDecode(token).roles.split(",")
             setRoles(roles);
         }
