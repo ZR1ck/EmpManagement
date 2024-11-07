@@ -91,12 +91,12 @@ public class EmpController {
     }
 	
 	@PostMapping("/leaveRequest")
-	public ResponseEntity<?> sendLeaveRequest(@RequestBody LeaveRequest leaveRequest, @RequestParam("files") MultipartFile[] files) {
+	public ResponseEntity<?> sendLeaveRequest(@RequestPart("request") LeaveRequest leaveRequest, @RequestParam("files") MultipartFile[] files) {
 		return requestService.addRequest(leaveRequest, files);
 	}
 
     @PostMapping("/halfDayLeaveRequest")
-    public ResponseEntity<?> sendLeaveRequest(@RequestBody HalfDayLeaveRequest leaveRequest, @RequestParam("files") MultipartFile[] file) {
+    public ResponseEntity<?> sendHalfDayLeaveRequest(@RequestPart("request") HalfDayLeaveRequest leaveRequest, @RequestParam("files") MultipartFile[] file) {
         return requestService.addHalfDayRequest(leaveRequest, file);
     }
 

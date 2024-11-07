@@ -62,7 +62,7 @@ public class LeaveRequestService {
 			if (leaveRequest == null) {
 				return ResponseEntity.status(400).body("Bad Request");
 			}
-			List<String> fileUrls = fileService.addFiles(files, "request");
+			List<String> fileUrls = fileService.addFiles(files, FileService.REQUESTS);
 			leaveRequest.setAttachmentUrl(fileUrls);
 
 			requestRepo.save(leaveRequest);
@@ -77,7 +77,7 @@ public class LeaveRequestService {
 			if (leaveRequest == null) {
 				return ResponseEntity.status(400).body("Bad Request");
 			}
-			List<String> fileUrls = fileService.addFiles(files, "request");
+			List<String> fileUrls = fileService.addFiles(files, FileService.REQUESTS);
 			leaveRequest.setAttachmentUrl(fileUrls);
 
 			halfDayLeaveRequestRepo.save(leaveRequest);

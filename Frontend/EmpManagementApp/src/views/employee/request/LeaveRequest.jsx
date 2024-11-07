@@ -10,10 +10,10 @@ export const LeaveRequest = () => {
 
     const [data, setData] = useState({
         annual: 0,
-        marriage: 2,
-        funeral: 3,
-        sick: 4,
-        unpaid: 5,
+        marriage: 0,
+        funeral: 0,
+        sick: 0,
+        unpaid: 0,
     })
 
     const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ export const LeaveRequest = () => {
         endTime: '',
         leaveType: '0',
         reason: '',
-        file: null,
+        file: [],
     });
 
     const [error2, setError] = useState(null);
@@ -36,7 +36,7 @@ export const LeaveRequest = () => {
 
     const parentRef = useRef(null);
     const [notificationPosition, setNotificationPosition] = useState({ top: 0, left: 0 });
-    const [msg, setMsg] = useState('')
+    const [msg, setMsg] = useState('');
 
     useEffect(() => {
         window.addEventListener('resize', calculateNotificationPosition);
@@ -45,27 +45,27 @@ export const LeaveRequest = () => {
         };
     }, []);
 
-   useEffect(() => {
-    // fetch data here
-    const fetchData = async (empId, currentYear) => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:8080/api/leaveTypes/${empId}/${currentYear}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            setData(response.data);
-        } catch (e) {
-            console.error("Error fetching leave info:", e);
-            setError("Không thể tải dữ liệu nghỉ phép");
-        }
-    };
-    console.log(user);
-    const empId = user.empid;  // or fetch dynamically
-    const currentYear = new Date().getFullYear();
-    fetchData(empId, currentYear);
-}, []);
+    useEffect(() => {
+        // fetch data here
+        const fetchData = async (empId, currentYear) => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await axios.get(`http://localhost:8080/api/leaveTypes/${empId}/${currentYear}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setData(response.data);
+            } catch (e) {
+                console.error("Error fetching leave info:", e);
+                setError("Không thể tải dữ liệu nghỉ phép");
+            }
+        };
+        console.log(user);
+        const empId = user.empid;  // or fetch dynamically
+        const currentYear = new Date().getFullYear();
+        fetchData(empId, currentYear);
+    }, [user.empId]);
 
 
 
@@ -93,7 +93,7 @@ export const LeaveRequest = () => {
     const handleChange = (event) => {
         const { name, value, type, files } = event.target;
         if (type === 'file') {
-            setFormData((prevData) => ({ ...prevData, file: files[0] }));
+            setFormData((prevData) => ({ ...prevData, file: [...files] }));
         } else {
             setFormData((prevData) => ({ ...prevData, [name]: value }));
         }
@@ -103,7 +103,61 @@ export const LeaveRequest = () => {
         setFormData((prevData) => ({ ...prevData, halfDaySelect: event.target.value }));
     };
 
-    const handleSubmit = (event) => {
+    const sendData = async () => {
+        const data = new FormData();
+        for (let i = 0; i < formData.file.length; i++) {
+            data.append('files', formData.file[i]);
+        }
+        if (formData.file.length <= 0) data.append('files', null);
+        const request = {
+            createDate: new Date(),
+            approvalStatus: 'Not yet approved',
+            empId: user.empid,
+            managerId: user.dept.managerid,
+            startdate: formData.startDate,
+            enddate: formData.endDate,
+            reason: formData.reason,
+            leavetype: stringifyLeaveTypes(formData.leaveType)
+        }
+        if (formData.halfDaySelect === '2') {
+            request.starthour = formData.startTime;
+            request.endhour = formData.endTime;
+            request.enddate = request.startdate;
+        }
+
+        data.append('request', new Blob([JSON.stringify(request)], { type: "application/json" }));
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.post(`http://localhost:8080/api/${formData.halfDaySelect === '1' ? 'leaveRequest' : 'halfDayLeaveRequest'}`,
+                data, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            })
+
+            if (response.data) {
+                console.log('Request sent successfully:', response.data);
+                return true;
+            } else {
+                console.error('Error sending request:', response);
+                return false;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            return false;
+        }
+    }
+
+    const stringifyLeaveTypes = (leaveType) => {
+        switch (leaveType) {
+            case '1': return "Nghỉ hằng năm";
+            case '2': return "Đám cưới";
+            case '3': return "Đám tang";
+            default: return '';
+        }
+    }
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         switch (formData.leaveType) {
             case '0':
@@ -134,10 +188,20 @@ export const LeaveRequest = () => {
                 }
                 break;
         }
-        setSuccess(true);
-        setMsg("Gửi đơn thành công")
-        handleShowNotification();
-        console.log(formData);
+
+        const res = await sendData();
+        if (res) {
+            setSuccess(true);
+            setMsg("Gửi đơn thành công")
+            handleShowNotification();
+        }
+        else {
+            setMsg('Đã xảy ra lỗi')
+            setSuccess(false);
+            handleShowNotification();
+        }
+
+        // console.log(formData);
     };
 
     return (
@@ -311,6 +375,7 @@ export const LeaveRequest = () => {
                             onChange={handleChange}
                             name="file"
                             className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                            multiple
                         />
                     </div>
 

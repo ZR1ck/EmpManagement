@@ -26,6 +26,7 @@ public class FileService {
     private final String ACTIVITY_UPLOADS_PATH = "uploads/activities";
     private final String REQUEST_UPLOADS_PATH = "uploads/requests";
     private final String QR_UPLOADS_PATH = "uploads/qr/";
+    private final String OTHERS_UPLOADS_PATH = "uploads/others/";
 
     public static final String ACTIVITIES = "activities";
     public static final String REQUESTS = "requests";
@@ -51,7 +52,7 @@ public class FileService {
             case "activities" -> ACTIVITY_UPLOADS_PATH + filename;
             case "requests" -> REQUEST_UPLOADS_PATH + filename;
             case "qr" -> QR_UPLOADS_PATH + filename;
-            default -> "others" + filename;
+            default -> OTHERS_UPLOADS_PATH + filename;
         };
     }
 
@@ -61,7 +62,7 @@ public class FileService {
             case "activities" -> ACTIVITY_UPLOADS_PATH;
             case "requests" -> REQUEST_UPLOADS_PATH;
             case "qr" -> QR_UPLOADS_PATH;
-            default -> "others";
+            default -> OTHERS_UPLOADS_PATH;
         };
     }
 
