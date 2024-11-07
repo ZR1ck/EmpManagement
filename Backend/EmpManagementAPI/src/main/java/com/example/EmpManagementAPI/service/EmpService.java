@@ -25,11 +25,11 @@ import java.util.UUID;
 @Service
 public class EmpService {
 
-    private final String AVATAR_UPLOADS_PATH = "uploads/avatar";
-    private final String QR_UPLOADS_PATH = "uploads/qr/";
-
     @Autowired
     private EmpRepo empRepo;
+
+    @Autowired
+    private FileService fileService;
 
     public String getEmpPositionById(String id) {
         return empRepo.getEmpPositionById(id);
@@ -49,14 +49,7 @@ public class EmpService {
     }
 
     public Emp addEmp(Emp emp, MultipartFile avatar) throws IOException {
-        String filename = UUID.randomUUID() + "_" + avatar.getOriginalFilename();
-        Path filePath = Paths.get(AVATAR_UPLOADS_PATH, filename);
-
-        Files.createDirectories(filePath.getParent());
-
-        Files.copy(avatar.getInputStream(), filePath);
-
-        String avatarUrl = "http://localhost:8080/images/uploads/avatar/" + filename;
+        String avatarUrl = fileService.addFile(avatar, FileService.AVATAR);
         emp.setAvatarurl(avatarUrl);
 
         return empRepo.save(emp);

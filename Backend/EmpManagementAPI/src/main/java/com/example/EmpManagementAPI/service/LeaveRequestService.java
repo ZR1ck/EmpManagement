@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.EmpManagementAPI.model.Request.LeaveRequest;
 import com.example.EmpManagementAPI.repository.Request.LeaveRequestRepo;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
@@ -20,6 +21,9 @@ public class LeaveRequestService {
 
 	@Autowired
 	private HalfDayLeaveRequestRepo halfDayLeaveRequestRepo;
+
+	@Autowired
+	private FileService fileService;
 
 	public ResponseEntity<?> getRequests(String managerId) {
 		try {
@@ -53,11 +57,14 @@ public class LeaveRequestService {
 		}
 	}
 
-	public ResponseEntity<?> addRequest(LeaveRequest leaveRequest) {
+	public ResponseEntity<?> addRequest(LeaveRequest leaveRequest, MultipartFile[] files) {
 		try {
 			if (leaveRequest == null) {
 				return ResponseEntity.status(400).body("Bad Request");
 			}
+			List<String> fileUrls = fileService.addFiles(files, "request");
+			leaveRequest.setAttachmentUrl(fileUrls);
+
 			requestRepo.save(leaveRequest);
 			return ResponseEntity.ok(leaveRequest);
 		} catch (Exception e) {
@@ -65,11 +72,14 @@ public class LeaveRequestService {
 		}
 	}
 
-	public ResponseEntity<?> addHalfDayRequest(HalfDayLeaveRequest leaveRequest) {
+	public ResponseEntity<?> addHalfDayRequest(HalfDayLeaveRequest leaveRequest, MultipartFile[] files) {
 		try {
 			if (leaveRequest == null) {
 				return ResponseEntity.status(400).body("Bad Request");
 			}
+			List<String> fileUrls = fileService.addFiles(files, "request");
+			leaveRequest.setAttachmentUrl(fileUrls);
+
 			halfDayLeaveRequestRepo.save(leaveRequest);
 			return ResponseEntity.ok(leaveRequest);
 		} catch (Exception e) {
