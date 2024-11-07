@@ -36,7 +36,7 @@ function Login() {
                 {error && <p className="text-red-500 text-center">{error}</p>}
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block mb-1 text-gray-600">Username</label>
+                        <label className="block mb-1 text-gray-600">User ID</label>
                         <input
                             type="text"
                             value={empid}
