@@ -1,16 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Notification from '../../../components/Notification';
 import { ErrorIcon } from 'react-hot-toast';
+import axios from 'axios';
+import { useAuthContext } from '../../../contexts/AuthProvider';
 
 export const LeaveRequest = () => {
 
-    const data = {
+    const { user, loading, error } = useAuthContext();
+
+    const [data, setData] = useState({
         annual: 0,
         marriage: 2,
         funeral: 3,
         sick: 4,
-        nopaid: 5,
-    }
+        unpaid: 5,
+    })
 
     const [formData, setFormData] = useState({
         halfDaySelect: '1',
@@ -22,6 +26,8 @@ export const LeaveRequest = () => {
         reason: '',
         file: null,
     });
+
+    const [error2, setError] = useState(null);
 
     const [detailIsVisible, setDetailIsVisible] = useState(false);
     const [position, setPosition] = useState({ top: 0, left: 0 });
@@ -39,9 +45,29 @@ export const LeaveRequest = () => {
         };
     }, []);
 
-    useEffect(() => {
-        // fetch data here
-    }, [])
+   useEffect(() => {
+    // fetch data here
+    const fetchData = async (empId, currentYear) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.get(`http://localhost:8080/api/leaveTypes/${empId}/${currentYear}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setData(response.data);
+        } catch (e) {
+            console.error("Error fetching leave info:", e);
+            setError("Không thể tải dữ liệu nghỉ phép");
+        }
+    };
+    console.log(user);
+    const empId = user.empid;  // or fetch dynamically
+    const currentYear = new Date().getFullYear();
+    fetchData(empId, currentYear);
+}, []);
+
+
 
     const calculateNotificationPosition = () => {
         if (parentRef.current) {
@@ -153,7 +179,7 @@ export const LeaveRequest = () => {
                         <div>Nghỉ tang: {data.funeral}</div>
                     </div>
                 )}
-                <div className="text-gray-700 ms-2">Số phép nghỉ không lương: {data.nopaid}</div>
+                <div className="text-gray-700 ms-2">Số phép nghỉ không lương: {data.unpaid}</div>
                 <div className="text-gray-700 ms-2">Số phép nghỉ ốm: {data.sick}</div>
 
                 <div className="flex justify-end space-x-4">
