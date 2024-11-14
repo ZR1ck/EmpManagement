@@ -1,26 +1,15 @@
 package com.example.EmpManagementAPI.service;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
-import com.example.EmpManagementAPI.model.LeaveTypes;
-import com.example.EmpManagementAPI.repository.LeaveTypesRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
-import com.example.EmpManagementAPI.model.Emp;
-import com.example.EmpManagementAPI.repository.EmpRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import com.example.EmpManagementAPI.model.Emp;
+import com.example.EmpManagementAPI.repository.EmpRepo;
 
 @Service
 public class EmpService {
@@ -46,6 +35,10 @@ public class EmpService {
 
     public Emp findEmpByName(String name) {
         return empRepo.findEmpByName(name);
+    }
+
+    public List<Emp> findEmpsByDept(int deptno) {
+        return empRepo.findByDeptDeptno(deptno);
     }
 
     public Emp addEmp(Emp emp, MultipartFile avatar) throws IOException {
