@@ -67,8 +67,8 @@ public class EmpController {
         }
     }
 
-    //    @PreAuthorize("hasAnyAuthority('Manager', 'HR')")
-    @GetMapping("/employees/{deptno}")
+    @PreAuthorize("hasAnyAuthority('Manager', 'HR')")
+    @GetMapping("/employees/department/{deptno}")
     public ResponseEntity<List<Emp>> getEmpByDept(@PathVariable int deptno) {
         try {
             return new ResponseEntity<>(empService.findEmpsByDept(deptno), HttpStatus.OK);
