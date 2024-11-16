@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import com.example.EmpManagementAPI.model.Request.WFHRequest;
 import com.example.EmpManagementAPI.repository.EmpRepo;
 import com.example.EmpManagementAPI.repository.Request.WFHRequestRepo;
@@ -74,6 +75,22 @@ public class WFHRequestService {
 
 			wfhRequestRepo.save(wfhRequest);
 			return ResponseEntity.ok(wfhRequest);
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body("Internal Server Error");
+		}
+	}
+
+	public ResponseEntity<?> deleteRequest(WFHRequest wfhRequest) {
+		try {
+			if (wfhRequest == null) {
+				return ResponseEntity.status(400).body("Bad Request");
+			}
+			// Kiểm tra xem đơn xin nghỉ đã được duyệt chưa
+			if ("Pending".equals(wfhRequest.getApprovalStatus())) {
+				return ResponseEntity.status(400).body("Request has been approved");
+			}
+			wfhRequestRepo.delete(wfhRequest);
+			return ResponseEntity.ok("Request Deleted");
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body("Internal Server Error");
 		}

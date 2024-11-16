@@ -63,7 +63,10 @@ public class TAURequestService {
 			if (request == null) {
 				return ResponseEntity.status(400).body("Bad Request");
 			}
-
+			// Kiểm tra xem đơn xin nghỉ đã được duyệt chưa
+			if ("Pending".equals(request.getApprovalStatus())) {
+				return ResponseEntity.status(400).body("Request has been approved");
+			}
 			tauRequestRepo.save(request);
 			return ResponseEntity.ok(request);
 		} catch (Exception e) {

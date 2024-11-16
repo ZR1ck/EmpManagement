@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -71,6 +72,12 @@ public class RequestController {
 	public ResponseEntity<?> updateLeaveRequest(@RequestPart("request") LeaveRequest leaveRequest, @RequestParam("files") MultipartFile[] files) {
 		return requestService.updateRequest(leaveRequest, files);
 	}
+	// Nhân viên xóa đơn xin nghỉ chưa được xét duyệt
+	@PreAuthorize("hasAuthority('Employee')")
+	@DeleteMapping("/leaveRequest")
+	public ResponseEntity<?> deleteLeaveRequest(@RequestPart("request") LeaveRequest leaveRequest) {
+		return requestService.deleteRequest(leaveRequest);
+	}
 	
 	// HalfDayLeaveRequests
 
@@ -93,6 +100,12 @@ public class RequestController {
     public ResponseEntity<?> updateHalfDayLeaveRequest(@RequestPart("request") HalfDayLeaveRequest leaveRequest, @RequestParam("files") MultipartFile[] file) {
         return requestService.updateHalfDayRequest(leaveRequest, file);
     }
+	// Nhân viên xóa đơn xin nghỉ chưa được xét duyệt
+	@PreAuthorize("hasAuthority('Employee')")
+	@DeleteMapping("/halfDayLeaveRequest")
+	public ResponseEntity<?> deleteLeaveRequest(@RequestPart("request") HalfDayLeaveRequest leaveRequest) {
+		return requestService.deleteHalfDayRequest(leaveRequest);
+	}
 
 	// LeaveTypes
 
@@ -138,6 +151,13 @@ public class RequestController {
     @PutMapping("/WFHRequest")
 	public ResponseEntity<?> updateWFHRequest(@RequestPart("request") WFHRequest wfhRequest, @RequestParam("files") MultipartFile[] files) {
 		return wfhRequestService.updateRequest(wfhRequest, files);
+	}
+
+	// Nhân viên xóa đơn xin nghỉ chưa được xét duyệt
+	@PreAuthorize("hasAuthority('Employee')")
+	@DeleteMapping("/WFHRequest")
+	public ResponseEntity<?> deleteWFHRequest(@RequestPart("request") WFHRequest wfhRequest) {
+		return wfhRequestService.deleteRequest(wfhRequest);
 	}
     
 	// Attendance
