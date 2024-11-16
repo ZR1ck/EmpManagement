@@ -3,8 +3,7 @@ import { useAuthContext } from '../contexts/AuthProvider';
 
 
 const PrivateRoute = ({ element }) => {
-    // const { isAuthenticated } = useAuthContext();
-    const  isAuthenticated = true;
+    const { isAuthenticated } = useAuthContext();
 
     return isAuthenticated ? element : <Navigate to="/login" replace />;
 };
