@@ -18,12 +18,12 @@ const employeeRoutes = [
   },
   {
     path: '/employee/account/contact',
-    element: <AccountContact/>,
+    element: <AccountContact role="employee"/>,
     role: 'employee',
   },
   {
     path: '/employee/account/work',
-    element: <Work/>,
+    element: <Work role="employee"/>,
     role: 'employee',
   },
   {
