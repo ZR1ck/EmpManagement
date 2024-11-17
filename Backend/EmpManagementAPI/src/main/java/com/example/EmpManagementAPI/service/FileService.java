@@ -22,6 +22,8 @@ import java.util.UUID;
 @Service
 public class FileService {
 
+    private final String HOST = "http://localhost:8080/";
+
     private final String AVATAR_PATH = "uploads/avatar/";
     private final String ACTIVITY_UPLOADS_PATH = "uploads/activities";
     private final String REQUEST_UPLOADS_PATH = "uploads/requests";
@@ -76,7 +78,7 @@ public class FileService {
 
             Files.copy(file.getInputStream(), filePath);
 
-            return "http://localhost:8080/images/uploads/" + type + "/" + filename;
+            return "images/uploads/" + type + "/" + filename;
         }
         catch (Exception e) {
             log.error("e: ", e);
@@ -96,7 +98,7 @@ public class FileService {
 
                 Files.copy(file.getInputStream(), filePath);
 
-                String imgUrl = "http://localhost:8080/images/uploads/" + type + "/" + filename;
+                String imgUrl = "images/uploads/" + type + "/" + filename;
                 listFiles.add(imgUrl);
             }
             return listFiles;

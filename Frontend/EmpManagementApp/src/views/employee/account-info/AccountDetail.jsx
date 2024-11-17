@@ -46,6 +46,8 @@ const QRCode = ({ showQRCode, setShowQRCode }) => {
 
 const AccountDetail = (userRole) => {
 
+  const host = process.env.REACT_APP_API_URL;
+
   const { user, loading, error } = useAuthContext();
 
   const [isReadOnly, setIsReadOnly] = useState(true);
@@ -60,7 +62,23 @@ const AccountDetail = (userRole) => {
 
   const [userAddress, setUserAddress] = useState('');
   const [userTempAddress, setUserTempAddress] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
+  const [imageSrc, setImageSrc] = useState(null);
+
+  const fetchImage = async (url) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).catch((e) => {
+      console.log("Image fetching error: ", e);
+    });
+    if (response) {
+      const blob = await response.blob();
+      return URL.createObjectURL(blob);
+    }
+    return null;
+  };
 
   useEffect(() => {
     if (!loading && user) {
@@ -71,9 +89,10 @@ const AccountDetail = (userRole) => {
         nationality: user.nationality || '',
         role: userRole,
       });
-      setImgUrl(user.avatarurl);
       setUserAddress(parseAddress(user.permanentaddress || ''));
       setUserTempAddress(parseAddress(user.tempaddress || ''));
+      fetchImage(host + user.avatarurl)
+        .then(setImageSrc)
     }
   }, [loading, user, userRole]);
 
@@ -103,7 +122,7 @@ const AccountDetail = (userRole) => {
               <div className='flex flex-row border-[2px] border-gray-light w-full pl-10 pr-4 py-4 
           rounded-lg justify-between'>
                 <div className='flex flex-row gap-6 items-center'>
-                  <img src={imgUrl} alt='img-avatar' className='w-20 h-20 rounded-full' onError={(e) => e.target.src = avatar} />
+                  <img src={imageSrc || avatar} alt='img-avatar' className='w-20 h-20 rounded-full' onError={(e) => e.target.src = avatar} />
                   <div className='flex flex-col gap-2'>
                     <span className='font-semibold text-[1.5rem] text-gray-medium'>
                       Nguyen Van A
