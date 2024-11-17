@@ -87,6 +87,7 @@ const AccountDetail = (userRole) => {
         gender: user.gender || '',
         birthday: user.birth ? formatDate(user.birth) : '',
         nationality: user.nationality || '',
+        position: user.position || '',
         role: userRole,
       });
       setUserAddress(parseAddress(user.permanentaddress || ''));
@@ -125,10 +126,10 @@ const AccountDetail = (userRole) => {
                   <img src={imageSrc || avatar} alt='img-avatar' className='w-20 h-20 rounded-full' onError={(e) => e.target.src = avatar} />
                   <div className='flex flex-col gap-2'>
                     <span className='font-semibold text-[1.5rem] text-gray-medium'>
-                      Nguyen Van A
+                      {userInfo.name}
                     </span>
                     <span className='text-[1.2rem] text-gray-medium font-light'>
-                      Developer
+                      {userInfo.position}
                     </span>
                   </div>
                 </div>
