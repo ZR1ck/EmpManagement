@@ -2,6 +2,7 @@ package com.example.EmpManagementAPI.controller;
 
 import java.util.List;
 
+import com.example.EmpManagementAPI.DTO.EmpDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,6 +73,17 @@ public class EmpController {
     public ResponseEntity<List<Emp>> getEmpByDept(@PathVariable int deptno) {
         try {
             return new ResponseEntity<>(empService.findEmpsByDept(deptno), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PreAuthorize("hasAnyAuthority('Manager', 'HR')")
+    @GetMapping("/employees/dept/{deptno}")
+    public ResponseEntity<List<EmpDTO>> getEmpDTOByDept(@PathVariable int deptno) {
+        try {
+            return new ResponseEntity<>(empService.findEmpDTOByDept(deptno), HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

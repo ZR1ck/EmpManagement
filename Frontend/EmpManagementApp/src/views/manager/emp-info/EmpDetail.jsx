@@ -5,6 +5,7 @@ import avatar from './../../../assets/avatar.jpg'
 import { FiEdit } from 'react-icons/fi';
 import { formatDate } from '../../../utils/formatDate';
 import { parseAddress } from '../../../utils/parseAddress';
+import { fetchImage } from '../../../utils/imageUtils';
 
 const InputField = ({ label, value = '', type, readOnly, onChange }) => {
     return (
@@ -38,22 +39,6 @@ const EmpDetail = ({ user }) => {
 
     const [isReadOnly, setIsReadOnly] = useState(true);
 
-    const fetchImage = async (url) => {
-        const token = localStorage.getItem('token');
-        const response = await fetch(url, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).catch((e) => {
-            console.log("Image fetching error: ", e);
-        });
-        if (response) {
-            const blob = await response.blob();
-            return URL.createObjectURL(blob);
-        }
-        return null;
-    };
-
     const toggleReadOnly = () => {
         setIsReadOnly(!isReadOnly);
     };
@@ -72,7 +57,7 @@ const EmpDetail = ({ user }) => {
             fetchImage(host + user.avatarurl)
                 .then(setImageSrc)
         }
-    }, [user]);
+    }, [user, host]);
 
     return (
         <>

@@ -9,6 +9,7 @@ import { formatDate } from '../../../utils/formatDate';
 import { parseAddress } from '../../../utils/parseAddress';
 import LoadingScreen from '../../../components/Loading';
 import ErrorPage from '../../../components/Error';
+import { fetchImage } from '../../../utils/imageUtils';
 
 const InputField = ({ label, value = '', type, readOnly, onChange }) => {
   return (
@@ -64,22 +65,6 @@ const AccountDetail = (userRole) => {
   const [userAddress, setUserAddress] = useState('');
   const [userTempAddress, setUserTempAddress] = useState('');
   const [imageSrc, setImageSrc] = useState(null);
-
-  const fetchImage = async (url) => {
-    const token = localStorage.getItem('token');
-    const response = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }).catch((e) => {
-      console.log("Image fetching error: ", e);
-    });
-    if (response) {
-      const blob = await response.blob();
-      return URL.createObjectURL(blob);
-    }
-    return null;
-  };
 
   useEffect(() => {
     if (!loading && user) {
