@@ -57,6 +57,7 @@ const AccountDetail = (userRole) => {
     gender: '',
     birthday: '',
     nationality: '',
+    position: '',
     role: userRole,
   });
 
