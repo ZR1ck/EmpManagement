@@ -5,6 +5,7 @@ import EmpContacts from './EmpContacts';
 import EmpWork from './EmpWork';
 import LoadingScreen from '../../../components/Loading';
 import ErrorPage from '../../../components/Error';
+import axios from 'axios';
 
 const Info = () => {
 
@@ -20,9 +21,25 @@ const Info = () => {
         setOption(option)
     }
 
-    useEffect(() => {
+    const id = location.state.id;
 
-    }, [])
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const fetchData = async (id) => {
+            const response = await axios.get(`http://localhost:8080/api/employee/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            if (response.data) {
+                setUser(response.data);
+            }
+        }
+
+        if (id !== null) {
+            fetchData(id)
+        }
+    }, [id])
 
     return (
         <div className='bg-white rounded-lg w-full h-full py-4 px-6 font-inter flex flex-col gap-4'>

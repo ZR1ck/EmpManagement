@@ -9,6 +9,7 @@ import { formatDate } from '../../../utils/formatDate';
 import { parseAddress } from '../../../utils/parseAddress';
 import LoadingScreen from '../../../components/Loading';
 import ErrorPage from '../../../components/Error';
+import { fetchImage } from '../../../utils/imageUtils';
 
 const InputField = ({ label, value = '', type, readOnly, onChange }) => {
   return (
@@ -53,7 +54,6 @@ const AccountDetail = (userRole) => {
   const [isReadOnly, setIsReadOnly] = useState(true);
 
   const [userInfo, setUserInfo] = useState({
-    id: '',
     name: '',
     gender: '',
     birthday: '',
@@ -66,26 +66,9 @@ const AccountDetail = (userRole) => {
   const [userTempAddress, setUserTempAddress] = useState('');
   const [imageSrc, setImageSrc] = useState(null);
 
-  const fetchImage = async (url) => {
-    const token = localStorage.getItem('token');
-    const response = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }).catch((e) => {
-      console.log("Image fetching error: ", e);
-    });
-    if (response) {
-      const blob = await response.blob();
-      return URL.createObjectURL(blob);
-    }
-    return null;
-  };
-
   useEffect(() => {
     if (!loading && user) {
       setUserInfo({
-        id: user.empid || '',
         name: user.name || '',
         gender: user.gender || '',
         birthday: user.birth ? formatDate(user.birth) : '',
@@ -150,7 +133,6 @@ const AccountDetail = (userRole) => {
                 {/* Input Field */}
                 <div className='mt-2 grid grid-cols-2 gap-4'>
                   <InputField label="Tên" value={userInfo.name} type="text" readOnly={isReadOnly} onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })} />
-                  <InputField label="ID" value={userInfo.id} type="text" readOnly={isReadOnly} onChange={(e) => setUserInfo({ ...userInfo, id: e.target.value })} />
                   <InputField label="Giới tính" value={userInfo.gender} type="text" readOnly={isReadOnly} onChange={(e) => setUserInfo({ ...userInfo, gender: e.target.value })} />
                   <InputField label="Ngày sinh" value={userInfo.birthday} type="date" readOnly={isReadOnly} onChange={(e) => setUserInfo({ ...userInfo, birthday: e.target.value })} />
                   <InputField label="Quốc tịch" value={userInfo.nationality} type="text" readOnly={isReadOnly} onChange={(e) => setUserInfo({ ...userInfo, nationality: e.target.value })} />

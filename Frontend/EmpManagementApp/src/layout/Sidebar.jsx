@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import { getAllNav } from '../navigation';
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthProvider';
+import { fetchImage } from '../utils/imageUtils';
 
 const Sidebar = ({ roles }) => {
   const pathName = useLocation();
@@ -18,15 +19,31 @@ const Sidebar = ({ roles }) => {
   const role = roles.includes("Manager") ? "manager" : "employee";
   const { logout } = useAuthContext();
 
-  const userInfo = {
-    userName: "Duc Huy",
-    email: "huyduc480@gmail.com"
-  }
+  const { user, loading, error } = useAuthContext();
+
+  const [userInfo, setUserInfo] = useState({
+    userName: "loading...",
+    email: "loading..."
+  });
+
+  const host = process.env.REACT_APP_API_URL;
+  const [imageSrc, setImageSrc] = useState(null);
 
   useEffect(() => {
     console.log("baser path: ", basePath)
     // console.log('role: ', role);
   }, [basePath, allNav],)
+
+  useEffect(() => {
+    if (user) {
+      setUserInfo({
+        userName: user.name || '',
+        email: user.personalemail[0] || '',
+      });
+      fetchImage(host + user.avatarurl)
+        .then(setImageSrc)
+    }
+  }, [user, host])
 
   useEffect(() => {
     const navs = getAllNav(role);
@@ -65,7 +82,7 @@ const Sidebar = ({ roles }) => {
       {/* Logout */}
       <div className='bg-[#F8F8FA] w-full h-16 flex flex-row items-center 
       justify-center gap-2 rounded-b-lg'>
-        <img src={avatar} alt='avt-img' className='rounded-full w-10 h-10' />
+        <img src={imageSrc || avatar} alt='img-avatar' className='rounded-full w-10 h-10' onError={(e) => e.target.src = avatar} />
         <div>
           <p className='text-[13px]'>{userInfo.userName}</p>
           <p className='text-gray-500 text-[10px]'>{userInfo.email}</p>
