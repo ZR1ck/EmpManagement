@@ -1,21 +1,16 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FaAngleLeft, FaAngleRight, FaSistrix } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../contexts/AuthProvider';
+import ErrorPage from '../../components/Error';
+import LoadingScreen from '../../components/Loading';
 
 const EmpInfo = () => {
 
-    const [users, setUsers] = useState([
-        { id: 1, name: 'Judith Williams', position: 'Designer', email: 'judith.williams@gmail.com', requests: 1, status: 'Online', statusColor: 'green' },
-        { id: 2, name: 'Nicci Troiani', position: 'Developer', email: 'nicci.troiani@gmail.com', requests: 0, status: '14 Phút trước', statusColor: 'red' },
-        { id: 3, name: 'George Fields', position: 'Developer', email: 'george.fields@gmail.com', requests: 0, status: '6 Giờ trước', statusColor: 'red' },
-        { id: 4, name: 'Judith Williams', position: 'Designer', email: 'judith.williams@gmail.com', requests: 1, status: 'Online', statusColor: 'green' },
-        { id: 5, name: 'Nicci Troiani', position: 'Developer', email: 'nicci.troiani@gmail.com', requests: 0, status: '14 Phút trước', statusColor: 'red' },
-        { id: 6, name: 'George Fields', position: 'Developer', email: 'george.fields@gmail.com', requests: 0, status: '6 Giờ trước', statusColor: 'red' },
-        { id: 7, name: 'Judith Williams', position: 'Designer', email: 'judith.williams@gmail.com', requests: 1, status: 'Online', statusColor: 'green' },
-        { id: 8, name: 'Nicci Troiani', position: 'Developer', email: 'nicci.troiani@gmail.com', requests: 0, status: '14 Phút trước', statusColor: 'red' },
-        { id: 9, name: 'George Fields', position: 'Developer', email: 'george.fields@gmail.com', requests: 0, status: '6 Giờ trước', statusColor: 'red' },
+    const [users, setUsers] = useState([]);
 
-    ]);
+    const { user, loading, error } = useAuthContext();
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemPerPage] = useState(2);
@@ -67,8 +62,31 @@ const EmpInfo = () => {
     }
 
     const empClickHandler = (empId) => {
-        navigate(`/manager/employees/detail`, {state: {id: empId}});
+        navigate(`/manager/employees/detail`, { state: { id: empId } });
     }
+
+    // Fetch data
+    useEffect(() => {
+        const fetchData = async (deptno) => {
+            const token = localStorage.getItem('token');
+            const response = await axios.get(`http://localhost:8080/api/employees/dept/${deptno}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (response.data) {
+                setUsers(response.data.filter(emp => emp.id !== user.empid));
+            }
+        }
+
+        if (user) {
+            fetchData(user.dept.deptno);
+        }
+
+    }, [user])
+
+    if (error) return <ErrorPage />
+    if (loading) return <LoadingScreen />
 
     return (
         <div className='bg-white rounded-lg w-full h-full py-4 px-6 font-inter flex flex-col gap-4'>
@@ -93,7 +111,6 @@ const EmpInfo = () => {
                             <th className="px-4 py-5 text-left hover:cursor-pointer" onClick={() => sortHandler('name')}>Họ Tên</th>
                             <th className="px-4 py-5 text-left hover:cursor-pointer" onClick={() => sortHandler('position')}>Vị trí</th>
                             <th className="px-4 py-5 text-left hover:cursor-pointer" onClick={() => sortHandler('email')}>Liên lạc</th>
-                            <th className="px-4 py-5 text-left hover:cursor-pointer" onClick={() => sortHandler('requests')}>Request</th>
                             <th className="px-4 py-5 text-left hover:cursor-pointer" onClick={() => sortHandler('status')}>Hoạt động</th>
                         </tr>
                     </thead>
@@ -105,15 +122,9 @@ const EmpInfo = () => {
                                 <td className="px-4 py-5">{user.position}</td>
                                 <td className="px-4 py-5">{user.email}</td>
                                 <td className="px-4 py-5">
-                                    <span
-                                        className={`px-2 py-1 rounded ${user.requests > 0 ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-600'
-                                            }`}
-                                    >
-                                        {user.requests}
+                                    <span className={`text-${user.isAcitve ? 'green' : 'red'}-500`}>
+                                    {user.lastActive}
                                     </span>
-                                </td>
-                                <td className="px-4 py-5">
-                                    <span className={`text-${user.statusColor}-500`}>{user.status}</span>
                                 </td>
                             </tr>
                         ))}
@@ -124,7 +135,7 @@ const EmpInfo = () => {
             {/* Pagination */}
             <div className='flex flex-col items-end'>
                 <div className="mt-4 flex flex-row items-center">
-                    <span className='text-[0.8rem] text-gray-500 me-5'>{firstItemIndex + 1} - {lastItemIndex} of {users.length}</span>
+                    <span className='text-[0.8rem] text-gray-500 me-5'>{firstItemIndex + 1} - {lastItemIndex > users.length ? users.length : lastItemIndex} of {users.length}</span>
                     <button className='mx-3' key={1} onClick={() => {
                         paginate(currentPage - 1);
                     }}>
