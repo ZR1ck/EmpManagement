@@ -38,10 +38,11 @@ export const AuthProvider = ({ children }) => {
                     });
                     setUser(response.data);
                     console.log(response.data);
+                    setError(null);
                 } catch (e) {
                     setError(e);
                     console.error("Error fetching user data:", e);
-                    logout()
+                    logout();
                 } finally {
                     setLoading(false);
                 }

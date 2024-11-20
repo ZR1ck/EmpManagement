@@ -9,6 +9,7 @@ import { formatDate } from '../../../utils/formatDate';
 import { parseAddress } from '../../../utils/parseAddress';
 import LoadingScreen from '../../../components/Loading';
 import ErrorPage from '../../../components/Error';
+import { fetchImage } from '../../../utils/imageUtils';
 
 const InputField = ({ label, value = '', type, readOnly, onChange }) => {
   return (
@@ -46,6 +47,8 @@ const QRCode = ({ showQRCode, setShowQRCode }) => {
 
 const AccountDetail = (userRole) => {
 
+  const host = process.env.REACT_APP_API_URL;
+
   const { user, loading, error } = useAuthContext();
 
   const [isReadOnly, setIsReadOnly] = useState(true);
@@ -55,12 +58,13 @@ const AccountDetail = (userRole) => {
     gender: '',
     birthday: '',
     nationality: '',
+    position: '',
     role: userRole,
   });
 
   const [userAddress, setUserAddress] = useState('');
   const [userTempAddress, setUserTempAddress] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
+  const [imageSrc, setImageSrc] = useState(null);
 
   useEffect(() => {
     if (!loading && user) {
@@ -69,11 +73,13 @@ const AccountDetail = (userRole) => {
         gender: user.gender || '',
         birthday: user.birth ? formatDate(user.birth) : '',
         nationality: user.nationality || '',
+        position: user.position || '',
         role: userRole,
       });
-      setImgUrl(user.avatarurl);
       setUserAddress(parseAddress(user.permanentaddress || ''));
       setUserTempAddress(parseAddress(user.tempaddress || ''));
+      fetchImage(host + user.avatarurl)
+        .then(setImageSrc)
     }
   }, [loading, user, userRole]);
 
@@ -103,13 +109,13 @@ const AccountDetail = (userRole) => {
               <div className='flex flex-row border-[2px] border-gray-light w-full pl-10 pr-4 py-4 
           rounded-lg justify-between'>
                 <div className='flex flex-row gap-6 items-center'>
-                  <img src={imgUrl} alt='img-avatar' className='w-20 h-20 rounded-full' onError={(e) => e.target.src = avatar} />
+                  <img src={imageSrc || avatar} alt='img-avatar' className='w-20 h-20 rounded-full' onError={(e) => e.target.src = avatar} />
                   <div className='flex flex-col gap-2'>
                     <span className='font-semibold text-[1.5rem] text-gray-medium'>
-                      Nguyen Van A
+                      {userInfo.name}
                     </span>
                     <span className='text-[1.2rem] text-gray-medium font-light'>
-                      Developer
+                      {userInfo.position}
                     </span>
                   </div>
                 </div>

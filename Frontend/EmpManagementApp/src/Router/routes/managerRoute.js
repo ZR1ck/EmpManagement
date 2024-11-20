@@ -3,6 +3,8 @@ import AccountDetail from "../../views/employee/account-info/AccountDetail"
 import Work from "../../views/employee/account-info/Work";
 import AddActivity from "../../views/manager/AddActivity";
 import Request from "../../views/manager/Request";
+import EmpInfo from "../../views/manager/EmpInfo";
+import Info from "../../views/manager/emp-info/Info";
 import ActivityInfo from "../../views/shared/ActivityInfo";
 import AccountContact from './../../views/employee/account-info/AccountContact';
 
@@ -41,6 +43,16 @@ const managerRoutes = [
   {
     path: '/manager/request',
     element: <Request/>,
+    role: 'manager'
+  },
+  {
+    path: '/manager/employees',
+    element: <EmpInfo/>,
+    role: 'manager',
+  },
+  {
+    path: '/manager/employees/detail',
+    element: <Info/>,
     role: 'manager',
   },
 ]
