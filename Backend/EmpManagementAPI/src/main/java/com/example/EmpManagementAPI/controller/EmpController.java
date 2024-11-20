@@ -2,8 +2,8 @@ package com.example.EmpManagementAPI.controller;
 
 import java.util.List;
 
-import com.example.EmpManagementAPI.DTO.EmpDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.example.EmpManagementAPI.DTO.EmpDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,17 +11,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.EmpManagementAPI.model.Emp;
-import com.example.EmpManagementAPI.model.LeaveTypes;
-import com.example.EmpManagementAPI.model.Request.HalfDayLeaveRequest;
-import com.example.EmpManagementAPI.model.Request.LeaveRequest;
 import com.example.EmpManagementAPI.repository.Request.HalfDayLeaveRequestRepo;
 import com.example.EmpManagementAPI.service.EmpService;
 import com.example.EmpManagementAPI.service.LeaveRequestService;
@@ -95,58 +92,6 @@ public class EmpController {
     public ResponseEntity<Emp> addEmp(@RequestPart("emp") Emp emp, @RequestPart("avatar") MultipartFile avatar) {
         try {
             return new ResponseEntity<>(empService.addEmp(emp, avatar), HttpStatus.CREATED);
-        }
-        catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PreAuthorize("hasAuthority('Manager')")
-    @GetMapping("/leaveRequest")
-	public ResponseEntity<?> getLeaveRequests(@RequestPart("managerId") String managerId) {
-		return requestService.getRequests(managerId);
-	}
-
-    @PreAuthorize("hasAuthority('Manager')")
-	@GetMapping("/leaveRequest/{Id}")
-	public ResponseEntity<?> getLeaveRequestById(@RequestPart("managerId") String managerId, @PathVariable int Id) {
-		return requestService.getRequestById(managerId, Id);
-	}
-
-    @PreAuthorize("hasAuthority('Manager')")
-    @GetMapping("/halfDayLeaveRequest")
-    public ResponseEntity<?> getHalfDayLeaveRequest(@RequestPart("managerId") String managerId) {
-        try {
-            return new ResponseEntity<>(requestService.getHalfDayLeaveRequests(managerId), HttpStatus.OK);
-        }catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-	
-	@PostMapping("/leaveRequest")
-	public ResponseEntity<?> sendLeaveRequest(@RequestPart("request") LeaveRequest leaveRequest, @RequestParam("files") MultipartFile[] files) {
-		return requestService.addRequest(leaveRequest, files);
-	}
-
-    @PostMapping("/halfDayLeaveRequest")
-    public ResponseEntity<?> sendHalfDayLeaveRequest(@RequestPart("request") HalfDayLeaveRequest leaveRequest, @RequestParam("files") MultipartFile[] file) {
-        return requestService.addHalfDayRequest(leaveRequest, file);
-    }
-
-    @GetMapping("leaveTypes/{empId}/{year}")
-    public ResponseEntity<?> getLeaveType(@PathVariable String empId, @PathVariable int year) {
-        try {
-            return new ResponseEntity<>(leaveTypesService.getLeaveTypeByEmpIdAndYear(empId, year), HttpStatus.OK);
-        }
-        catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PostMapping("updateLeaveTypes/{empId}")
-    public ResponseEntity<?> updateLeaveType(@RequestBody LeaveTypes leaveTypes, @PathVariable String empId) {
-        try {
-            return new ResponseEntity<>(leaveTypesService.updateLeaveType(leaveTypes, empId), HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
