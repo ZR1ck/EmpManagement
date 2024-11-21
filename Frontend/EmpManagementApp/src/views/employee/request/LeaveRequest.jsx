@@ -186,6 +186,8 @@ export const LeaveRequest = () => {
                     return;
                 }
                 break;
+            default:
+                break;
         }
 
         const res = await sendData();
