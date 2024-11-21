@@ -29,7 +29,7 @@ const Work = (userRole) => {
   })
 
   const [manager, setManager] = useState(null);
-  const [error2, setError] = useState(null);
+  // const [error2, setError] = useState(null);
 
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const Work = (userRole) => {
         });
         setManager(response.data);
       } catch (e) {
-        setError(e);
+        // setError(e);
         console.error("Error fetching user data:", e);
       }
     };

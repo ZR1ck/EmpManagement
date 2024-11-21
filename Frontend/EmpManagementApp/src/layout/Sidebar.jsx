@@ -19,7 +19,7 @@ const Sidebar = ({ roles }) => {
   const role = roles.includes("Manager") ? "manager" : "employee";
   const { logout } = useAuthContext();
 
-  const { user, loading, error } = useAuthContext();
+  const { user } = useAuthContext();
 
   const [userInfo, setUserInfo] = useState({
     userName: "loading...",

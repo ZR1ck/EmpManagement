@@ -5,7 +5,7 @@ import { isTokenExpired } from '../utils/tokenUtils';
 import { jwtDecode } from 'jwt-decode';
 
 const MainLayout = () => {
-    const [showSidebar, setShowSidebar] = useState(true);
+    // const [showSidebar, setShowSidebar] = useState(true);
     const [roles, setRoles] = useState('');
 
 
