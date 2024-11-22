@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Notification from '../../../components/Notification';
-import { ErrorIcon } from 'react-hot-toast';
 import axios from 'axios';
 import { useAuthContext } from '../../../contexts/AuthProvider';
 
 export const LeaveRequest = () => {
 
-    const { user, loading, error } = useAuthContext();
+    const { user } = useAuthContext();
 
     const [data, setData] = useState({
         annual: 0,
@@ -27,7 +26,7 @@ export const LeaveRequest = () => {
         file: [],
     });
 
-    const [error2, setError] = useState(null);
+    // const [error2, setError] = useState(null);
 
     const [detailIsVisible, setDetailIsVisible] = useState(false);
     const [position, setPosition] = useState({ top: 0, left: 0 });
@@ -58,14 +57,14 @@ export const LeaveRequest = () => {
                 setData(response.data);
             } catch (e) {
                 console.error("Error fetching leave info:", e);
-                setError("Không thể tải dữ liệu nghỉ phép");
+                // setError("Không thể tải dữ liệu nghỉ phép");
             }
         };
         console.log(user);
         const empId = user.empid;  // or fetch dynamically
         const currentYear = new Date().getFullYear();
         fetchData(empId, currentYear);
-    }, [user.empId]);
+    }, [user]);
 
 
 
@@ -186,6 +185,8 @@ export const LeaveRequest = () => {
                     handleShowNotification();
                     return;
                 }
+                break;
+            default:
                 break;
         }
 

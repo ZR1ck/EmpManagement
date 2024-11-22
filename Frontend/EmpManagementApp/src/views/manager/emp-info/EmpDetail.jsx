@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import LoadingScreen from '../../../components/Loading';
-import ErrorPage from '../../../components/Error';
 import avatar from './../../../assets/avatar.jpg'
 import { FiEdit } from 'react-icons/fi';
 import { formatDate } from '../../../utils/formatDate';

@@ -1,0 +1,45 @@
+stages:
+  - build-frontend
+  - build-backend
+  # - deploy
+
+
+services:
+  - name: postgres:latest
+    alias: postgres
+
+variables:
+  POSTGRES_DB: empmanagement
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: 123
+
+build-frontend:
+  stage: build-frontend
+  image: node:20.16-alpine
+  script:
+    - cd Frontend/EmpManagementApp
+    - npm install
+    - npm run build
+  # artifacts:
+  #   paths:
+  #     - Frontend/EmpManagementApp/build
+
+build-backend:
+  stage: build-backend
+  image: gradle:8.11.1-jdk21-alpine
+  script:
+    - cd Backend/EmpManagementAPI
+    - gradle clean build
+  # artifacts:
+  #   paths:
+  #     - Backend/EmpManagementAPI/build/libs/*.jar
+
+
+
+# deploy:
+#   stage: deploy
+#   script:
+#     - echo "Deploying front-end..."
+#     - scp -r FEEComApp/build/* user@server:/var/www/html
+#     - echo "Deploying back-end..."
+#     - scp EComApp/target/*.jar user@server:/path/to/backend

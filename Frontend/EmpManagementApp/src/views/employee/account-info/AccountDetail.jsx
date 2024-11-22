@@ -3,7 +3,7 @@ import avatar from './../../../assets/avatar.jpg'
 import { BiQrScan } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
 import Sidebar from './Sidebar';
-import qr_code from './../../../assets/qrcode.jpg'
+// import qr_code from './../../../assets/qrcode.jpg'
 import { useAuthContext } from '../../../contexts/AuthProvider';
 import { formatDate } from '../../../utils/formatDate';
 import { parseAddress } from '../../../utils/parseAddress';
@@ -27,23 +27,23 @@ const InputField = ({ label, value = '', type, readOnly, onChange }) => {
 };
 
 
-const QRCode = ({ showQRCode, setShowQRCode }) => {
-  const handleShowQRCode = () => {
-    setShowQRCode(!showQRCode);
-  }
+// const QRCode = ({ showQRCode, setShowQRCode }) => {
+//   const handleShowQRCode = () => {
+//     setShowQRCode(!showQRCode);
+//   }
 
-  return (
-    <div className={`${showQRCode ? '' : 'hidden'} fixed font-inter top-0 left-0 
-    w-screen h-screen flex justify-center items-center`}
-      style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
-      onClick={handleShowQRCode}>
-      <div className='bg-white  absolute flex justify-center items-center flex-col px-4 py-8 rounded-lg'>
-        <img src={qr_code} alt='img-qr-code' className='w-56' />
-        <span className='font-bold text-gray-medium'>Quét mã để xem chi tiết</span>
-      </div>
-    </div>
-  )
-}
+//   return (
+//     <div className={`${showQRCode ? '' : 'hidden'} fixed font-inter top-0 left-0 
+//     w-screen h-screen flex justify-center items-center`}
+//       style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
+//       onClick={handleShowQRCode}>
+//       <div className='bg-white  absolute flex justify-center items-center flex-col px-4 py-8 rounded-lg'>
+//         <img src={qr_code} alt='img-qr-code' className='w-56' />
+//         <span className='font-bold text-gray-medium'>Quét mã để xem chi tiết</span>
+//       </div>
+//     </div>
+//   )
+// }
 
 const AccountDetail = (userRole) => {
 
@@ -81,7 +81,7 @@ const AccountDetail = (userRole) => {
       fetchImage(host + user.avatarurl)
         .then(setImageSrc)
     }
-  }, [loading, user, userRole]);
+  }, [loading, user, userRole, host]);
 
   // Hàm thay đổi readOnly khi nhấn nút
   const toggleReadOnly = () => {

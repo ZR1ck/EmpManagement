@@ -15,7 +15,7 @@ const AccountContact = (userRole) => {
 
   const [email, setEmail] = useState([])
 
-  const [socialLink, setSocialLink] = useState([
+  const [socialLink] = useState([
     {
       name: 'Facebook',
       link: 'facebook.com'

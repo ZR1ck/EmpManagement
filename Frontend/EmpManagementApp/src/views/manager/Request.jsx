@@ -8,14 +8,14 @@ import toast from 'react-hot-toast';
 
 const Request = () => {
 
-  const [columns, setColumns] = useState([
+  const [columns] = useState([
     { id: 1, name: "name", value: "Tên nhân viên", width: "20%" },
     { id: 2, name: "requestType", value: "Loại yêu cầu", width: "10%" },
     { id: 3, name: "submitDate", value: "Ngày gửi yêu cầu", width: "30%" },
     { id: 4, name: "status", value: "Tình trạng", width: "20%" },
   ]);
 
-  const [data, setData] = useState([
+  const [data] = useState([
     {
       id: 1, name: "Sawyer", requestType: "Nghỉ phép", submitDate: "21/11/2024", status: "Chưa xét duyệt",
       department: "Marketing", startDate: "22/11/2024", endDate: "24/11/2024", reason: "Du lịch"
@@ -114,7 +114,7 @@ const Request = () => {
     } else {
       setFilteredData(filterData);
     }
-  }, [searchTerm, data]);
+  }, [searchTerm, data, isShowHistory]);
 
   const handleHistoryClick = () => {
     if (!isShowHistory) {
