@@ -15,11 +15,12 @@ const AddActivity = () => {
         description: '',
         rules: '',
         criteria: '',
+        targetParticipants: '',
         reward: '',
         images: [],
     });
     const [previewURLs, setPreviewURLs] = useState([]);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0); // Track current previewed image index
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [notification, setNotification] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -44,7 +45,7 @@ const AddActivity = () => {
         }));
 
         setPreviewURLs(newPreviewURLs);
-        setCurrentImageIndex(0); // Reset to first image when new images are added
+        setCurrentImageIndex(0);
     };
 
     const handleRemoveImage = (index) => {
@@ -82,6 +83,11 @@ const AddActivity = () => {
         // console.log(formData);
         setIsDialogOpen(false);
 
+        // Thay dấu xuống dòng bằng '/' của `criteria`, `reward`, và `rules` để hiển thị bên chi tiết
+        const formattedCriteria = formData.criteria.replace(/\n/g, '/');
+        const formattedReward = formData.reward.replace(/\n/g, '/');
+        const formattedRules = formData.rules.replace(/\n/g, '/');
+
         const data = new FormData();
         for (let i = 0; i < formData.images.length; i++) {
             data.append('images', formData.images[i]);
@@ -91,9 +97,10 @@ const AddActivity = () => {
             startdate: formData.startDate,
             enddate: formData.endDate,
             description: formData.description,
-            rules: formData.rules,
-            criteria: formData.criteria,
-            reward: formData.reward,
+            rules: formattedRules,
+            criteria: formattedCriteria,
+            targetParticipants: formData.targetParticipants,
+            reward: formattedReward,
             createdate: new Date(),
             lastupdate: new Date()
         }
@@ -150,7 +157,7 @@ const AddActivity = () => {
                 </div>
                 {/* Activity List */}
                 <Link to='/manager/activity' className='flex flex-row items-center gap-2 text-gray-medium 
-        font-semibold hover:underline text-sm'>
+                font-semibold hover:underline text-sm'>
                     <p>Danh sách hoạt động</p>
                     <FaArrowRight />
                 </Link>
@@ -167,7 +174,7 @@ const AddActivity = () => {
                                 type='text'
                                 name='activityName'
                                 className='border-gray-medium border-2 rounded-md 
-                w-full py-2 px-2 outline-none font-normal'
+                                w-full py-2 px-2 outline-none font-normal'
                                 value={formData.activityName}
                                 onChange={handleChange}
                                 required
@@ -182,7 +189,7 @@ const AddActivity = () => {
                                     type='date'
                                     name='startDate'
                                     className='border-gray-medium border-2 rounded-md 
-                  w-[300px] py-2 px-2 outline-none font-normal'
+                                    w-[300px] py-2 px-2 outline-none font-normal'
                                     value={formData.startDate}
                                     onChange={handleChange}
                                     required
@@ -196,7 +203,7 @@ const AddActivity = () => {
                                     type='date'
                                     name='endDate'
                                     className='border-gray-medium border-2 rounded-md 
-                  w-[300px] py-2 px-2 outline-none font-normal'
+                                    w-[300px] py-2 px-2 outline-none font-normal'
                                     value={formData.endDate}
                                     onChange={handleChange}
                                     required
@@ -208,7 +215,7 @@ const AddActivity = () => {
                             <textarea
                                 name='description'
                                 className='border-gray-medium border-2 rounded-md 
-                w-full py-2 px-2 outline-none font-normal h-32 text-justify'
+                                w-full py-2 px-2 outline-none font-normal h-32 text-justify'
                                 value={formData.description}
                                 onChange={handleChange}
                             />
@@ -241,7 +248,7 @@ const AddActivity = () => {
                             </div>
                         ) : (
                             <label htmlFor='img-input' className='cursor-pointer h-full border-2 border-dashed 
-              border-gray-medium w-full flex justify-center items-center flex-col'>
+                          border-gray-medium w-full flex justify-center items-center flex-col'>
                                 <FaRegImage className='text-[2rem]' />
                                 <input
                                     type='file'
@@ -256,23 +263,35 @@ const AddActivity = () => {
                     </div>
                 </div>
                 {/* Rule */}
-                <label className='flex flex-col items-start font-semibold gap-2'>
-                    Luật lệ
-                    <textarea
-                        name='rules'
-                        className='border-gray-medium border-2 rounded-md 
-            w-full py-2 px-2 outline-none font-normal h-32 text-justify'
-                        value={formData.rules}
-                        onChange={handleChange}
-                    />
-                </label>
+                <div className='flex flex-row justify-between w-full gap-8'>
+                    <label className='flex flex-col items-start font-semibold gap-2 w-3/5'>
+                        Luật lệ
+                        <textarea
+                            name='rules'
+                            className='border-gray-medium border-2 rounded-md 
+                        w-full py-2 px-2 outline-none font-normal h-32 text-justify'
+                            value={formData.rules}
+                            onChange={handleChange}
+                        />
+                    </label>
+                    <label className='flex flex-col items-start font-semibold gap-2 w-2/5'>
+                        Đối tượng tham gia
+                        <textarea
+                            name='targetParticipants'
+                            className='border-gray-medium border-2 rounded-md 
+                        w-full py-2 px-2 outline-none font-normal h-32 text-justify'
+                            value={formData.targetParticipants}
+                            onChange={handleChange}
+                        />
+                    </label>
+                </div>
                 {/* Reward and criteria */}
                 <div className='flex flex-row justify-between w-full gap-8'>
                     <label className='flex flex-col items-start font-semibold gap-2 w-3/5'>
                         Tiêu chí đánh giá
                         <textarea
                             className='border-gray-medium border-2 rounded-md 
-             py-2 px-2 outline-none font-normal h-32 text-justify w-full'
+                            py-2 px-2 outline-none font-normal h-32 text-justify w-full'
                             name='criteria'
                             value={formData.criteria}
                             onChange={handleChange}>
@@ -282,7 +301,7 @@ const AddActivity = () => {
                         Phần thưởng
                         <textarea
                             className='border-gray-medium border-2 rounded-md 
-            py-2 px-2 outline-none font-normal h-32 text-justify w-full'
+                            py-2 px-2 outline-none font-normal h-32 text-justify w-full'
                             name='reward'
                             value={formData.reward}
                             onChange={handleChange}>
@@ -314,7 +333,7 @@ const AddActivity = () => {
             {isDialogOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white p-6 rounded-lg text-center">
-                        <h3 className="text-lg font-semibold mb-4">Bạn có chắc chắn?</h3>
+                        <h3 className="text-lg font-semibold mb-4">Xác nhận thêm hoạt động?</h3>
                         <div className="flex gap-4 justify-center">
                             <button
                                 className="px-4 py-1 rounded-md bg-gray-medium text-white hover:bg-gray-700"

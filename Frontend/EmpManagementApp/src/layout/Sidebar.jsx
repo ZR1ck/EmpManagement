@@ -29,10 +29,10 @@ const Sidebar = ({ roles }) => {
   const host = process.env.REACT_APP_API_URL;
   const [imageSrc, setImageSrc] = useState(null);
 
-  useEffect(() => {
-    console.log("baser path: ", basePath)
-    // console.log('role: ', role);
-  }, [basePath, allNav],)
+  // useEffect(() => {
+  //   console.log("baser path: ", basePath)
+  //   // console.log('role: ', role);
+  // }, [basePath, allNav],)
 
   useEffect(() => {
     if (user) {
@@ -69,7 +69,7 @@ const Sidebar = ({ roles }) => {
           {
             allNav.map((nav, i) => (
               <Link to={nav.path}>
-                <li key={i} onClick={console.log("path nav: ", nav.path)} className={` ${nav.path.includes(basePath) && basePath !== '/' ? 'bg-blue-medium text-white' : 'text-gray-medium'} transition-colors cursor-pointer  rounded-lg flex flex-row items-center gap-4 px-2 
+                <li key={i} className={` ${nav.path.includes(basePath) && basePath !== '/' ? 'bg-blue-medium text-white' : 'text-gray-medium'} transition-colors cursor-pointer  rounded-lg flex flex-row items-center gap-4 px-2 
                 font-semibold py-2 hover:bg-blue-medium hover:text-white`}>
                   <span>{nav.icon}</span>
                   <span>{nav.title}</span>

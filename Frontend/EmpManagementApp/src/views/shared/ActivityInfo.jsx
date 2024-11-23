@@ -36,7 +36,7 @@ const Activity = ({ title, image, description, participants, date }) => {
   );
 };
 
-const ActivityInfo = ({role}) => {
+const ActivityInfo = ({ role }) => {
   const [sortDropdown, setSortDropdown] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
@@ -143,7 +143,7 @@ const ActivityInfo = ({role}) => {
               ĐANG DIỄN RA
             </p>
             <span className='border-[1.6px] text-gray-medium font-semibold px-3 py-[1px] text-[12px] rounded-full'>
-            {activitiesData.length}
+              {activitiesData.length}
             </span>
           </div>
           {/* Finished */}
@@ -215,14 +215,16 @@ const ActivityInfo = ({role}) => {
       {/* Activity List */}
       <div className='grid grid-cols-5 gap-4 overflow-y-auto pt-2'>
         {sortedActivities.map((activity, index) => (
-          <Activity
-            key={index}
-            title={activity.title}
-            image={activity.image}
-            description={activity.description}
-            participants={activity.participants}
-            date={activity.date}
-          />
+          <Link to={`/${role}/activity/2`}>
+            <Activity
+              key={index}
+              title={activity.title}
+              image={activity.image}
+              description={activity.description}
+              participants={activity.participants}
+              date={activity.date}
+            />
+          </Link>
         ))}
       </div>
     </div>

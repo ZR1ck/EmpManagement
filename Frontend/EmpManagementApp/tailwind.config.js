@@ -14,6 +14,7 @@ module.exports = {
       }
     },
     fontFamily: {
+      'notoSerif': "Noto Serif",
       'inter': "Inter",
     }
   },
