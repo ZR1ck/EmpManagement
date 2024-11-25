@@ -11,17 +11,25 @@ const EmpInfo = () => {
     const [users, setUsers] = useState([]);
 
     const { user, loading, error } = useAuthContext();
-
+    const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemPerPage] = useState(2);
+
     const lastItemIndex = currentPage * itemsPerPage;
     const firstItemIndex = lastItemIndex - itemsPerPage;
-    const currentItems = users.slice(firstItemIndex, lastItemIndex);
+    //const currentItems = users.slice(firstItemIndex, lastItemIndex);
     const [sortCol, setSortCol] = useState({ col: 'id', asc: true });
     const navigate = useNavigate();
 
     const totalPages = Math.ceil(users.length / itemsPerPage);
     // const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+    // Filter users
+    const filteredUsers = users.filter((user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const currentItems = filteredUsers.slice(firstItemIndex, lastItemIndex);
 
     const paginate = (page) => {
         if (page <= 0 || page > totalPages) {
@@ -98,7 +106,7 @@ const EmpInfo = () => {
                 <search>
                     <form className='border border-gray-300 rounded px-3 py-2 flex flex-row items-center' >
                         <FaSistrix color='gray' />
-                        <input name="fsrch" id="fsrch" placeholder="Tìm kiếm" type="text" className="ms-4 focus:outline-none focus:border-none focus:ring-0" />
+                        <input name="fsrch" id="fsrch" placeholder="Tìm kiếm" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="ms-4 focus:outline-none focus:border-none focus:ring-0" />
                     </form>
                 </search>
             </div>
