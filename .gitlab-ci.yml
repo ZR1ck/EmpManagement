@@ -19,7 +19,7 @@ build-frontend:
   script:
     - cd Frontend/EmpManagementApp
     - npm install
-    - npm run build
+    - CI=false npm run build
   # artifacts:
   #   paths:
   #     - Frontend/EmpManagementApp/build
