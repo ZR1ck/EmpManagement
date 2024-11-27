@@ -7,6 +7,7 @@ import EmpInfo from "../../views/manager/EmpInfo";
 import Info from "../../views/manager/emp-info/Info";
 import ActivityInfo from "../../views/shared/ActivityInfo";
 import AccountContact from './../../views/employee/account-info/AccountContact';
+import ActivityDetail from "../../views/shared/ActivityDetail";
 
 
 const managerRoutes = [
@@ -53,6 +54,11 @@ const managerRoutes = [
   {
     path: '/manager/employees/detail',
     element: <Info/>,
+    role: 'manager',
+  },
+  {
+    path: '/manager/activity/:id',
+    element: <ActivityDetail/>,
     role: 'manager',
   },
 ]
