@@ -54,6 +54,7 @@ export const LeaveRequest = () => {
                         Authorization: `Bearer ${token}`
                     }
                 });
+                console.log(response.data);
                 setData(response.data);
             } catch (e) {
                 console.error("Error fetching leave info:", e);
@@ -152,6 +153,8 @@ export const LeaveRequest = () => {
             case '1': return "Nghỉ hằng năm";
             case '2': return "Đám cưới";
             case '3': return "Đám tang";
+            case '4': return "Nghỉ không lương";
+            case '5': return "Nghỉ ốm";
             default: return '';
         }
     }
@@ -181,6 +184,22 @@ export const LeaveRequest = () => {
             case '3':
                 if (data.funeral <= 0) {
                     setMsg('Đã hết ngày nghỉ đám tang')
+                    setSuccess(false);
+                    handleShowNotification();
+                    return;
+                }
+                break;
+            case '4':
+                if (data.unpaid <= 0) {
+                    setMsg('Đã hết ngày nghỉ không trả lương')
+                    setSuccess(false);
+                    handleShowNotification();
+                    return;
+                }
+                break;
+            case '5':
+                if (data.sick <= 0) {
+                    setMsg('Đã hết ngày nghỉ ốm')
                     setSuccess(false);
                     handleShowNotification();
                     return;
@@ -354,6 +373,8 @@ export const LeaveRequest = () => {
                             <option value='1'>Nghỉ hằng năm</option>
                             <option value='2'>Đám cưới</option>
                             <option value='3'>Đám tang</option>
+                            <option value='4'>Không lương</option>
+                            <option value='5'>Nghỉ ốm</option>
                         </select>
                     </div>
                 </div>
