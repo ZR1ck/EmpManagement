@@ -10,12 +10,14 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Builder;
 
 @Entity
 @Table(name = "activityapproval")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class ActivityApproval {
 
     @Id
