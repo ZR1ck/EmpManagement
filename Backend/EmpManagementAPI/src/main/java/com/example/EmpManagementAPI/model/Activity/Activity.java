@@ -24,6 +24,7 @@ public class Activity {
     private Date startdate;
     private Date enddate;
     private String location;
+    private String managerid;
 
     @Type(ListArrayType.class)
     @Column(name = "images", columnDefinition = "text[]")
@@ -36,6 +37,7 @@ public class Activity {
     private int participantsnum;
     private Date createdate;
     private Date lastupdate;
+    private String targetparticipants;
 
 //    @OneToMany(mappedBy = "activity")
 //    @JsonManagedReference

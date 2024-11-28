@@ -25,7 +25,6 @@ public class ActivityApproval {
     private String approvalstatus;
     private int activityid;
     private String empid;
-    private String managerid;
 
 //    @ManyToOne
 //    @JoinColumn(name = "empid")

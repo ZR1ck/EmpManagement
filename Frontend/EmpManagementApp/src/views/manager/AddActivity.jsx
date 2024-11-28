@@ -6,6 +6,7 @@ import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import Notification from '../../components/Notification';
 import axios from 'axios';
+import { useAuthContext } from '../../contexts/AuthProvider';
 
 const AddActivity = () => {
     const [formData, setFormData] = useState({
@@ -24,6 +25,7 @@ const AddActivity = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [notification, setNotification] = useState(false);
     const [success, setSuccess] = useState(false);
+    const { user } = useAuthContext();
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -73,6 +75,7 @@ const AddActivity = () => {
             rules: '',
             criteria: '',
             reward: '',
+            targetParticipants: '',
             images: [],
         });
         setPreviewURLs([]);
@@ -80,6 +83,7 @@ const AddActivity = () => {
     };
 
     const handleConfirm = async () => {
+        if (user === null) return;
         // console.log(formData);
         setIsDialogOpen(false);
 
@@ -99,10 +103,11 @@ const AddActivity = () => {
             description: formData.description,
             rules: formattedRules,
             criteria: formattedCriteria,
-            targetParticipants: formData.targetParticipants,
+            targetparticipants: formData.targetParticipants,
             reward: formattedReward,
             createdate: new Date(),
-            lastupdate: new Date()
+            lastupdate: new Date(),
+            managerid: user.empid
         }
         data.append('activity', new Blob([JSON.stringify(activity)], { type: "application/json" }));
         try {

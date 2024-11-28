@@ -204,8 +204,13 @@ CREATE TABLE Activity (
 	Reward text,
 	ParticipantsNum int,
 	CreateDate date,
-	LastUpdate date
+	LastUpdate date,
+	ManagerID text,
+	TargetParticipants text
 );
+ALTER TABLE Activity
+ADD CONSTRAINT fk_a_manager
+FOREIGN KEY (ManagerID) REFERENCES Emp (EmpID);
 
 CREATE TABLE ActivityApproval (
 	ID serial primary key,
@@ -213,7 +218,7 @@ CREATE TABLE ActivityApproval (
 	ApprovalStatus text,
 	ActivityID int,
 	EmpID text,
-	ManagerID text
+	-- ManagerID text
 );
 ALTER TABLE ActivityApproval
 ADD CONSTRAINT fk_aa_activity
@@ -222,8 +227,8 @@ ALTER TABLE ActivityApproval
 ADD CONSTRAINT fk_aa_emp
 FOREIGN KEY (EmpID) REFERENCES Emp (EmpID);
 ALTER TABLE ActivityApproval
-ADD CONSTRAINT fk_aa_manager
-FOREIGN KEY (EmpID) REFERENCES Emp (EmpID);
+-- ADD CONSTRAINT fk_aa_manager
+-- FOREIGN KEY (EmpID) REFERENCES Emp (EmpID);
 
 CREATE TABLE Participations (
 	ID serial primary key,
