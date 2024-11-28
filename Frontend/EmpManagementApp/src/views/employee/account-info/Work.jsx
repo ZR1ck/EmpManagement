@@ -58,7 +58,7 @@ const Work = (userRole) => {
         manager: manager.name || '',
         department: user.dept.description || '',
         position: user.position || '',
-        startDay: user.startdate ? formatDate(user.startdate) : '',
+        startDay: user.startdate ? formatDate(user.startdate, 1) : '',
         workType: user.jobtype || '',
       });
     }

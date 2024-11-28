@@ -22,6 +22,15 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
     };
 
+    const getToken = () => {
+        const token = localStorage.getItem('token');
+        if (isTokenExpired(token)) {
+            logout();
+            return null;
+        }
+        return token;
+    }
+
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token && !isTokenExpired(token)) {
@@ -56,7 +65,7 @@ export const AuthProvider = ({ children }) => {
     }, [isAuthenticated]);
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, user, loading, error, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, user, loading, error, login, logout, getToken }}>
             {children}
         </AuthContext.Provider>
     );

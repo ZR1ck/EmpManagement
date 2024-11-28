@@ -171,6 +171,7 @@ const Request = () => {
   }
 
   const handleSort = (key) => {
+    console.log(key);
     const direction = sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
     const sortedData = [...filteredData].sort((a, b) => {
       if (a[key] < b[key]) return direction === "asc" ? -1 : 1;

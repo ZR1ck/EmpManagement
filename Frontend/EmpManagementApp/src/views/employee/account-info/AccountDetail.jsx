@@ -71,7 +71,7 @@ const AccountDetail = (userRole) => {
       setUserInfo({
         name: user.name || '',
         gender: user.gender || '',
-        birthday: user.birth ? formatDate(user.birth) : '',
+        birthday: user.birth ? formatDate(user.birth, 1) : '',
         nationality: user.nationality || '',
         position: user.position || '',
         role: userRole,
