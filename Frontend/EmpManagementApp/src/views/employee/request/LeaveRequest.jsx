@@ -111,7 +111,7 @@ export const LeaveRequest = () => {
         if (formData.file.length <= 0) data.append('files', null);
         const request = {
             createDate: new Date(),
-            approvalStatus: 'Not yet approved',
+            approvalStatus: 'Pending',
             empId: user.empid,
             managerId: user.dept.managerid,
             startdate: formData.startDate,

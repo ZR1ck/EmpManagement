@@ -15,7 +15,6 @@ import java.io.IOException;
 @Slf4j
 @RestController
 @CrossOrigin
-@RequestMapping("/images")
 public class FileController {
 
     @Autowired
@@ -24,6 +23,11 @@ public class FileController {
     @GetMapping("/uploads/{type}/{filename}")
     public ResponseEntity<byte[]> getImage(@PathVariable String type, @PathVariable String filename) {
         return fileService.getImage(type, filename);
+    }
+
+    @GetMapping("file/uploads/{type}/{filename}")
+    public ResponseEntity<byte[]> getFile(@PathVariable String type, @PathVariable String filename) {
+        return fileService.getFile(type, filename);
     }
 
 }

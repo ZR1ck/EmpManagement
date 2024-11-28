@@ -1,9 +1,11 @@
 
-package com.example.EmpManagementAPI.service;
+package com.example.EmpManagementAPI.service.Request;
 
 import java.util.List;
 
+import com.example.EmpManagementAPI.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,13 +40,10 @@ public class WFHRequestService {
 		}
 	}
 
-	public ResponseEntity<?> getRequestById(String managerId, int requestId) {
+	public ResponseEntity<?> getRequestById(int requestId) {
 		try {
-			if (StringUtil.isNullOrEmpty(managerId)) {
-				return ResponseEntity.status(401).body("Unauthorized");
-			}
-			List<WFHRequest> requests = wfhRequestRepo.findByRequestIdAndManagerId(requestId, managerId);
-			return ResponseEntity.ok(requests);
+			WFHRequest request = wfhRequestRepo.findByRequestId(requestId);
+			return new ResponseEntity<>(request, HttpStatus.OK);
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body("Internal Server Error");
 		}
@@ -93,6 +92,21 @@ public class WFHRequestService {
 			return ResponseEntity.ok("Request Deleted");
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body("Internal Server Error");
+		}
+	}
+
+	public ResponseEntity<?> updateRequestStatus(String id, String status, String requestType) {
+		if (!requestType.equals(WFHRequest.class.getSimpleName())) {
+			return new ResponseEntity<>("Wrong request type", HttpStatus.BAD_REQUEST);
+		}
+		try {
+			if (wfhRequestRepo.updateRequestStatus(id, status) > 0) {
+				return new ResponseEntity<>("Success", HttpStatus.OK);
+			}
+			else return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }
