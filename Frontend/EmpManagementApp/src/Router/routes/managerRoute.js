@@ -2,6 +2,7 @@ import Home from "../../views/employee/Home"
 import AccountDetail from "../../views/employee/account-info/AccountDetail"
 import Work from "../../views/employee/account-info/Work";
 import AddActivity from "../../views/manager/AddActivity";
+import ApproveActivity from "../../views/manager/ApproveActivity";
 import Request from "../../views/manager/Request";
 import EmpInfo from "../../views/manager/EmpInfo";
 import Info from "../../views/manager/emp-info/Info";
@@ -61,6 +62,11 @@ const managerRoutes = [
     element: <ActivityDetail/>,
     role: 'manager',
   },
+  {
+    path: '/manager/activity/approval',
+    element: <ApproveActivity/>,
+    role: 'manager',
+  }
 ]
 
 export default managerRoutes

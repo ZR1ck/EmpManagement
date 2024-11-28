@@ -7,7 +7,6 @@ import { FaCalendarAlt } from "react-icons/fa";
 import swimming from './../../assets/swimming.jpg';
 import { FaUserCheck } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-;
 
 const Activity = ({ title, image, description, participants, date }) => {
   return (
@@ -168,10 +167,18 @@ const ActivityInfo = ({ role }) => {
           {/* Add Button */}
           <Link to='/manager/activity/add'>
             <button className={`bg-blue-dark h-10  hover:bg-blue-700 transition-colors px-4 rounded-lg 
-              text-sm text-white ${role === 'manager' ? '' : 'hidden'}`}>
+              text-sm text-white ${role === 'manager' ? '' : 'hidden'}`} style={{ marginLeft: '-10px' }}>
               Thêm hoạt động
             </button>
           </Link>
+          <Link to='/manager/activity/approval'>
+            <button className={`bg-blue-dark h-10 hover:bg-blue-700 transition-colors px-4 rounded-lg 
+                text-sm text-white ${role === 'manager' ? '' : 'hidden'}`}
+                style={{ marginLeft: '-30px' }}>
+                Duyệt yêu cầu tham gia hoạt động
+            </button>
+        </Link>
+
         </div>
         {/* Sort */}
         <div className='relative'>

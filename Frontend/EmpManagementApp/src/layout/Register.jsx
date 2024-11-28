@@ -76,7 +76,7 @@ function Login() {
                     </button>
                 </form>
                 <p className="text-sm text-center text-gray-600">
-                    Have an account? <Link to="/login" className="text-indigo-600 hover:underline">Sign up</Link>
+                    Have an account? <Link to="/login" className="text-indigo-600 hover:underline">Sign in</Link>
                 </p>
             </div>
         </div>
