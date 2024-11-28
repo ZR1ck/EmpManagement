@@ -3,9 +3,7 @@ package com.example.EmpManagementAPI.service;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,8 +23,8 @@ public class FileService {
     private final String HOST = "http://localhost:8080/";
 
     private final String AVATAR_PATH = "uploads/avatar/";
-    private final String ACTIVITY_UPLOADS_PATH = "uploads/activities";
-    private final String REQUEST_UPLOADS_PATH = "uploads/requests";
+    private final String ACTIVITY_UPLOADS_PATH = "uploads/activities/";
+    private final String REQUEST_UPLOADS_PATH = "uploads/requests/";
     private final String QR_UPLOADS_PATH = "uploads/qr/";
     private final String OTHERS_UPLOADS_PATH = "uploads/others/";
 
@@ -78,7 +76,7 @@ public class FileService {
 
             Files.copy(file.getInputStream(), filePath);
 
-            return "images/uploads/" + type + "/" + filename;
+            return "uploads/" + type + "/" + filename;
         }
         catch (Exception e) {
             log.error("e: ", e);
@@ -98,7 +96,7 @@ public class FileService {
 
                 Files.copy(file.getInputStream(), filePath);
 
-                String imgUrl = "images/uploads/" + type + "/" + filename;
+                String imgUrl = "uploads/" + type + "/" + filename;
                 listFiles.add(imgUrl);
             }
             return listFiles;
@@ -106,6 +104,31 @@ public class FileService {
         catch (Exception e) {
             log.error("e: ", e);
             return null;
+        }
+    }
+
+    public ResponseEntity<byte[]> getFile(String type, String filename) {
+        String filePath = getFilePath(type, filename);
+        byte[] fileContent;
+
+        try {
+            File file = new File(filePath);
+
+            fileContent = FileUtils.readFileToByteArray(file);
+
+            String contentType = Files.probeContentType(file.toPath());
+            if (contentType == null) {
+                contentType = "application/octet-stream";
+            }
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType(contentType));
+            headers.setContentDisposition(ContentDisposition.builder("attachment").filename(filename).build());
+
+            return ResponseEntity.ok().headers(headers).body(fileContent);
+        } catch (IOException e) {
+            System.out.println("File loading error: " + e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 }

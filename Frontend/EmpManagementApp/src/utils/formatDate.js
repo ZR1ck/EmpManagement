@@ -5,5 +5,5 @@ export const formatDate = (dateString) => {
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
 
-  return `${year}-${month}-${day}`;
+  return `${year}/${month}/${day}`;
 }

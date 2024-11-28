@@ -1,8 +1,10 @@
-package com.example.EmpManagementAPI.service;
+package com.example.EmpManagementAPI.service.Request;
 
 import java.util.List;
 
+import com.example.EmpManagementAPI.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +20,7 @@ import ch.qos.logback.core.util.StringUtil;
 @Service
 public class LeaveRequestService {
 	@Autowired
-    private LeaveRequestRepo requestRepo;
+	private LeaveRequestRepo requestRepo;
 
 	@Autowired
 	private HalfDayLeaveRequestRepo halfDayLeaveRequestRepo;
@@ -42,14 +44,24 @@ public class LeaveRequestService {
 		return halfDayLeaveRequestRepo.findByManagerId(managerId);
 	}
 
-	public ResponseEntity<?> getRequestById(String manager, int requestId) {
+	public ResponseEntity<?> getRequestById(int requestId) {
 		try {
-			if (manager == null) {
-				return ResponseEntity.status(401).body("Unauthorized");
-			}
-			LeaveRequest request = requestRepo.findByRequestIdAndManagerId(requestId, manager);
+			LeaveRequest request = requestRepo.findByRequestId(requestId);
 			if (request != null) {
-				return ResponseEntity.ok(request);
+				return new ResponseEntity<>(request, HttpStatus.OK);
+			} else {
+				return ResponseEntity.status(404).body("Leave Request not found");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body("Internal Server Error");
+		}
+	}
+
+	public ResponseEntity<?> getHalfDayLeaveRequestById(int id) {
+		try {
+			HalfDayLeaveRequest request = halfDayLeaveRequestRepo.findByRequestId(id);
+			if (request != null) {
+				return new ResponseEntity<>(request, HttpStatus.OK);
 			} else {
 				return ResponseEntity.status(404).body("Leave Request not found");
 			}
@@ -158,4 +170,34 @@ public class LeaveRequestService {
 			return ResponseEntity.status(500).body("Internal Server Error");
 		}
 	}
+
+
+	// Update leave request status
+	public ResponseEntity<?> updateRequestStatus(String id, String status, String requestType) {
+		if (!requestType.equals(LeaveRequest.class.getSimpleName())) {
+			return new ResponseEntity<>("Wrong request type", HttpStatus.BAD_REQUEST);
+		}
+		try {
+			if (requestRepo.updateRequestStatus(id, status) > 0) {
+				return new ResponseEntity<>("Success", HttpStatus.OK);
+			} else return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	// Update half day leave request status
+	public ResponseEntity<?> updateHalfDayRequestStatus(String id, String status, String requestType) {
+		if (!requestType.equals(HalfDayLeaveRequest.class.getSimpleName())) {
+			return new ResponseEntity<>("Wrong request type", HttpStatus.BAD_REQUEST);
+		}
+		try {
+			if (halfDayLeaveRequestRepo.updateRequestStatus(id, status) > 0) {
+				return new ResponseEntity<>("Success", HttpStatus.OK);
+			} else return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }
+
