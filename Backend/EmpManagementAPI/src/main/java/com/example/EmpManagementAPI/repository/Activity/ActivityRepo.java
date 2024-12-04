@@ -12,4 +12,8 @@ public interface ActivityRepo extends JpaRepository<Activity, Integer> {
 
     @Query("SELECT a FROM Activity a WHERE a.enddate < CURRENT_DATE")
     List<Activity> findEndedActivity();
+
+    @Query("SELECT a.name, a.description, a.images, a.participantsnum, a.startdate, a.enddate, a.createdate " +
+            "FROM Activity a WHERE a.enddate >= CURRENT_DATE")
+    List<Object[]> findOngoingActivityDTO();
 }
