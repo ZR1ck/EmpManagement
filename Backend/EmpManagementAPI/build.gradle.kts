@@ -48,6 +48,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/commons-io/commons-io
 	implementation("commons-io:commons-io:2.17.0")
 
+	// https://mvnrepository.com/artifact/io.github.cdimascio/dotenv-java
+	implementation("io.github.cdimascio:dotenv-java:3.0.2")
 
 }
 

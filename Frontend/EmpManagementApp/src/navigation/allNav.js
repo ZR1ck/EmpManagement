@@ -35,7 +35,7 @@ export const allNav = [
     title: "Thông tin hoạt động",
     icon: <FaPlaneArrival/>,
     role: 'employee',
-    path: '/employee/activity-info',
+    path: '/employee/activity',
   },
   {
     id: 5,
