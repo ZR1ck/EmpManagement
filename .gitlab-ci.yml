@@ -10,8 +10,8 @@ services:
 
 variables:
   POSTGRES_DB: empmanagement
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: 123
+  POSTGRES_USER: ${DB_USERNAME}
+  POSTGRES_PASSWORD: ${DB_PASSWORD}
 
 build-frontend:
   stage: build-frontend
