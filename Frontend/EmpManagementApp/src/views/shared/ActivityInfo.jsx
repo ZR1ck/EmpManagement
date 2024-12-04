@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoSearchSharp } from "react-icons/io5";
 import { BsLightningChargeFill } from "react-icons/bs";
 import { FaSortAmountDownAlt } from "react-icons/fa";
@@ -7,15 +7,27 @@ import { FaCalendarAlt } from "react-icons/fa";
 import swimming from './../../assets/swimming.jpg';
 import { FaUserCheck } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import { useAuthContext } from '../../contexts/AuthProvider';
+import { getOnGoingActivities } from '../../api/activity';
+import { formatDate } from '../../utils/formatDate';
+import { fetchImage } from '../../utils/imageUtils';
 
 const Activity = ({ title, image, description, participants, date }) => {
+  const host = process.env.REACT_APP_API_URL;
+  const [img, setImg] = useState(null)
+  useEffect(() => {
+    if (image.length > 0) {
+      fetchImage(host + image[0]).then(setImg);
+    }
+  }, [host, image])
   return (
     <div className='border-2 gap-2 flex flex-col justify-center cursor-pointer px-4 py-4 rounded-lg 
       hover:-translate-y-2 transition-transform'>
       <h3 className='font-bold font-inter text-gray-dark '>
         {title}
       </h3>
-      <img src={image} alt='img-activity' className='w-52 rounded-md object-cover h-24' />
+      <img src={img || swimming} alt='img-activity' className='w-52 rounded-md object-cover h-24' onError={(e) => e.target.src = swimming}
+      />
       <p className='max-w-52 text-justify text-sm text-gray-medium overflow-hidden max-h-[58px] line-clamp-2'>
         {description}
       </p>
@@ -41,57 +53,46 @@ const ActivityInfo = ({ role }) => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortByDate, setSortByDate] = useState(false);
 
-  const activitiesData = [
-    {
-      title: "Thử thách bơi lội 1km",
-      image: swimming,
-      description: "Thử thách khả năng của bạn và rèn luyện sức bền thông qua hoạt động bơi bơi bơi bơi bơi bơi bơi",
-      participants: 25,
-      date: "2024-10-19",
-    },
-    {
-      title: "Thử thách chạy marathon",
-      image: swimming,
-      description: "Tham gia chạy marathon để rèn luyện sức khỏe và thể lực.",
-      participants: 30,
-      date: "2024-11-22",
-    },
-    {
-      title: "Thử thách đạp xe 100km",
-      image: swimming,
-      description: "Tham gia đạp xe 100km để tăng cường sức bền và sức khỏe.",
-      participants: 15,
-      date: "2024-12-15",
-    },
-    {
-      title: "Thử thách đạp xe 100km",
-      image: swimming,
-      description: "Tham gia đạp xe 100km để tăng cường sức bền và sức khỏe.",
-      participants: 15,
-      date: "2024-12-15",
-    },
-    {
-      title: "Thử thách đạp xe 100km",
-      image: swimming,
-      description: "Tham gia đạp xe 100km để tăng cường sức bền và sức khỏe.",
-      participants: 15,
-      date: "2024-12-15",
-    },
-    {
-      title: "Thử thách đạp xe 100km",
-      image: swimming,
-      description: "Tham gia đạp xe 100km để tăng cường sức bền và sức khỏe.",
-      participants: 15,
-      date: "2024-12-15",
-    },
-  ]
+  const [activitiesData, setActivitiesData] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  // {
+  //   title: "Thử thách đạp xe 100km",
+  //   image: swimming,
+  //   description: "Tham gia đạp xe 100km để tăng cường sức bền và sức khỏe.",
+  //   participants: 15,
+  //   date: "2024-12-15",
+  // }
+  const { getToken } = useAuthContext();
+  const token = getToken();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!token) return;
+      try {
+        const response = await getOnGoingActivities(token);
+        if (response.data) {
+          console.log(response.data);
+          setActivitiesData(response.data);
+          setLoading(false);
+        }
+      }
+      catch (e) {
+        console.log(e);
+        setLoading(false);
+        setError(e);
+      }
+    }
+
+    fetchData();
+  }, [token])
 
   const sortActivities = (activities) => {
     return activities.sort((a, b) => {
       if (sortByDate) {
         return sortOrder === 'asc'
-          ? new Date(a.date) - new Date(b.date)
-          : new Date(b.date) - new Date(a.date);
+          ? new Date(a.createdate) - new Date(b.createdate)
+          : new Date(b.createdate) - new Date(a.createdate);
       } else {
         return sortOrder === 'asc'
           ? a.title.localeCompare(b.title)
@@ -174,10 +175,10 @@ const ActivityInfo = ({ role }) => {
           <Link to='/manager/activity/approval'>
             <button className={`bg-blue-dark h-10 hover:bg-blue-700 transition-colors px-4 rounded-lg 
                 text-sm text-white ${role === 'manager' ? '' : 'hidden'}`}
-                style={{ marginLeft: '-30px' }}>
-                Duyệt yêu cầu tham gia hoạt động
+              style={{ marginLeft: '-30px' }}>
+              Duyệt yêu cầu tham gia hoạt động
             </button>
-        </Link>
+          </Link>
 
         </div>
         {/* Sort */}
@@ -222,14 +223,14 @@ const ActivityInfo = ({ role }) => {
       {/* Activity List */}
       <div className='grid grid-cols-5 gap-4 overflow-y-auto pt-2'>
         {sortedActivities.map((activity, index) => (
-          <Link to={`/${role}/activity/2`}>
+          <Link to={`/${role}/activity/${activity.activityId}`} state={{ role: role, id: activity.activityId }}>
             <Activity
               key={index}
               title={activity.title}
-              image={activity.image}
+              image={activity.imageUrl}
               description={activity.description}
               participants={activity.participants}
-              date={activity.date}
+              date={formatDate(activity.createdate)}
             />
           </Link>
         ))}

@@ -45,4 +45,9 @@ public class ActivityApprovalController {
     public ResponseEntity<?> updateActivityApprovalStatus(@RequestPart("activityApprovalId") String id, @RequestPart("status") String status) {
         return activityApprovalService.updateActivityApprovalStatus(Integer.parseInt(id), status);
     }
+
+    @PostMapping("/activity/approvalRequest")
+    public ResponseEntity<?> addActivityApproval(@RequestPart("activityApproval") ActivityApproval activityApproval) {
+        return activityApprovalService.addActvityApproval(activityApproval);
+    }
 }

@@ -20,4 +20,6 @@ public interface ActivityApprovalRepo extends JpaRepository<ActivityApproval, In
     @Transactional
     @Query("update ActivityApproval a set a.approvalstatus = :status where a.id = :id")
     int updateActivityApprovalStatus(int id, String status);
+
+    ActivityApproval findActivityApprovalByActivityidAndEmpid(int activityid, String empid);
 }

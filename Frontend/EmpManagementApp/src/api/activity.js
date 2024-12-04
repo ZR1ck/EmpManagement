@@ -39,3 +39,27 @@ export const updateApprovalRequestStatus = async (ids, status, token) => {
         }
     }
 }
+
+export const getOnGoingActivities = async (token) => {
+    return await axios.get(host + "api/activity/ongoing", {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    });
+}
+
+export const getActivityById = async (token, id) => {
+    return await axios.get(host + `api/activity/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    });
+}
+
+export const sendActivityApprovalRequest = async (token, data) => {
+    return await axios.post(host + `api/activity/approvalRequest`, data, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
+}

@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class ActivityDTO {
+    private int activityId;
     private String title;
     private String description;
     private List<String> imageUrl;

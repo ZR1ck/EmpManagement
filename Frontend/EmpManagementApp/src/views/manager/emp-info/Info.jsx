@@ -28,7 +28,7 @@ const Info = () => {
         const fetchData = async (id) => {
             const response = await axios.get(`http://localhost:8080/api/employee/${id}`, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
                 }
             })
             if (response.data) {

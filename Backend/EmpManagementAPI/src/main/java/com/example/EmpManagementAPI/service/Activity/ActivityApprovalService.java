@@ -6,6 +6,7 @@
 package com.example.EmpManagementAPI.service.Activity;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import com.example.EmpManagementAPI.DTO.ActivityApprovalDTO;
@@ -44,6 +45,23 @@ public class ActivityApprovalService {
     public ResponseEntity<List<ActivityApprovalDTO>> getActivityApprovalDTO(String managerId) {
         try {
             return new ResponseEntity<>(activityApprovalRepo.getActivityApprovalDTO(managerId), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity<ActivityApproval> addActvityApproval(ActivityApproval activityApproval) {
+        try {
+            ActivityApproval existed = activityApprovalRepo.findActivityApprovalByActivityidAndEmpid(activityApproval.getActivityid(), activityApproval.getEmpid());
+            if (existed != null) {
+                return new ResponseEntity<>(existed, HttpStatus.CONFLICT);
+            }
+            else {
+                activityApproval.setCreatedate(new Date());
+                activityApproval.setApprovalstatus("Pending");
+                return new ResponseEntity<>(activityApprovalRepo.save(activityApproval), HttpStatus.CREATED);
+            }
         }
         catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

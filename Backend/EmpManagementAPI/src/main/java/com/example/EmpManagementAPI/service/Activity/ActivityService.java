@@ -50,13 +50,14 @@ public class ActivityService {
         List<ActivityDTO> result = new ArrayList<>();
         for (Object[] row : activitiesDTO) {
             ActivityDTO activityDTO = new ActivityDTO();
-            activityDTO.setTitle(row[0].toString());
-            activityDTO.setDescription(row[1].toString());
-            activityDTO.setImageUrl((ArrayList<String>) row[2]);
-            activityDTO.setParticipants((int) row[3]);
-            activityDTO.setStartdate((Date) row[4]);
-            activityDTO.setEnddate((Date) row[5]);
-            activityDTO.setCreatedate((Date) row[6]);
+            activityDTO.setActivityId((int) row[0]);
+            activityDTO.setTitle(row[1].toString());
+            activityDTO.setDescription(row[2].toString());
+            activityDTO.setImageUrl((ArrayList<String>) row[3]);
+            activityDTO.setParticipants((int) row[4]);
+            activityDTO.setStartdate((Date) row[5]);
+            activityDTO.setEnddate((Date) row[6]);
+            activityDTO.setCreatedate((Date) row[7]);
             result.add(activityDTO);
         }
         return result;
