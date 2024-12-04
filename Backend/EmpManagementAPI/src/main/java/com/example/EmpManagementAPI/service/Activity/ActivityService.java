@@ -1,5 +1,6 @@
 package com.example.EmpManagementAPI.service.Activity;
 
+import com.example.EmpManagementAPI.DTO.ActivityDTO;
 import com.example.EmpManagementAPI.model.Activity.Activity;
 import com.example.EmpManagementAPI.repository.Activity.ActivityRepo;
 import com.example.EmpManagementAPI.service.FileService;
@@ -12,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,5 +43,26 @@ public class ActivityService {
         activity.setImages(activityImages);
 
         return activityRepo.save(activity);
+    }
+
+    public List<ActivityDTO> getOnGoingActivitiesDTO(){
+        List<Object[]> activitiesDTO = activityRepo.findOngoingActivityDTO();
+        List<ActivityDTO> result = new ArrayList<>();
+        for (Object[] row : activitiesDTO) {
+            ActivityDTO activityDTO = new ActivityDTO();
+            activityDTO.setTitle(row[0].toString());
+            activityDTO.setDescription(row[1].toString());
+            activityDTO.setImageUrl((ArrayList<String>) row[2]);
+            activityDTO.setParticipants((int) row[3]);
+            activityDTO.setStartdate((Date) row[4]);
+            activityDTO.setEnddate((Date) row[5]);
+            activityDTO.setCreatedate((Date) row[6]);
+            result.add(activityDTO);
+        }
+        return result;
+    }
+
+    public Activity findActivityById(int id){
+        return activityRepo.findById(id).orElseThrow();
     }
 }

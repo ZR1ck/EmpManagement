@@ -2,16 +2,11 @@ package com.example.EmpManagementAPI.controller;
 
 import java.util.List;
 
+import com.example.EmpManagementAPI.DTO.ActivityDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.EmpManagementAPI.model.Activity.Activity;
@@ -34,19 +29,19 @@ public class ActivityController {
         }
     }
 
-    @GetMapping("/ongoing")
-    public ResponseEntity<List<Activity>> getOngoingActivities() {
-        try {
-            List<Activity> activities = activityService.getOnGoingActivities();
-            if (!activities.isEmpty()) {
-                return new ResponseEntity<>(activities, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @GetMapping("/ongoing")
+//    public ResponseEntity<List<Activity>> getOngoingActivities() {
+//        try {
+//            List<Activity> activities = activityService.getOnGoingActivities();
+//            if (!activities.isEmpty()) {
+//                return new ResponseEntity<>(activities, HttpStatus.OK);
+//            } else {
+//                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+//            }
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
     @GetMapping("/ended")
     public ResponseEntity<List<Activity>> getEndedActivities() {
@@ -67,6 +62,36 @@ public class ActivityController {
     public ResponseEntity<Activity> addActivity(@RequestPart("activity") Activity activity, @RequestParam("images") MultipartFile[] images) {
         try {
             return new ResponseEntity<>(activityService.addActivity(activity, images), HttpStatus.CREATED);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/ongoing")
+    public ResponseEntity<List<ActivityDTO>> getOngoingActivities() {
+        try {
+            List<ActivityDTO> activities = activityService.getOnGoingActivitiesDTO();
+            if (!activities.isEmpty()) {
+                return new ResponseEntity<>(activities, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Activity> getActivityById(@PathVariable("id") int id) {
+        try {
+            Activity activity = activityService.findActivityById(id);
+            if (activity != null) {
+                return new ResponseEntity<>(activity, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
         }
         catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
