@@ -217,16 +217,17 @@ CREATE TABLE ActivityApproval (
 	CreateDate date,
 	ApprovalStatus text,
 	ActivityID int,
-	EmpID text,
+	EmpID text
 	-- ManagerID text
 );
+
 ALTER TABLE ActivityApproval
 ADD CONSTRAINT fk_aa_activity
 FOREIGN KEY (ActivityID) REFERENCES Activity (ActivityID);
 ALTER TABLE ActivityApproval
 ADD CONSTRAINT fk_aa_emp
 FOREIGN KEY (EmpID) REFERENCES Emp (EmpID);
-ALTER TABLE ActivityApproval
+-- ALTER TABLE ActivityApproval
 -- ADD CONSTRAINT fk_aa_manager
 -- FOREIGN KEY (EmpID) REFERENCES Emp (EmpID);
 
@@ -289,12 +290,14 @@ INSERT INTO Dept (Description, EmpNum, CreateDate, LastUpdate, ManagerID) VALUES
 
 -- Emp
 INSERT INTO Emp (EmpID, Name, PermanentAddress, TempAddress, PersonalEmail, PhoneNum, EmergencyNum, BankAccountNo, Gender, Birth, Nationality, Position, JobType, StartDate, QRUrl, AvatarUrl, CreateDate, LastUpdate, DeptNo) VALUES
-('E001', 'John', '123 Main St, City A', '456 Second St, City B', ARRAY['e001@example.com'], ARRAY['0123456789'], ARRAY['0987654321'], ARRAY['123456789'], 'Male', '1990-01-15', 'American', 'HR Manager', 'Full-time', '2022-05-01', 'http://qr.url/e001', 'http://avatar.url/e001', '2024-01-01', '2024-10-01', 1),
-('E002', 'Hannah', '789 Third St, City A', '321 Fourth St, City B', ARRAY['e002@example.com'], ARRAY['0123456780'], ARRAY['0987654320'], ARRAY['987654321'], 'Female', '1995-05-20', 'Canadian', 'Software Engineer Manager', 'Full-time', '2022-06-01', 'http://qr.url/e002', 'http://avatar.url/e002', '2024-01-01', '2024-10-01', 2),
-('E003', 'Tim', '654 Fifth St, City A', '987 Sixth St, City B', ARRAY['e003@example.com'], ARRAY['0123456790'], ARRAY['0987654310'], ARRAY['456789123'], 'Male', '1985-10-30', 'British', 'Sortware Engineer', 'Part-time', '2022-07-01', 'http://qr.url/e003', 'http://avatar.url/e003', '2024-01-01', '2024-10-01', 2),
-('E004', 'Ben', '123 Main St, City A', '456 Second St, City B', ARRAY['e001@example.com'], ARRAY['0123456789'], ARRAY['0987654321'], ARRAY['123456789'], 'Male', '1990-01-15', 'American', 'Sortware Engineer', 'Full-time', '2022-05-01', 'http://qr.url/e001', 'http://avatar.url/e001', '2024-01-01', '2024-10-01', 2),
-('E005', 'Marry', '789 Third St, City A', '321 Fourth St, City B', ARRAY['e002@example.com'], ARRAY['0123456780'], ARRAY['0987654320'], ARRAY['987654321'], 'Female', '1995-05-20', 'Canadian', 'Software Engineer', 'Full-time', '2022-06-01', 'http://qr.url/e002', 'http://avatar.url/e002', '2024-01-01', '2024-10-01', 2),
-('E006', 'Josh', '654 Fifth St, City A', '987 Sixth St, City B', ARRAY['e003@example.com'], ARRAY['0123456790'], ARRAY['0987654310'], ARRAY['456789123'], 'Male', '1985-10-30', 'British', 'Sortware Engineer', 'Part-time', '2022-07-01', 'http://qr.url/e003', 'http://avatar.url/e003', '2024-01-01', '2024-10-01', 1);
+('E001', 'John', '123 Main St, County of Los Angeles, State of California, City of Los Angeles', '456 Second St, City B', ARRAY['e001@example.com', 'e011@example.com'], ARRAY['0123456789'], ARRAY['0987654321'], ARRAY['123456789'], 'Male', '1990-01-15', 'American', 'HR Manager', 'Full-time', '2022-05-01', 'http://qr.url/e001', 'uploads/avatar/2.png', '2024-01-01', '2024-10-01', 1),
+('E002', 'Hannah', '456 Elm St, County of New York, State of New York, City of New York', '321 Fourth St, City B', ARRAY['e002@example.com', 'e012@example.com'], ARRAY['0123456780'], ARRAY['0987654320'], ARRAY['987654321'], 'Female', '1995-05-20', 'American', 'Software Engineer Manager', 'Full-time', '2022-06-01', 'http://qr.url/e002', 'uploads/avatar/1.png', '2024-01-01', '2024-10-01', 2),
+('E003', 'Tim', '789 Oak St, County of Cook, State of Illinois, City of Chicago', '987 Sixth St, City B', ARRAY['e003@example.com'], ARRAY['0123456790'], ARRAY['0987654310'], ARRAY['456789123'], 'Male', '1985-10-30', 'British', 'Sortware Engineer', 'Part-time', '2022-07-01', 'http://qr.url/e003', 'uploads/avatar/6.png', '2024-01-01', '2024-10-01', 2),
+('E004', 'Ben', '202 Maple St, County of Miami-Dade, State of Florida, City of Miami', '456 Second St, City B', ARRAY['e001@example.com'], ARRAY['0123456789'], ARRAY['0987654321'], ARRAY['123456789'], 'Male', '1990-01-15', 'American', 'Sortware Engineer', 'Full-time', '2022-05-01', 'http://qr.url/e001', 'uploads/avatar/7.png', '2024-01-01', '2024-10-01', 2),
+('E005', 'Marry', '101 Pine St, County of Harris, State of Texas, City of Houston', '321 Fourth St, City B', ARRAY['e002@example.com'], ARRAY['0123456780'], ARRAY['0987654320'], ARRAY['987654321'], 'Female', '1995-05-20', 'Canadian', 'Software Engineer', 'Full-time', '2022-06-01', 'http://qr.url/e002', 'uploads/avatar/4.png', '2024-01-01', '2024-10-01', 2),
+('E006', 'Josh', '303 Birch St, County of Dallas, State of Texas, City of Dallas', '987 Sixth St, City B', ARRAY['e003@example.com'], ARRAY['0123456790'], ARRAY['0987654310'], ARRAY['456789123'], 'Male', '1985-10-30', 'British', 'Sortware Engineer', 'Part-time', '2022-07-01', 'http://qr.url/e003', 'uploads/avatar/8.png', '2024-01-01', '2024-10-01', 1),
+('E007', 'Anne', '404 Cedar St, County of Maricopa, State of Arizona, City of Phoenix', '321 Fourth St, City B', ARRAY['e002@example.com'], ARRAY['0123456780'], ARRAY['0987654320'], ARRAY['987654321'], 'Female', '1995-05-20', 'Canadian', 'Software Engineer', 'Full-time', '2022-06-01', 'http://qr.url/e002', 'uploads/avatar/5.png', '2024-01-01', '2024-10-01', 2),
+('E008', 'Jessy', '505 Walnut St, County of King, State of Washington, City of Seattle', '987 Sixth St, City B', ARRAY['e003@example.com'], ARRAY['0123456790'], ARRAY['0987654310'], ARRAY['456789123'], 'Female', '1985-10-30', 'British', 'Sortware Engineer', 'Part-time', '2022-07-01', 'http://qr.url/e003', 'uploads/avatar/3.png', '2024-01-01', '2024-10-01', 1);
 
 UPDATE Dept
 SET ManagerID = 'E001'
@@ -321,22 +324,21 @@ INSERT INTO LeaveTypes (EmpID, Year, Annual, Marriage, Funeral, Sick, Unpaid) VA
 
 -- Request
 INSERT INTO Request (CreateDate, ApprovalStatus, Notes, AttachmentUrl, EmpID, ManagerID) VALUES
-('2024-10-01', 'Pending', 'Need approval for leave', ARRAY['http://attachment.url/request1'], 'E003', 'E002'),
-('2024-10-02', 'Approved', 'Leave granted', ARRAY['http://attachment.url/request2'], 'E006', 'E001');
+('2025-10-01', 'Pending', 'Need approval for leave', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'E003', 'E002');
 
 -- WFHRequest
 INSERT INTO WFHRequest (CreateDate, ApprovalStatus, Notes, AttachmentUrl, StartDate, EndDate, Reason, EmpID, ManagerID) VALUES
-('2024-10-05', 'Approved', 'Work from home request', ARRAY['http://attachment.url/wfhrequest1'], '2024-10-10', '2024-10-12', 'Personal reasons', 'E004', 'E002'),
-('2024-10-06', 'Pending', 'Need to work from home', ARRAY['http://attachment.url/wfhrequest2'], '2024-10-15', '2024-10-17', 'Family matters', 'E003', 'E002');
+('2025-10-05', 'Approved', 'Work from home request', ARRAY['uploads/requests/WFHRequest1.txt'], '2025-10-10', '2025-10-12', 'Personal reasons', 'E004', 'E002'),
+('2025-10-06', 'Pending', 'Need to work from home', ARRAY['uploads/requests/WFHRequest2.txt'], '2025-10-15', '2025-10-17', 'Family matters', 'E003', 'E002');
 
 -- LeaveRequest
 INSERT INTO LeaveRequest (CreateDate, ApprovalStatus, Notes, AttachmentUrl, StartDate, EndDate, Reason, LeaveType, EmpID, ManagerID) VALUES
-('2024-10-03', 'Pending', 'Annual leave request', ARRAY['http://attachment.url/leaverequest1'], '2024-10-10', '2024-10-15', 'Vacation', 'Annual', 'E003', 'E002'),
-('2024-10-04', 'Approved', 'Sick leave request', ARRAY['http://attachment.url/leaverequest2'], '2024-10-06', '2024-10-07', 'Illness', 'Sick', 'E005', 'E002');
+('2025-10-03', 'Pending', 'Annual leave request', ARRAY['uploads/requests/LeaveRequest1.txt'], '2025-10-10', '2025-10-15', 'Vacation', 'Annual', 'E005', 'E002'),
+('2025-10-04', 'Approved', 'Sick leave request', ARRAY['uploads/requests/LeaveRequest2.txt'], '2025-10-06', '2025-10-07', 'Illness', 'Sick', 'E007', 'E002');
 
 -- AttendanceRecords
 INSERT INTO AttendanceRecords (AttendanceDate, CheckInTime, CheckOutTime, Status, EmpID) VALUES
-('2024-10-28', '09:00:00', '17:00:00', 'Present', 'E002'),
+('2024-10-28', '09:00:00', '17:00:00', 'Present', 'E001'),
 ('2024-10-28', '09:30:00', '17:30:00', 'Present', 'E002'),
 ('2024-10-28', '09:15:00', '17:15:00', 'Present', 'E003'),
 ('2024-10-28', '09:00:00', '17:00:00', 'Present', 'E004'),
@@ -344,18 +346,43 @@ INSERT INTO AttendanceRecords (AttendanceDate, CheckInTime, CheckOutTime, Status
 ('2024-10-28', '09:15:00', '17:15:00', 'Present', 'E006');
 
 INSERT INTO TimeAttendanceUpdateRequest (CreateDate, ApprovalStatus, Notes, AttachmentUrl, RecordID, EmpID, ManagerID) VALUES 
-('2024-10-30', 'Pending', 'Request for attendance update.', ARRAY['https://example.com/attachment1.jpg'], 3, 'E003', 'E002');
+('2024-10-30', 'Pending', 'Request for attendance update.', ARRAY['uploads/requests/TAURequest1.txt', 'uploads/requests/TAURequest2.txt'], 3, 'E003', 'E002');
 
 
 -- Activity
-INSERT INTO Activity (Name, StartDate, EndDate, Location, Images, Description, Rules, Criteria, Reward, ParticipantsNum, CreateDate, LastUpdate) VALUES
-('Team Building', '2024-11-01', '2024-11-02', 'Beach Resort', ARRAY['http://image.url/activity1'], 'A fun team building event', 'Follow the rules', 'Team spirit', '10pt', 30, '2024-10-01', '2024-10-01'),
-('Hackathon', '2024-11-15', '2024-11-16', 'Tech Center', ARRAY['http://image.url/activity2'], 'A competitive coding event', 'Code cleanly', 'Best solution', '20pt', 50, '2024-10-02', '2024-10-02');
+INSERT INTO Activity (Name, StartDate, EndDate, Location, Images, Description, Rules, Criteria, Reward, ParticipantsNum, CreateDate, LastUpdate, ManagerID, TargetParticipants) VALUES
+('Basketball Competition', '2024-11-01', '2025-11-02', 'Beach Resort', ARRAY['uploads/activities/basketball.png'], 
+ 'A fun team building event. A chance to improve team dynamics.', 
+ 'Follow the rules / Show sportsmanship / Support your teammates', 
+ 'Team spirit / Best player / Most improved player', 
+ '10pt / 5pt for MVP', 0, '2024-10-01', '2024-10-01', 'E001', 'All Employees'),
+
+('Ping Pong Competition', '2024-11-15', '2025-11-16', 'Tech Center', ARRAY['uploads/activities/ping.png'], 
+ 'A competitive event. Show your skills and compete for the top spot.', 
+ 'Follow the rules / Respect opponents', 
+ 'Best solution / Fastest response', 
+ '20pt / 10pt for runners-up', 0, '2024-10-02', '2024-10-02', 'E001', 'All Employees'),
+
+('Football', '2024-11-01', '2025-11-02', 'Beach Resort', ARRAY['uploads/activities/football.png', 'uploads/activities/football2.png'], 
+ 'A fun team building event. Get ready for an exciting match.', 
+ 'Follow the rules / Play fair / Encourage your teammates', 
+ 'Team spirit / Best goal scorer / Best defender', 
+ '10pt / 5pt for MVP', 0, '2024-10-01', '2024-10-01', 'E002', 'All Employees'),
+
+('Team Building', '2024-11-15', '2025-11-16', 'Tech Center', ARRAY['uploads/activities/tennis.png', 'uploads/activities/volley.png'], 
+ 'A competitive coding event. Work with your team to solve the problems.', 
+ 'Code cleanly / Collaborate effectively / Meet deadlines', 
+ 'Best solution / Most creative approach', 
+ '20pt / 10pt for second place', 0, '2024-10-02', '2024-10-02', 'E002', 'All Employees');
 
 -- ActivityApproval
-INSERT INTO ActivityApproval (CreateDate, ApprovalStatus, ActivityID, EmpID, ManagerID) VALUES
-('2024-10-05', 'Approved', 1, 'E003', 'E002'),
-('2024-10-06', 'Pending', 2, 'E006', 'E001');
+INSERT INTO ActivityApproval (CreateDate, ApprovalStatus, ActivityID, EmpID) VALUES
+('2024-10-05', 'Approved', 1, 'E003'),
+('2024-10-06', 'Pending', 2, 'E006'),
+('2024-10-05', 'Approved', 1, 'E004'),
+('2024-10-06', 'Pending', 2, 'E004'),
+('2024-10-05', 'Approved', 1, 'E005'),
+('2024-10-06', 'Pending', 2, 'E006');
 
 -- Participations
 INSERT INTO Participations (EmpID, ActivityID, Score, Rank, Notes) VALUES
