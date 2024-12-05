@@ -60,6 +60,9 @@ export const sendActivityApprovalRequest = async (token, data) => {
     return await axios.post(host + `api/activity/approvalRequest`, data, {
         headers: {
             Authorization: `Bearer ${token}`,
+        },
+        validateStatus: (status) => {
+            return status >= 200 && status < 500;
         }
     })
 }

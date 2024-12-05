@@ -114,6 +114,13 @@ const ActivityDetail = () => {
 
     try {
       const response = await sendActivityApprovalRequest(token, formData);
+
+      if (response.status === 409) {
+        console.error("Conflict error:", response.data);
+        toast.error("Hoạt động đã tồn tại");
+        return;
+      }
+
       console.log(response);
       console.log("Form data submitted:", formData);
       toast.success("Đăng ký thành công");
