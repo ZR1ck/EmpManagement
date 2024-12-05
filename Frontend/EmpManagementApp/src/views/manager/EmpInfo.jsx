@@ -1,16 +1,16 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FaAngleLeft, FaAngleRight, FaSistrix } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/AuthProvider';
 import ErrorPage from '../../components/Error';
 import LoadingScreen from '../../components/Loading';
+import { getEmployeeByDept } from '../../api/employee';
 
 const EmpInfo = () => {
 
     const [users, setUsers] = useState([]);
 
-    const { user, loading, error } = useAuthContext();
+    const { user, loading, error, getToken } = useAuthContext();
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemPerPage] = useState(2);
@@ -75,13 +75,12 @@ const EmpInfo = () => {
 
     // Fetch data
     useEffect(() => {
+        const token = getToken();
+        if (!token) return;
+
         const fetchData = async (deptno) => {
-            const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:8080/api/employees/dept/${deptno}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+
+            const response = await getEmployeeByDept(deptno, token);
             if (response.data) {
                 setUsers(response.data.filter(emp => emp.id !== user.empid));
             }
@@ -91,7 +90,7 @@ const EmpInfo = () => {
             fetchData(user.dept.deptno);
         }
 
-    }, [user])
+    }, [user, getToken])
 
     if (error) return <ErrorPage />
     if (loading) return <LoadingScreen />

@@ -63,3 +63,11 @@ export const sendActivityApprovalRequest = async (token, data) => {
         }
     })
 }
+
+export const addActivity = async (token, data) => {
+    return await axios.post(host + 'api/activity/add', data, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+    })
+}

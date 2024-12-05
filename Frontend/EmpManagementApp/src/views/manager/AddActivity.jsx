@@ -5,8 +5,8 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import Notification from '../../components/Notification';
-import axios from 'axios';
 import { useAuthContext } from '../../contexts/AuthProvider';
+import { addActivity } from '../../api/activity';
 
 const AddActivity = () => {
     const [formData, setFormData] = useState({
@@ -25,7 +25,7 @@ const AddActivity = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [notification, setNotification] = useState(false);
     const [success, setSuccess] = useState(false);
-    const { user } = useAuthContext();
+    const { user, getToken } = useAuthContext();
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -111,12 +111,10 @@ const AddActivity = () => {
         }
         data.append('activity', new Blob([JSON.stringify(activity)], { type: "application/json" }));
         try {
-            const token = localStorage.getItem('token');
-            const response = await axios.post('http://localhost:8080/api/activity/add', data, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-            })
+            const token = getToken();
+            if (!token) return;
+
+            const response = await addActivity(token, data);
 
             if (response.data) {
                 console.log('Activity added successfully:', response.data);

@@ -20,9 +20,14 @@ function Login() {
                 password,
             });
 
-            // navigate
-            navigate('/login');
-            console.log('Registration successful:', response.data);
+            if (response.data) {
+                // navigate
+                navigate('/login');
+                console.log('Registration successful:', response.data);
+            }
+            else {
+                setError('Đăng ký thất bại');
+            }
         } catch (err) {
             setError('Đăng ký thất bại');
             console.error('Registration error:', err);

@@ -1,6 +1,7 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { formatDate } from '../../../utils/formatDate'
+import { useAuthContext } from '../../../contexts/AuthProvider'
+import { getEmployeeById } from '../../../api/employee'
 
 const InputField = ({ label, value, type }) => {
     return (
@@ -23,19 +24,22 @@ const EmpWork = ({ user }) => {
     })
 
     const [manager, setManager] = useState(null);
+    const { getToken } = useAuthContext();
 
 
     useEffect(() => {
-
+        const token = getToken();
+        if (!token) return;
         const fetchManager = async (empId) => {
-            const token = localStorage.getItem('token');
+
             try {
-                const response = await axios.get(`http://localhost:8080/api/employee/${empId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                setManager(response.data);
+                const response = await getEmployeeById(empId, token);
+                if (response.data) {
+                    setManager(response.data);
+                }
+                else {
+                    console.error("Fetching user data return null!");
+                }
             } catch (e) {
                 console.error("Error fetching user data:", e);
             }
@@ -55,7 +59,7 @@ const EmpWork = ({ user }) => {
                 workType: user.jobtype || '',
             });
         }
-    }, [user, manager]);
+    }, [user, manager, getToken]);
 
 
     return (

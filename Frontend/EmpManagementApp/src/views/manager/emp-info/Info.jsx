@@ -5,7 +5,8 @@ import EmpContacts from './EmpContacts';
 import EmpWork from './EmpWork';
 import LoadingScreen from '../../../components/Loading';
 import ErrorPage from '../../../components/Error';
-import axios from 'axios';
+import { useAuthContext } from '../../../contexts/AuthProvider';
+import { getEmployeeById } from '../../../api/employee';
 
 const Info = () => {
 
@@ -22,15 +23,15 @@ const Info = () => {
     }
 
     const id = location.state.id;
+    const { getToken } = useAuthContext();
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = getToken();
+        if (!token) return;
+
         const fetchData = async (id) => {
-            const response = await axios.get(`http://localhost:8080/api/employee/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            })
+            const response = await getEmployeeById(id, token);
+
             if (response.data) {
                 setUser(response.data);
             }
@@ -39,7 +40,7 @@ const Info = () => {
         if (id !== null) {
             fetchData(id)
         }
-    }, [id])
+    }, [id, getToken])
 
     return (
         <div className='bg-white rounded-lg w-full h-full py-4 px-6 font-inter flex flex-col gap-4'>

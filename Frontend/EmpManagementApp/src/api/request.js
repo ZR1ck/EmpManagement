@@ -96,3 +96,20 @@ export const approveRequest = async (requests, status, token) => {
         }
     }
 }
+
+export const getLeaveDaysLeft = async (empId, currentYear, token) => {
+    return await axios.get(`http://localhost:8080/api/leaveTypes/${empId}/${currentYear}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
+
+export const sendLeaveRequest = async (isHalfDay, data, token) => {
+    return await axios.post(`http://localhost:8080/api/${!isHalfDay ? 'leaveRequest' : 'halfDayLeaveRequest'}`,
+        data, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}

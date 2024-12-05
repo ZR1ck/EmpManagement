@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './Sidebar';
-import axios from 'axios';
 import { formatDate } from '../../../utils/formatDate';
 import { useAuthContext } from '../../../contexts/AuthProvider';
 import LoadingScreen from '../../../components/Loading';
 import ErrorPage from '../../../components/Error';
+import { getEmployeeById } from '../../../api/employee';
 
 const InputField = ({ label, value, type }) => {
   return (
@@ -17,7 +17,7 @@ const InputField = ({ label, value, type }) => {
 
 const Work = (userRole) => {
 
-  const { user, loading, error } = useAuthContext();
+  const { user, loading, error, getToken } = useAuthContext();
 
   const [workInfo, setWorkInfo] = useState({
     employeeID: '',
@@ -31,16 +31,13 @@ const Work = (userRole) => {
   const [manager, setManager] = useState(null);
   // const [error2, setError] = useState(null);
 
-
   useEffect(() => {
+    const token = getToken();
+    if (!token) return;
+
     const fetchManager = async (empId) => {
-      const token = localStorage.getItem('token');
       try {
-        const response = await axios.get(`http://localhost:8080/api/employee/${empId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+        const response = await getEmployeeById(empId, token);
         setManager(response.data);
       } catch (e) {
         // setError(e);
@@ -62,7 +59,7 @@ const Work = (userRole) => {
         workType: user.jobtype || '',
       });
     }
-  }, [loading, user, manager, userRole]);
+  }, [loading, user, manager, userRole, getToken]);
 
 
   return (

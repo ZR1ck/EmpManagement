@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Notification from '../../../components/Notification';
-import axios from 'axios';
 import { useAuthContext } from '../../../contexts/AuthProvider';
+import { getLeaveDaysLeft, sendLeaveRequest } from '../../../api/request';
 
 export const LeaveRequest = () => {
 
-    const { user } = useAuthContext();
+    const { user, getToken } = useAuthContext();
 
     const [data, setData] = useState({
         annual: 0,
@@ -45,27 +45,31 @@ export const LeaveRequest = () => {
     }, []);
 
     useEffect(() => {
+        const token = getToken();
+        if (!token) return;
         // fetch data here
         const fetchData = async (empId, currentYear) => {
             try {
-                const token = localStorage.getItem('token');
-                const response = await axios.get(`http://localhost:8080/api/leaveTypes/${empId}/${currentYear}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                console.log(response.data);
-                setData(response.data);
+                const response = await getLeaveDaysLeft(empId, currentYear, token);
+                if (response.data) {
+                    console.log(response.data);
+                    setData(response.data);
+                }
+                else {
+                    console.log("Fetching leave info return null!");
+                }
             } catch (e) {
                 console.error("Error fetching leave info:", e);
                 // setError("Không thể tải dữ liệu nghỉ phép");
             }
         };
-        console.log(user);
+        // console.log(user);
         const empId = user.empid;  // or fetch dynamically
         const currentYear = new Date().getFullYear();
-        fetchData(empId, currentYear);
-    }, [user]);
+        if (empId) {
+            fetchData(empId, currentYear);
+        }
+    }, [user, getToken]);
 
 
 
@@ -127,13 +131,10 @@ export const LeaveRequest = () => {
 
         data.append('request', new Blob([JSON.stringify(request)], { type: "application/json" }));
         try {
-            const token = localStorage.getItem('token');
-            const response = await axios.post(`http://localhost:8080/api/${formData.halfDaySelect === '1' ? 'leaveRequest' : 'halfDayLeaveRequest'}`,
-                data, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-            })
+            const token = getToken();
+            if (!token) return;
+            const isHalfDay = formData.halfDaySelect === '1' ? false : true;
+            const response = await sendLeaveRequest(isHalfDay, data, token);
 
             if (response.data) {
                 console.log('Request sent successfully:', response.data);
