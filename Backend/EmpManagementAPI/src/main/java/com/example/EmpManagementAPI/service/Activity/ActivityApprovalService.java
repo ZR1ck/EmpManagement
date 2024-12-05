@@ -5,14 +5,15 @@
 
 package com.example.EmpManagementAPI.service.Activity;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 import com.example.EmpManagementAPI.DTO.ActivityApprovalDTO;
+import com.example.EmpManagementAPI.repository.Activity.ActivityRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.example.EmpManagementAPI.model.Activity.ActivityApproval;
@@ -24,14 +25,17 @@ public class ActivityApprovalService {
 	
 	@Autowired
     private ActivityApprovalRepo activityApprovalRepo;
+    @Autowired
+    private ActivityRepo activityRepo;
 
-	public ActivityApproval updateActivityApproval(ActivityApproval activityApproval) throws IOException {
+    public ActivityApproval updateActivityApproval(ActivityApproval activityApproval) {
         return activityApprovalRepo.save(activityApproval);
     }
 
     public ResponseEntity<?> updateActivityApprovalStatus(int id, String status) {
         try {
             if (activityApprovalRepo.updateActivityApprovalStatus(id, status) > 0) {
+                increaseParticipants(id);
                 return new ResponseEntity<>("Success", HttpStatus.OK);
             }
             else {
@@ -51,7 +55,7 @@ public class ActivityApprovalService {
         }
     }
 
-    public ResponseEntity<ActivityApproval> addActvityApproval(ActivityApproval activityApproval) {
+    public ResponseEntity<ActivityApproval> addActivityApproval(ActivityApproval activityApproval) {
         try {
             ActivityApproval existed = activityApprovalRepo.findActivityApprovalByActivityidAndEmpid(activityApproval.getActivityid(), activityApproval.getEmpid());
             if (existed != null) {
@@ -66,5 +70,11 @@ public class ActivityApprovalService {
         catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @Async
+    public void increaseParticipants(int activityApprovalId) {
+        ActivityApproval activityApproval = activityApprovalRepo.findById(activityApprovalId).orElseThrow();
+        activityRepo.increaseParticipantsNum(activityApproval.getActivityid());
     }
 }

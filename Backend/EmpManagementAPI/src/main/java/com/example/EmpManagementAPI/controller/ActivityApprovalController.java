@@ -48,6 +48,6 @@ public class ActivityApprovalController {
 
     @PostMapping("/activity/approvalRequest")
     public ResponseEntity<?> addActivityApproval(@RequestPart("activityApproval") ActivityApproval activityApproval) {
-        return activityApprovalService.addActvityApproval(activityApproval);
+        return activityApprovalService.addActivityApproval(activityApproval);
     }
 }
