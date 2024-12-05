@@ -324,17 +324,17 @@ INSERT INTO LeaveTypes (EmpID, Year, Annual, Marriage, Funeral, Sick, Unpaid) VA
 
 -- Request
 INSERT INTO Request (CreateDate, ApprovalStatus, Notes, AttachmentUrl, EmpID, ManagerID) VALUES
-('2025-10-01', 'Pending', 'Need approval for leave', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'E003', 'E002');
+('2024-10-01', 'Pending', 'Need approval for leave', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'E003', 'E002');
 
 -- WFHRequest
 INSERT INTO WFHRequest (CreateDate, ApprovalStatus, Notes, AttachmentUrl, StartDate, EndDate, Reason, EmpID, ManagerID) VALUES
-('2025-10-05', 'Approved', 'Work from home request', ARRAY['uploads/requests/WFHRequest1.txt'], '2025-10-10', '2025-10-12', 'Personal reasons', 'E004', 'E002'),
-('2025-10-06', 'Pending', 'Need to work from home', ARRAY['uploads/requests/WFHRequest2.txt'], '2025-10-15', '2025-10-17', 'Family matters', 'E003', 'E002');
+('2024-10-05', 'Approved', 'Work from home request', ARRAY['uploads/requests/WFHRequest1.txt'], '2025-10-10', '2025-10-12', 'Personal reasons', 'E004', 'E002'),
+('2024-10-06', 'Pending', 'Need to work from home', ARRAY['uploads/requests/WFHRequest2.txt'], '2025-10-15', '2025-10-17', 'Family matters', 'E003', 'E002');
 
 -- LeaveRequest
 INSERT INTO LeaveRequest (CreateDate, ApprovalStatus, Notes, AttachmentUrl, StartDate, EndDate, Reason, LeaveType, EmpID, ManagerID) VALUES
-('2025-10-03', 'Pending', 'Annual leave request', ARRAY['uploads/requests/LeaveRequest1.txt'], '2025-10-10', '2025-10-15', 'Vacation', 'Annual', 'E005', 'E002'),
-('2025-10-04', 'Approved', 'Sick leave request', ARRAY['uploads/requests/LeaveRequest2.txt'], '2025-10-06', '2025-10-07', 'Illness', 'Sick', 'E007', 'E002');
+('2024-10-03', 'Pending', 'Annual leave request', ARRAY['uploads/requests/LeaveRequest1.txt'], '2025-10-10', '2025-10-15', 'Vacation', 'Annual', 'E005', 'E002'),
+('2024-10-04', 'Approved', 'Sick leave request', ARRAY['uploads/requests/LeaveRequest2.txt'], '2025-10-06', '2025-10-07', 'Illness', 'Sick', 'E007', 'E002');
 
 -- AttendanceRecords
 INSERT INTO AttendanceRecords (AttendanceDate, CheckInTime, CheckOutTime, Status, EmpID) VALUES
@@ -355,7 +355,7 @@ INSERT INTO Activity (Name, StartDate, EndDate, Location, Images, Description, R
  'A fun team building event. A chance to improve team dynamics.', 
  'Follow the rules / Show sportsmanship / Support your teammates', 
  'Team spirit / Best player / Most improved player', 
- '10pt / 5pt for MVP', 0, '2024-10-01', '2024-10-01', 'E001', 'All Employees'),
+ '10pt / 5pt for MVP', 3, '2024-10-01', '2024-10-01', 'E001', 'All Employees'),
 
 ('Ping Pong Competition', '2024-11-15', '2025-11-16', 'Tech Center', ARRAY['uploads/activities/ping.png'], 
  'A competitive event. Show your skills and compete for the top spot.', 
@@ -373,16 +373,34 @@ INSERT INTO Activity (Name, StartDate, EndDate, Location, Images, Description, R
  'A competitive coding event. Work with your team to solve the problems.', 
  'Code cleanly / Collaborate effectively / Meet deadlines', 
  'Best solution / Most creative approach', 
+ '20pt / 10pt for second place', 0, '2024-10-02', '2024-10-02', 'E002', 'All Employees'),
+ 
+ ('Football - Test', '2024-11-01', '2025-11-02', 'Beach Resort', ARRAY['uploads/activities/football.png', 'uploads/activities/football2.png'], 
+ 'A fun team building event. Get ready for an exciting match.', 
+ 'Follow the rules / Play fair / Encourage your teammates', 
+ 'Team spirit / Best goal scorer / Best defender', 
+ '10pt / 5pt for MVP', 0, '2024-10-01', '2024-10-01', 'E002', 'All Employees'),
+
+('Team Building - Test', '2024-11-15', '2025-11-16', 'Tech Center', ARRAY['uploads/activities/tennis.png', 'uploads/activities/volley.png'], 
+ 'A competitive coding event. Work with your team to solve the problems.', 
+ 'Code cleanly / Collaborate effectively / Meet deadlines', 
+ 'Best solution / Most creative approach', 
  '20pt / 10pt for second place', 0, '2024-10-02', '2024-10-02', 'E002', 'All Employees');
 
 -- ActivityApproval
 INSERT INTO ActivityApproval (CreateDate, ApprovalStatus, ActivityID, EmpID) VALUES
 ('2024-10-05', 'Approved', 1, 'E003'),
-('2024-10-06', 'Pending', 2, 'E006'),
-('2024-10-05', 'Approved', 1, 'E004'),
-('2024-10-06', 'Pending', 2, 'E004'),
 ('2024-10-05', 'Approved', 1, 'E005'),
-('2024-10-06', 'Pending', 2, 'E006');
+('2024-10-05', 'Approved', 1, 'E004'),
+('2024-10-06', 'Pending', 2, 'E002'),
+('2024-10-06', 'Pending', 2, 'E003'),
+('2024-10-06', 'Pending', 2, 'E004'),
+('2024-10-06', 'Pending', 3, 'E005'),
+('2024-10-06', 'Pending', 3, 'E006'),
+('2024-10-06', 'Pending', 3, 'E007'),
+('2024-10-06', 'Pending', 4, 'E008'),
+('2024-10-06', 'Pending', 4, 'E001'),
+('2024-10-06', 'Pending', 4, 'E004');
 
 -- Participations
 INSERT INTO Participations (EmpID, ActivityID, Score, Rank, Notes) VALUES
