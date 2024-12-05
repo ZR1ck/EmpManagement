@@ -35,7 +35,9 @@ public class ActivityApprovalService {
     public ResponseEntity<?> updateActivityApprovalStatus(int id, String status) {
         try {
             if (activityApprovalRepo.updateActivityApprovalStatus(id, status) > 0) {
-                increaseParticipants(id);
+                if (status.equals("Approved")) {
+                    increaseParticipants(id);
+                }
                 return new ResponseEntity<>("Success", HttpStatus.OK);
             }
             else {
