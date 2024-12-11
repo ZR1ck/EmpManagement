@@ -9,6 +9,7 @@ import Info from "../../views/manager/emp-info/Info";
 import ActivityInfo from "../../views/shared/ActivityInfo";
 import AccountContact from './../../views/employee/account-info/AccountContact';
 import ActivityDetail from "../../views/shared/ActivityDetail";
+import Reward from "../../views/manager/Reward";
 
 
 const managerRoutes = [
@@ -66,7 +67,12 @@ const managerRoutes = [
     path: '/manager/activity/approval',
     element: <ApproveActivity/>,
     role: 'manager',
-  }
+  },
+    {
+        path: '/manager/reward',
+        element: <Reward/>,
+        role: 'manager',
+    }
 ]
 
 export default managerRoutes
