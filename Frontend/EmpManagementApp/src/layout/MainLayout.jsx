@@ -6,16 +6,17 @@ import { jwtDecode } from 'jwt-decode';
 
 const MainLayout = () => {
     // const [showSidebar, setShowSidebar] = useState(true);
-    const [roles, setRoles] = useState('');
+    // const [roles, setRoles] = useState('');
+    const roles = 'Manager';
 
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token && !isTokenExpired(token)) {
-            const roles = jwtDecode(token).roles.split(",")
-            setRoles(roles);
-        }
-    }, [])
+    // useEffect(() => {
+    //     const token = localStorage.getItem('token');
+    //     if (token && !isTokenExpired(token)) {
+    //         const roles = jwtDecode(token).roles.split(",")
+    //         setRoles(roles);
+    //     }
+    // }, [])
 
     return (
         <div className=''>

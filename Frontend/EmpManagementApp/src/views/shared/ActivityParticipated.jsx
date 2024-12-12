@@ -47,7 +47,7 @@ const Activity = ({ title, image, description, participants, date }) => {
   );
 };
 
-const ActivityInfo = ({ role }) => {
+const ActivityParticipated = () => {
   const [sortDropdown, setSortDropdown] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
@@ -56,6 +56,7 @@ const ActivityInfo = ({ role }) => {
   const [activitiesData, setActivitiesData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState('manager');
   // {
   //   title: "Thử thách đạp xe 100km",
   //   image: swimming,
@@ -68,7 +69,37 @@ const ActivityInfo = ({ role }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!token) return;
+      if (!token) {
+        // Sử dụng dữ liệu giả nếu không có token
+        setActivitiesData([
+          {
+            activityId: 1,
+            title: "Thử thách đạp xe 100km",
+            imageUrl: "",
+            description: "Tham gia đạp xe 100km để tăng cường sức bền và sức khỏe.",
+            participants: 15,
+            createdate: "2024-12-01T08:00:00",
+          },
+          {
+            activityId: 2,
+            title: "Hoạt động bơi lội cuối tuần",
+            imageUrl: "",
+            description: "Trải nghiệm bơi lội cùng các vận động viên chuyên nghiệp.",
+            participants: 8,
+            createdate: "2024-11-25T14:30:00",
+          },
+          {
+            activityId: 3,
+            title: "Giải chạy marathon địa hình",
+            imageUrl: "",
+            description: "Thử sức với giải chạy marathon tại khu vực miền núi.",
+            participants: 20,
+            createdate: "2024-12-05T09:00:00",
+          },
+        ]);
+        setLoading(false);
+        return;
+      };
       try {
         const response = await getOnGoingActivities(token);
         if (response.data) {
@@ -155,8 +186,8 @@ const ActivityInfo = ({ role }) => {
         <div className='flex flex-row gap-12'>
           {/* Ongoing */}
           <Link to={`/${role}/activity`}>
-            <div className='flex flex-row w-56 items-center justify-between py-2 border-b-[2.4px] border-blue-500
-          cursor-pointer'>
+            <div className='flex flex-row w-56 items-center justify-between py-2 border-b-[2.4px] border-black
+            cursor-pointer hover:border-blue-medium hover:text-blue-600'>
               <p className='font-bold text-sm'>
                 ĐANG DIỄN RA
               </p>
@@ -177,7 +208,7 @@ const ActivityInfo = ({ role }) => {
           </div>
           {/* Participated */}
           <Link to={`/${role}/activity/participated`}>
-            <div className={`flex flex-row w-56 items-center justify-between py-2 border-b-[2.4px] border-black
+            <div className={`flex flex-row w-56 items-center justify-between py-2 border-b-[2.4px] border-blue-medium
             cursor-pointer hover:border-blue-medium hover:text-blue-600`}>
               <p className='font-bold text-sm'>
                 ĐÃ THAM GIA
@@ -230,7 +261,8 @@ const ActivityInfo = ({ role }) => {
       {/* Activity List */}
       <div className='grid grid-cols-5 gap-4 overflow-y-auto pt-2'>
         {sortedActivities.map((activity, index) => (
-          <Link to={`/${role}/activity/${activity.activityId}`} state={{ role: role, id: activity.activityId }} key={index}>
+          <Link to={`/${role}/activity/
+          participated/${activity.activityId}`} state={{ role: role, id: activity.activityId }} key={index}>
             <Activity
               key={index}
               title={activity.title}
@@ -246,4 +278,4 @@ const ActivityInfo = ({ role }) => {
   );
 };
 
-export default ActivityInfo;
+export default ActivityParticipated;
