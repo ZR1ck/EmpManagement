@@ -11,6 +11,7 @@ import { FaRankingStar } from "react-icons/fa6";
 import medal1 from './../../assets/top1.png'
 import medal2 from './../../assets/top2.png'
 import medal3 from './../../assets/top3.png'
+import avatar from './../../assets/avatar.jpg'
 
 const SummaryCard = ({ title, value, unit, icon, bgColor, txtColor }) => {
   return (
@@ -33,8 +34,23 @@ const ActivityParticipatedDetail = () => {
 
   const [role] = useState('manager');
   const [activityDetail, setActivityDetail] = useState({
-    'lastudpate': '12/10/2024'
+    lastUpdate: '12/10/2024',
+    title: 'Giải đấu bóng đá Mini Nội Bộ Công Ty - Mùa Thu 2024',
+    startDate: '2024-08-12',
+    endDate: '2024-08-30',
+    participants: 147,
+    rank: 12,
+    points: 32,
   });
+
+  const [leaderboard, setLeaderboard] = useState([
+    { rank: 1, name: 'Nguyễn Văn D', department: 'Phòng nhân sự', points: 40 },
+    { rank: 2, name: 'Trần Văn E', department: 'Phòng kỹ thuật', points: 35 },
+    { rank: 3, name: 'Lê Thị F', department: 'Phòng kế toán', points: 30 },
+    { rank: 4, name: 'Nguyễn Văn G', department: 'Phòng marketing', points: 24 },
+    { rank: 4, name: 'Nguyễn Văn G', department: 'Phòng marketing', points: 24 },
+    { rank: 4, name: 'Nguyễn Văn G', department: 'Phòng marketing', points: 24 },
+  ]);
 
   return (
     <div className='bg-white overflow-y-auto rounded-lg w-full h-full py-4 px-6 font-inter flex flex-col gap-4'>
@@ -45,7 +61,7 @@ const ActivityParticipatedDetail = () => {
             Quản lý hoạt động <span><BsLightningChargeFill className='text-yellow-500 inline' /></span>
           </h1>
           <span className='text-sm text-gray-medium'>
-            Cập nhật lần cuối: {formatDate(activityDetail.lastupdate)}
+            Cập nhật lần cuối: {formatDate(activityDetail.lastUpdate)}
           </span>
         </div>
         {/* Activity List */}
@@ -61,8 +77,8 @@ const ActivityParticipatedDetail = () => {
       </div>
       {/* Activity Detail */}
       {/* Title */}
-      <h1>
-        Giải đấu bóng đá Mini Nội Bộ Công Ty - Mùa Thu 2024
+      <h1 className='font-inter text-[1.75rem] font-semibold'>
+        {activityDetail.title}
       </h1>
       {/* Time */}
       <div className='flex flex-row gap-2 items-center text-gray-600'>
@@ -70,33 +86,33 @@ const ActivityParticipatedDetail = () => {
           <span className='text-xl '>
             <FaCalendarAlt />
           </span>
-          August 12 2024
+          {activityDetail.startDate}
         </div>
         <span><AiOutlineMinus /></span>
         <div className='flex flex-row gap-2 border-2 border-gray-medium items-center px-2 py-2 rounded-lg'>
           <span className='text-xl'>
             <FaCalendarAlt />
           </span>
-          August 30 2024
+          {activityDetail.endDate}
         </div>
       </div>
       {/* Summary */}
       <div className='flex flex-row gap-6'>
         <SummaryCard
           title='Số người tham gia'
-          value='147'
+          value={activityDetail.participants}
           icon={<FaUserGroup />}
           bgColor='#FFF2C2'
           txtColor='#FFC700' />
         <SummaryCard
           title='Hạng'
-          value='12'
+          value={activityDetail.rank}
           icon={<FaRankingStar />}
           bgColor='#D4E8FF'
           txtColor='#007AFF' />
         <SummaryCard
           title='Thành tích'
-          value='32'
+          value={activityDetail.points}
           unit='điểm'
           icon={<GrScorecard />}
           bgColor='#FFD4D4'
@@ -109,10 +125,11 @@ const ActivityParticipatedDetail = () => {
           {/* Top 3 */}
           <div className='flex flex-col items-center'>
             <div className='w-24 h-24 bg-gray-400 rounded-full'>
+              <img src={avatar} className='w-full h-full rounded-full' alt='img-top3' />
             </div>
             <span className='font-inter font-semibold bg-[#203C84] px-4 text-white 
             rounded-full py-1 mt-[-25px] text-sm'>
-              Nguyễn Văn A
+              {leaderboard[2].name}
             </span>
             <div className='bg-blue-medium w-full h-[250px] mt-4 rounded-xl flex flex-col 
             justify-center items-center gap-1'>
@@ -121,7 +138,7 @@ const ActivityParticipatedDetail = () => {
                 alt='img-top3'
                 className='w-16' />
               <span className='text-white font-bold text-[2.5rem] leading-none'>
-                32
+                {leaderboard[2].points}
               </span>
               <span className='text-white font-bold text-lg'>
                 Điểm
@@ -131,10 +148,11 @@ const ActivityParticipatedDetail = () => {
           {/* Top 1 */}
           <div className='flex flex-col items-center'>
             <div className='w-24 h-24 bg-gray-400 rounded-full'>
+              <img src={avatar} className='w-full h-full rounded-full' alt='img-top3' />
             </div>
             <span className='font-inter font-semibold bg-[#203C84] px-4 text-white 
-            rounded-full py-1 mt-[-25px] text-sm'>
-              Nguyễn Văn A
+            rounded-full py-1 mt-[-25px] text-sm min-w-[130px]'>
+              {leaderboard[0].name}
             </span>
             <div className='bg-blue-medium w-full h-[400px] mt-4 rounded-xl flex flex-col 
             items-center'>
@@ -143,7 +161,7 @@ const ActivityParticipatedDetail = () => {
                 alt='img-top3'
                 className='w-16 mt-16' />
               <span className='text-white font-bold text-[2.5rem] leading-none mt-8'>
-                32
+                {leaderboard[0].points}
               </span>
               <span className='text-white font-bold text-lg'>
                 Điểm
@@ -153,10 +171,11 @@ const ActivityParticipatedDetail = () => {
           {/* Top 2 */}
           <div className='flex flex-col items-center'>
             <div className='w-24 h-24 bg-gray-400 rounded-full'>
+              <img src={avatar} className='w-full h-full rounded-full' alt='img-top3' />
             </div>
             <span className='font-inter font-semibold bg-[#203C84] px-4 text-white 
-            rounded-full py-1 mt-[-25px] text-sm'>
-              Nguyễn Văn A
+            rounded-full py-1 mt-[-25px] text-sm min-w-[120px]'>
+              {leaderboard[1].name}
             </span>
             <div className='bg-blue-medium w-full h-[300px] mt-4 rounded-xl flex flex-col 
             justify-center items-center gap-1'>
@@ -165,7 +184,7 @@ const ActivityParticipatedDetail = () => {
                 alt='img-top3'
                 className='w-16' />
               <span className='text-white font-bold text-[2.5rem] leading-none'>
-                32
+                {leaderboard[1].points}
               </span>
               <span className='text-white font-bold text-lg'>
                 Điểm
@@ -175,7 +194,7 @@ const ActivityParticipatedDetail = () => {
         </div>
         {/* Ranking */}
         <div className='border-2 w-[600px] h-[500px] border-gray-medium rounded-lg px-4 overflow-y-auto'>
-          <table className='h-full w-full'>
+          <table className='w-full'>
             <thead>
               <tr className='border-b-2 border-gray-400'>
                 <th className='text-center py-2'>Hạng</th>
@@ -185,12 +204,12 @@ const ActivityParticipatedDetail = () => {
               </tr>
             </thead>
             <tbody>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value, index) => (
+              {leaderboard.map((entry, index) => (
                 <tr key={index} className='hover:bg-gray-100 border-b-2 border-gray-400'>
-                  <td className='text-center align-middle py-3'>4</td>
-                  <td className='text-center align-middle py-3'>Trần Văn A</td>
-                  <td className='text-center align-middle py-3'>Phòng nhân sự</td>
-                  <td className='text-center align-middle py-3'>24</td>
+                  <td className='text-center align-middle py-3'>{entry.rank}</td>
+                  <td className='text-center align-middle py-3'>{entry.name}</td>
+                  <td className='text-center align-middle py-3'>{entry.department}</td>
+                  <td className='text-center align-middle py-3'>{entry.points}</td>
                 </tr>
               ))}
             </tbody>

@@ -261,8 +261,10 @@ const ActivityParticipated = () => {
       {/* Activity List */}
       <div className='grid grid-cols-5 gap-4 overflow-y-auto pt-2'>
         {sortedActivities.map((activity, index) => (
-          <Link to={`/${role}/activity/
-          participated/${activity.activityId}`} state={{ role: role, id: activity.activityId }} key={index}>
+          <Link
+            to={`/${role}/activity/participated/${activity.activityId}`}
+            state={{ role: role, id: activity.activityId }}
+            key={index}>
             <Activity
               key={index}
               title={activity.title}
@@ -272,6 +274,7 @@ const ActivityParticipated = () => {
               date={formatDate(activity.createdate)}
             />
           </Link>
+
         ))}
       </div>
     </div>
