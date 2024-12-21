@@ -118,7 +118,7 @@ const ActivityInfo = ({ role }) => {
             Quản lý hoạt động <span><BsLightningChargeFill className='text-yellow-500 inline' /></span>
           </h1>
           <span className='font- text-sm text-gray-medium'>
-            Cập nhật lần cuối: 30/10/2024
+            Cập nhật lần cuối: {getLatestDate(activitiesData)}
           </span>
         </div>
         {/* Search Bar */}

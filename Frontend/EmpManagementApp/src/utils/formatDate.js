@@ -10,7 +10,22 @@ export const formatDate = (dateString, type = 0) => {
 
 export const getLatestDate = (arr) => {
   if (!arr || arr.length <= 0) return 'NaN';
-  return formatDate(arr.reduce((latest, current) => {
-      return Date.parse(current.updatedate) > Date.parse(latest.updatedate) ? current : latest;
-  }));
+
+  const latest = arr.reduce((latest, current) => {
+    const latestDate = Date.parse(latest.updatedate);
+    const currentDate = Date.parse(current.updatedate);
+
+    // console.log('latest.updatedate:', latest.updatedate, 'current.updatedate:', current.updatedate);
+    // console.log('latestDate:', latestDate, 'currentDate:', currentDate);
+
+    return currentDate > latestDate ? current : latest;
+  });
+
+  const latestDate = Date.parse(latest.updatedate);
+  if (isNaN(latestDate)) {
+    return 'NaN';
+  }
+
+  return formatDate(latest.updatedate);
 };
+

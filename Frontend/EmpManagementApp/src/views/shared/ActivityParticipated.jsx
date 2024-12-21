@@ -9,7 +9,7 @@ import { FaUserCheck } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/AuthProvider';
 import { getOnGoingActivities, getParticipatedActivities } from '../../api/activity';
-import { formatDate } from '../../utils/formatDate';
+import { formatDate, getLatestDate } from '../../utils/formatDate';
 import { fetchImage } from '../../utils/imageUtils';
 
 const Activity = ({ title, image, description, participants, date }) => {
@@ -148,7 +148,7 @@ const ActivityParticipated = ({ role }) => {
             Quản lý hoạt động <span><BsLightningChargeFill className='text-yellow-500 inline' /></span>
           </h1>
           <span className='font- text-sm text-gray-medium'>
-            Cập nhật lần cuối: 30/10/2024
+            Cập nhật lần cuối: {getLatestDate(activitiesData)}
           </span>
         </div>
         {/* Search Bar */}
