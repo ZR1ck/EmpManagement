@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BsLightningChargeFill } from "react-icons/bs";
 import { FaCalendarAlt } from "react-icons/fa";
-import { Link, } from 'react-router-dom';
+import { Link, useLocation} from 'react-router-dom';
 import { FaArrowRight } from "react-icons/fa";
 import { formatDate } from '../../utils/formatDate';
 import { AiOutlineMinus } from "react-icons/ai";
@@ -12,6 +12,9 @@ import medal1 from './../../assets/top1.png'
 import medal2 from './../../assets/top2.png'
 import medal3 from './../../assets/top3.png'
 import avatar from './../../assets/avatar.jpg'
+import { useAuthContext } from '../../contexts/AuthProvider';
+import { getLeaderboard, getParticipationScore } from '../../api/activity';
+import { fetchImage } from '../../utils/imageUtils';
 
 const SummaryCard = ({ title, value, unit, icon, bgColor, txtColor }) => {
   return (
@@ -30,27 +33,101 @@ const SummaryCard = ({ title, value, unit, icon, bgColor, txtColor }) => {
   )
 }
 
-const ActivityParticipatedDetail = () => {
+const ActivityParticipatedDetail = ({ role }) => {
 
-  const [role] = useState('manager');
-  const [activityDetail, setActivityDetail] = useState({
-    lastUpdate: '12/10/2024',
-    title: 'Giải đấu bóng đá Mini Nội Bộ Công Ty - Mùa Thu 2024',
-    startDate: '2024-08-12',
-    endDate: '2024-08-30',
-    participants: 147,
-    rank: 12,
-    points: 32,
-  });
+  // const [role] = useState('manager');
+  // const [activityDetail, setActivityDetail] = useState({
+  //   lastUpdate: '12/10/2024',
+  //   title: 'Giải đấu bóng đá Mini Nội Bộ Công Ty - Mùa Thu 2024',
+  //   startDate: '2024-08-12',
+  //   endDate: '2024-08-30',
+  //   participants: 147,
+  //   rank: 12,
+  //   points: 32,
+  // });
+  const location = useLocation();
+  const [activityDetail] = useState(location.state.activity);
+  const [userScore, setUserScore] = useState({ score: '_', rank: '_' })
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [leaderboardError, setLeaderboardError] = useState(null);
+  const [leaderboardLoading, setLeaderboardLoading] = useState(true);
 
   const [leaderboard, setLeaderboard] = useState([
-    { rank: 1, name: 'Nguyễn Văn D', department: 'Phòng nhân sự', points: 40 },
-    { rank: 2, name: 'Trần Văn E', department: 'Phòng kỹ thuật', points: 35 },
-    { rank: 3, name: 'Lê Thị F', department: 'Phòng kế toán', points: 30 },
-    { rank: 4, name: 'Nguyễn Văn G', department: 'Phòng marketing', points: 24 },
-    { rank: 4, name: 'Nguyễn Văn G', department: 'Phòng marketing', points: 24 },
-    { rank: 4, name: 'Nguyễn Văn G', department: 'Phòng marketing', points: 24 },
+    { rank: 1, empName: 'Loading...', deptName: 'Loading...', score: 0, avatarUrl: '' },
+    { rank: 2, empName: 'Loading...', department: 'Loading...', score: 0, avatarUrl: '' },
+    { rank: 3, empName: 'Loading...', department: 'Loading...', score: 0, avatarUrll: '' },
   ]);
+
+  const { user, getToken } = useAuthContext();
+  const [images, setImages] = useState([]);
+
+  const fetchImages = async (urls) => {
+    const host = process.env.REACT_APP_API_URL;
+    try {
+      const imagePromises = urls.map(async (url) => {
+        try {
+          return await fetchImage(host + url);
+        } catch (error) {
+          console.error(`Error fetching image from ${url}:`, error);
+          return null;
+        }
+      });
+
+      const fetchedImages = await Promise.all(imagePromises);
+      setImages(fetchedImages.filter(image => image !== null));
+    } catch (error) {
+      console.error('Error fetching images:', error);
+    }
+  };
+
+
+  useEffect(() => {
+    const token = getToken();
+
+    if (!token || !activityDetail || !user) return;
+
+    const fetchUserScore = async () => {
+      try {
+        const response = await getParticipationScore(token, user.empid, activityDetail.activityId);
+        if (response.data) {
+          setUserScore(response.data);
+          setLoading(false);
+          setError(null);
+        }
+      }
+      catch (e) {
+        console.log(e);
+        setLoading(false);
+        setError(e);
+      }
+    }
+
+    const fetchLeaderboard = async () => {
+      try {
+        const response = await getLeaderboard(token, activityDetail.activityId);
+        if (response.data) {
+          // console.log(response.data);
+          setLeaderboard(response.data);
+          if (response.data.length > 0) {
+            fetchImages([response.data[0].avatarUrl, response.data[1].avatarUrl, response.data[2].avatarUrl]);
+          }
+          setLeaderboardError(false);
+          setLeaderboardError(null);
+        }
+      }
+      catch (e) {
+        console.log(e);
+        setLeaderboardLoading(false);
+        setLeaderboardError(e);
+      }
+    }
+
+    fetchUserScore();
+    fetchLeaderboard();
+
+
+  }, [getToken, user, activityDetail])
 
   return (
     <div className='bg-white overflow-y-auto rounded-lg w-full h-full py-4 px-6 font-inter flex flex-col gap-4'>
@@ -61,7 +138,7 @@ const ActivityParticipatedDetail = () => {
             Quản lý hoạt động <span><BsLightningChargeFill className='text-yellow-500 inline' /></span>
           </h1>
           <span className='text-sm text-gray-medium'>
-            Cập nhật lần cuối: {formatDate(activityDetail.lastUpdate)}
+            Cập nhật lần cuối: {formatDate(activityDetail.updatedate)}
           </span>
         </div>
         {/* Activity List */}
@@ -86,14 +163,14 @@ const ActivityParticipatedDetail = () => {
           <span className='text-xl '>
             <FaCalendarAlt />
           </span>
-          {activityDetail.startDate}
+          {formatDate(activityDetail.startdate)}
         </div>
         <span><AiOutlineMinus /></span>
         <div className='flex flex-row gap-2 border-2 border-gray-medium items-center px-2 py-2 rounded-lg'>
           <span className='text-xl'>
             <FaCalendarAlt />
           </span>
-          {activityDetail.endDate}
+          {formatDate(activityDetail.enddate)}
         </div>
       </div>
       {/* Summary */}
@@ -106,13 +183,13 @@ const ActivityParticipatedDetail = () => {
           txtColor='#FFC700' />
         <SummaryCard
           title='Hạng'
-          value={activityDetail.rank}
+          value={userScore.rank}
           icon={<FaRankingStar />}
           bgColor='#D4E8FF'
           txtColor='#007AFF' />
         <SummaryCard
           title='Thành tích'
-          value={activityDetail.points}
+          value={userScore.score}
           unit='điểm'
           icon={<GrScorecard />}
           bgColor='#FFD4D4'
@@ -125,11 +202,11 @@ const ActivityParticipatedDetail = () => {
           {/* Top 3 */}
           <div className='flex flex-col items-center'>
             <div className='w-24 h-24 bg-gray-400 rounded-full'>
-              <img src={avatar} className='w-full h-full rounded-full' alt='img-top3' />
+              <img src={images[2] || avatar} className='w-full h-full rounded-full' alt='img-top3' onError={(e) => e.target.src = avatar} />
             </div>
             <span className='font-inter font-semibold bg-[#203C84] px-4 text-white 
-            rounded-full py-1 mt-[-25px] text-sm'>
-              {leaderboard[2].name}
+            rounded-full py-1 mt-[-25px] text-sm flex justify-center items-center'>
+              {leaderboard[2].empName}
             </span>
             <div className='bg-blue-medium w-full h-[250px] mt-4 rounded-xl flex flex-col 
             justify-center items-center gap-1'>
@@ -138,7 +215,7 @@ const ActivityParticipatedDetail = () => {
                 alt='img-top3'
                 className='w-16' />
               <span className='text-white font-bold text-[2.5rem] leading-none'>
-                {leaderboard[2].points}
+                {leaderboard[2].score}
               </span>
               <span className='text-white font-bold text-lg'>
                 Điểm
@@ -148,11 +225,11 @@ const ActivityParticipatedDetail = () => {
           {/* Top 1 */}
           <div className='flex flex-col items-center'>
             <div className='w-24 h-24 bg-gray-400 rounded-full'>
-              <img src={avatar} className='w-full h-full rounded-full' alt='img-top3' />
+              <img src={images[0] || avatar} className='w-full h-full rounded-full' alt='img-top3' onError={(e) => e.target.src = avatar} />
             </div>
             <span className='font-inter font-semibold bg-[#203C84] px-4 text-white 
-            rounded-full py-1 mt-[-25px] text-sm min-w-[130px]'>
-              {leaderboard[0].name}
+            rounded-full py-1 mt-[-25px] text-sm min-w-[130px] flex justify-center items-center'>
+              {leaderboard[0].empName}
             </span>
             <div className='bg-blue-medium w-full h-[400px] mt-4 rounded-xl flex flex-col 
             items-center'>
@@ -161,7 +238,7 @@ const ActivityParticipatedDetail = () => {
                 alt='img-top3'
                 className='w-16 mt-16' />
               <span className='text-white font-bold text-[2.5rem] leading-none mt-8'>
-                {leaderboard[0].points}
+                {leaderboard[0].score}
               </span>
               <span className='text-white font-bold text-lg'>
                 Điểm
@@ -171,11 +248,11 @@ const ActivityParticipatedDetail = () => {
           {/* Top 2 */}
           <div className='flex flex-col items-center'>
             <div className='w-24 h-24 bg-gray-400 rounded-full'>
-              <img src={avatar} className='w-full h-full rounded-full' alt='img-top3' />
+              <img src={images[1] || avatar} className='w-full h-full rounded-full' alt='img-top3' onError={(e) => e.target.src = avatar} />
             </div>
             <span className='font-inter font-semibold bg-[#203C84] px-4 text-white 
-            rounded-full py-1 mt-[-25px] text-sm min-w-[120px]'>
-              {leaderboard[1].name}
+            rounded-full py-1 mt-[-25px] text-sm min-w-[120px] flex justify-center items-center'>
+              {leaderboard[1].empName}
             </span>
             <div className='bg-blue-medium w-full h-[300px] mt-4 rounded-xl flex flex-col 
             justify-center items-center gap-1'>
@@ -184,7 +261,7 @@ const ActivityParticipatedDetail = () => {
                 alt='img-top3'
                 className='w-16' />
               <span className='text-white font-bold text-[2.5rem] leading-none'>
-                {leaderboard[1].points}
+                {leaderboard[1].score}
               </span>
               <span className='text-white font-bold text-lg'>
                 Điểm
@@ -207,9 +284,9 @@ const ActivityParticipatedDetail = () => {
               {leaderboard.map((entry, index) => (
                 <tr key={index} className='hover:bg-gray-100 border-b-2 border-gray-400'>
                   <td className='text-center align-middle py-3'>{entry.rank}</td>
-                  <td className='text-center align-middle py-3'>{entry.name}</td>
-                  <td className='text-center align-middle py-3'>{entry.department}</td>
-                  <td className='text-center align-middle py-3'>{entry.points}</td>
+                  <td className='text-center align-middle py-3'>{entry.empName}</td>
+                  <td className='text-center align-middle py-3'>{entry.deptName}</td>
+                  <td className='text-center align-middle py-3'>{entry.score}</td>
                 </tr>
               ))}
             </tbody>

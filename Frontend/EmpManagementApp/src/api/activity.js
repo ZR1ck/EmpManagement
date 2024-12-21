@@ -74,3 +74,27 @@ export const addActivity = async (token, data) => {
         },
     })
 }
+
+export const getParticipatedActivities = async (token, empid) => {
+    return await axios.get(host + `api/activity/participated/${empid}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    });
+}
+
+export const getParticipationScore = async (token, empid, activityid) => {
+    return await axios.get(host + `api/participation/score?activityId=${activityid}&empId=${empid}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
+}
+
+export const getLeaderboard = async (token, activityid) => {
+    return await axios.get(host + `api/participation/leaderboard?activityId=${activityid}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
+}

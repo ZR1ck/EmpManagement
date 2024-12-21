@@ -42,12 +42,12 @@ const employeeRoutes = [
   },
   {
     path: '/employee/activity/participated',
-    element: <ActivityParticipated/>,
+    element: <ActivityParticipated role="employee"/>,
     role: 'employee',
   },
   {
     path: '/employee/activity/participated/:id',
-    element: <ActivityParticipatedDetail/>,
+    element: <ActivityParticipatedDetail role="employee"/>,
     role: 'employee',
   },
   {

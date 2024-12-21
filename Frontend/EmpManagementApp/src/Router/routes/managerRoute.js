@@ -41,12 +41,12 @@ const managerRoutes = [
   },
   {
     path: '/manager/activity/participated',
-    element: <ActivityParticipated/>,
+    element: <ActivityParticipated role="manager"/>,
     role: 'manager',
   },
   {
     path: '/manager/activity/participated/:id',
-    element: <ActivityParticipatedDetail/>,
+    element: <ActivityParticipatedDetail role="manager"/>,
     role: 'manager',
   },
   {

@@ -8,7 +8,7 @@ import swimming from './../../assets/swimming.jpg';
 import { FaUserCheck } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/AuthProvider';
-import { getOnGoingActivities } from '../../api/activity';
+import { getOnGoingActivities, getParticipatedActivities } from '../../api/activity';
 import { formatDate } from '../../utils/formatDate';
 import { fetchImage } from '../../utils/imageUtils';
 
@@ -47,7 +47,7 @@ const Activity = ({ title, image, description, participants, date }) => {
   );
 };
 
-const ActivityParticipated = () => {
+const ActivityParticipated = ({ role }) => {
   const [sortDropdown, setSortDropdown] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
@@ -56,7 +56,6 @@ const ActivityParticipated = () => {
   const [activitiesData, setActivitiesData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState('manager');
   // {
   //   title: "Thử thách đạp xe 100km",
   //   image: swimming,
@@ -64,44 +63,44 @@ const ActivityParticipated = () => {
   //   participants: 15,
   //   date: "2024-12-15",
   // }
-  const { getToken } = useAuthContext();
-  const token = getToken();
+  const { user, getToken } = useAuthContext();
 
   useEffect(() => {
     const fetchData = async () => {
+      const token = getToken();
       if (!token) {
         // Sử dụng dữ liệu giả nếu không có token
-        setActivitiesData([
-          {
-            activityId: 1,
-            title: "Thử thách đạp xe 100km",
-            imageUrl: "",
-            description: "Tham gia đạp xe 100km để tăng cường sức bền và sức khỏe.",
-            participants: 15,
-            createdate: "2024-12-01T08:00:00",
-          },
-          {
-            activityId: 2,
-            title: "Hoạt động bơi lội cuối tuần",
-            imageUrl: "",
-            description: "Trải nghiệm bơi lội cùng các vận động viên chuyên nghiệp.",
-            participants: 8,
-            createdate: "2024-11-25T14:30:00",
-          },
-          {
-            activityId: 3,
-            title: "Giải chạy marathon địa hình",
-            imageUrl: "",
-            description: "Thử sức với giải chạy marathon tại khu vực miền núi.",
-            participants: 20,
-            createdate: "2024-12-05T09:00:00",
-          },
-        ]);
+        // setActivitiesData([
+        //   {
+        //     activityId: 1,
+        //     title: "Thử thách đạp xe 100km",
+        //     imageUrl: "",
+        //     description: "Tham gia đạp xe 100km để tăng cường sức bền và sức khỏe.",
+        //     participants: 15,
+        //     createdate: "2024-12-01T08:00:00",
+        //   },
+        //   {
+        //     activityId: 2,
+        //     title: "Hoạt động bơi lội cuối tuần",
+        //     imageUrl: "",
+        //     description: "Trải nghiệm bơi lội cùng các vận động viên chuyên nghiệp.",
+        //     participants: 8,
+        //     createdate: "2024-11-25T14:30:00",
+        //   },
+        //   {
+        //     activityId: 3,
+        //     title: "Giải chạy marathon địa hình",
+        //     imageUrl: "",
+        //     description: "Thử sức với giải chạy marathon tại khu vực miền núi.",
+        //     participants: 20,
+        //     createdate: "2024-12-05T09:00:00",
+        //   },
+        // ]);
         setLoading(false);
         return;
       };
       try {
-        const response = await getOnGoingActivities(token);
+        const response = await getParticipatedActivities(token, user.empid);
         if (response.data) {
           console.log(response.data);
           setActivitiesData(response.data);
@@ -116,7 +115,7 @@ const ActivityParticipated = () => {
     }
 
     fetchData();
-  }, [token])
+  }, [getToken, user])
 
   const sortActivities = (activities) => {
     return activities.sort((a, b) => {
@@ -263,7 +262,7 @@ const ActivityParticipated = () => {
         {sortedActivities.map((activity, index) => (
           <Link
             to={`/${role}/activity/participated/${activity.activityId}`}
-            state={{ role: role, id: activity.activityId }}
+            state={{ role: role, activity: activity }}
             key={index}>
             <Activity
               key={index}

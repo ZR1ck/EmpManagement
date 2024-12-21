@@ -54,10 +54,10 @@ const ApproveActivity = () => {
   }
 
   useEffect(() => {
+    const token = getToken();
+    if (!token) return;
     const fetchData = async () => {
       try {
-        const token = getToken();
-        if (!token) return;
         if (user.empid) {
           const response = await getAllApprovalRequest(user.empid, token);
           if (response) {

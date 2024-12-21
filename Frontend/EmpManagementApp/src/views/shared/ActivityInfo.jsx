@@ -9,7 +9,7 @@ import { FaUserCheck } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/AuthProvider';
 import { getOnGoingActivities } from '../../api/activity';
-import { formatDate } from '../../utils/formatDate';
+import { formatDate, getLatestDate } from '../../utils/formatDate';
 import { fetchImage } from '../../utils/imageUtils';
 
 const Activity = ({ title, image, description, participants, date }) => {
@@ -64,11 +64,11 @@ const ActivityInfo = ({ role }) => {
   //   date: "2024-12-15",
   // }
   const { getToken } = useAuthContext();
-  const token = getToken();
 
   useEffect(() => {
+    const token = getToken();
+    if (!token) return;
     const fetchData = async () => {
-      if (!token) return;
       try {
         const response = await getOnGoingActivities(token);
         if (response.data) {
@@ -85,7 +85,7 @@ const ActivityInfo = ({ role }) => {
     }
 
     fetchData();
-  }, [token])
+  }, [getToken])
 
   const sortActivities = (activities) => {
     return activities.sort((a, b) => {

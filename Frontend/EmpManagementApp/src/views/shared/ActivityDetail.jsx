@@ -58,7 +58,7 @@ const ActivityDetail = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const { user, getToken } = useAuthContext()
-  const token = getToken();
+
   const [images, setImages] = useState([]);
 
   const fetchImages = async (urls) => {
@@ -73,8 +73,9 @@ const ActivityDetail = () => {
   }
 
   useEffect(() => {
+    const token = getToken();
+    if (!token) return;
     const fetchData = async () => {
-      if (!token) return;
       try {
         const response = await getActivityById(token, id)
         if (response.data) {
@@ -93,7 +94,7 @@ const ActivityDetail = () => {
 
     fetchData();
 
-  }, [token, id]);
+  }, [id, getToken]);
 
   // const handleInputChange = (e) => {
   //   const { name, value } = e.target;
@@ -113,6 +114,7 @@ const ActivityDetail = () => {
     formData.append("activityApproval", new Blob([JSON.stringify(data)], { type: "application/json" }));
 
     try {
+      const token = getToken();
       const response = await sendActivityApprovalRequest(token, formData);
 
       if (response.status === 409) {
@@ -164,18 +166,11 @@ const ActivityDetail = () => {
         <span className='w-full h-[1.2px] bg-gray-300'></span>
       </div>
       {/* Activity Detail */}
-      <div className='w-[1100px] flex flex-col gap-2 mt-4'>
+      <div className='w-full flex flex-col gap-2 mt-4'>
         <h1 className='font-inter text-[1.75rem] font-semibold'>
           {activityDetail.name}
         </h1>
-        <div className='flex flex-row items-center justify-between text-gray-medium'>
-          <div className='flex flex-row items-center gap-2'>
-            <p className='flex flex-row items-center gap-2'>
-              <RiEdit2Fill className='text-2xl' />
-              <span>Cập nhật lần cuối:</span>
-            </p>
-            <p>{formatDate(activityDetail.lastupdate)}</p>
-          </div>
+        <div className='flex flex-row items-center justify-end text-gray-medium'>
           <button
             className='flex flex-row items-center gap-2 bg-blue-medium text-white px-4 
           py-2 rounded-lg hover:bg-blue-600 transition-colors'

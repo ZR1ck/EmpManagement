@@ -7,3 +7,10 @@ export const formatDate = (dateString, type = 0) => {
   if (type === 1) return `${year}-${month}-${day}`;
   return `${year}/${month}/${day}`;
 }
+
+export const getLatestDate = (arr) => {
+  if (!arr || arr.length <= 0) return 'NaN';
+  return formatDate(arr.reduce((latest, current) => {
+      return Date.parse(current.updatedate) > Date.parse(latest.updatedate) ? current : latest;
+  }));
+};
