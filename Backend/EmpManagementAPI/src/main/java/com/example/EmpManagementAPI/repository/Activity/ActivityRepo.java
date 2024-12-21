@@ -16,7 +16,7 @@ public interface ActivityRepo extends JpaRepository<Activity, Integer> {
     @Query("SELECT a FROM Activity a WHERE a.enddate < CURRENT_DATE")
     List<Activity> findEndedActivity();
 
-    @Query("SELECT a.activityid, a.name, a.description, a.images, a.participantsnum, a.startdate, a.enddate, a.createdate " +
+    @Query("SELECT a.activityid, a.name, a.description, a.images, a.participantsnum, a.startdate, a.enddate, a.createdate, a.lastupdate " +
             "FROM Activity a WHERE a.enddate >= CURRENT_DATE")
     List<Object[]> findOngoingActivityDTO();
 
@@ -24,4 +24,9 @@ public interface ActivityRepo extends JpaRepository<Activity, Integer> {
     @Transactional
     @Query("UPDATE Activity a SET a.participantsnum = a.participantsnum + 1 WHERE a.activityid = :activityId ")
     int increaseParticipantsNum(@Param("activityId") int activityId);
+
+    @Query("SELECT a.activityid, a.name, a.description, a.images, a.participantsnum, a.startdate, a.enddate, a.createdate, a.lastupdate " +
+            "FROM Activity a JOIN ActivityApproval  aa ON a.activityid = aa.activityid " +
+            "WHERE a.enddate <= CURRENT_DATE AND aa.empid = :empID AND aa.approvalstatus = 'Approved' ")
+    List<Object[]> findParticipatedActivityDTO(String empID);
 }
