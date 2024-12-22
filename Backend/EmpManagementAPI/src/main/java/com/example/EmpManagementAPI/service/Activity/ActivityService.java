@@ -47,8 +47,21 @@ public class ActivityService {
 
     public List<ActivityDTO> getOnGoingActivitiesDTO(){
         List<Object[]> activitiesDTO = activityRepo.findOngoingActivityDTO();
+        return extractActivityDTO(activitiesDTO);
+    }
+
+    public Activity findActivityById(int id){
+        return activityRepo.findById(id).orElseThrow();
+    }
+
+    public List<ActivityDTO> getParticipatedActivitiesDTO(String empID){
+        List<Object[]> activitiesDTO = activityRepo.findParticipatedActivityDTO(empID);
+        return extractActivityDTO(activitiesDTO);
+    }
+
+    private List<ActivityDTO> extractActivityDTO(List<Object[]> activities){
         List<ActivityDTO> result = new ArrayList<>();
-        for (Object[] row : activitiesDTO) {
+        for (Object[] row : activities) {
             ActivityDTO activityDTO = new ActivityDTO();
             activityDTO.setActivityId((int) row[0]);
             activityDTO.setTitle(row[1].toString());
@@ -58,12 +71,9 @@ public class ActivityService {
             activityDTO.setStartdate((Date) row[5]);
             activityDTO.setEnddate((Date) row[6]);
             activityDTO.setCreatedate((Date) row[7]);
+            activityDTO.setUpdatedate((Date) row[8]);
             result.add(activityDTO);
         }
         return result;
-    }
-
-    public Activity findActivityById(int id){
-        return activityRepo.findById(id).orElseThrow();
     }
 }

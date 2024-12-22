@@ -19,4 +19,5 @@ public class ActivityDTO {
     private Date startdate;
     private Date enddate;
     private Date createdate;
+    private Date updatedate;
 }

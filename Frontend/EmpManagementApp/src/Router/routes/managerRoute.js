@@ -10,6 +10,8 @@ import ActivityInfo from "../../views/shared/ActivityInfo";
 import AccountContact from './../../views/employee/account-info/AccountContact';
 import ActivityDetail from "../../views/shared/ActivityDetail";
 import Reward from "../../views/manager/Reward";
+import ActivityParticipated from "../../views/shared/ActivityParticipated";
+import ActivityParticipatedDetail from "../../views/shared/ActivityParticipatedDetail";
 
 
 const managerRoutes = [
@@ -36,6 +38,16 @@ const managerRoutes = [
   {
     path: '/manager/activity',
     element: <ActivityInfo role="manager"/>,
+    role: 'manager',
+  },
+  {
+    path: '/manager/activity/participated',
+    element: <ActivityParticipated role="manager"/>,
+    role: 'manager',
+  },
+  {
+    path: '/manager/activity/participated/:id',
+    element: <ActivityParticipatedDetail role="manager"/>,
     role: 'manager',
   },
   {

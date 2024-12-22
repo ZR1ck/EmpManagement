@@ -97,4 +97,20 @@ public class ActivityController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/participated/{empId}")
+    public ResponseEntity<List<ActivityDTO>> getParticipatedActivities(@PathVariable("empId") String empId) {
+        try {
+            List<ActivityDTO> activities = activityService.getParticipatedActivitiesDTO(empId);
+            if (!activities.isEmpty()) {
+                return new ResponseEntity<>(activities, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

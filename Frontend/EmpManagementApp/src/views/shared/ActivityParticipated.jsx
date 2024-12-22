@@ -8,7 +8,7 @@ import swimming from './../../assets/swimming.jpg';
 import { FaUserCheck } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/AuthProvider';
-import { getOnGoingActivities } from '../../api/activity';
+import { getOnGoingActivities, getParticipatedActivities } from '../../api/activity';
 import { formatDate, getLatestDate } from '../../utils/formatDate';
 import { fetchImage } from '../../utils/imageUtils';
 
@@ -47,7 +47,7 @@ const Activity = ({ title, image, description, participants, date }) => {
   );
 };
 
-const ActivityInfo = ({ role }) => {
+const ActivityParticipated = ({ role }) => {
   const [sortDropdown, setSortDropdown] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
@@ -63,14 +63,44 @@ const ActivityInfo = ({ role }) => {
   //   participants: 15,
   //   date: "2024-12-15",
   // }
-  const { getToken } = useAuthContext();
+  const { user, getToken } = useAuthContext();
 
   useEffect(() => {
-    const token = getToken();
-    if (!token) return;
     const fetchData = async () => {
+      const token = getToken();
+      if (!token) {
+        // Sử dụng dữ liệu giả nếu không có token
+        // setActivitiesData([
+        //   {
+        //     activityId: 1,
+        //     title: "Thử thách đạp xe 100km",
+        //     imageUrl: "",
+        //     description: "Tham gia đạp xe 100km để tăng cường sức bền và sức khỏe.",
+        //     participants: 15,
+        //     createdate: "2024-12-01T08:00:00",
+        //   },
+        //   {
+        //     activityId: 2,
+        //     title: "Hoạt động bơi lội cuối tuần",
+        //     imageUrl: "",
+        //     description: "Trải nghiệm bơi lội cùng các vận động viên chuyên nghiệp.",
+        //     participants: 8,
+        //     createdate: "2024-11-25T14:30:00",
+        //   },
+        //   {
+        //     activityId: 3,
+        //     title: "Giải chạy marathon địa hình",
+        //     imageUrl: "",
+        //     description: "Thử sức với giải chạy marathon tại khu vực miền núi.",
+        //     participants: 20,
+        //     createdate: "2024-12-05T09:00:00",
+        //   },
+        // ]);
+        setLoading(false);
+        return;
+      };
       try {
-        const response = await getOnGoingActivities(token);
+        const response = await getParticipatedActivities(token, user.empid);
         if (response.data) {
           console.log(response.data);
           setActivitiesData(response.data);
@@ -85,7 +115,7 @@ const ActivityInfo = ({ role }) => {
     }
 
     fetchData();
-  }, [getToken])
+  }, [getToken, user])
 
   const sortActivities = (activities) => {
     return activities.sort((a, b) => {
@@ -155,8 +185,8 @@ const ActivityInfo = ({ role }) => {
         <div className='flex flex-row gap-12'>
           {/* Ongoing */}
           <Link to={`/${role}/activity`}>
-            <div className='flex flex-row w-56 items-center justify-between py-2 border-b-[2.4px] border-blue-500
-          cursor-pointer'>
+            <div className='flex flex-row w-56 items-center justify-between py-2 border-b-[2.4px] border-black
+            cursor-pointer hover:border-blue-medium hover:text-blue-600'>
               <p className='font-bold text-sm'>
                 ĐANG DIỄN RA
               </p>
@@ -177,7 +207,7 @@ const ActivityInfo = ({ role }) => {
           </div>
           {/* Participated */}
           <Link to={`/${role}/activity/participated`}>
-            <div className={`flex flex-row w-56 items-center justify-between py-2 border-b-[2.4px] border-black
+            <div className={`flex flex-row w-56 items-center justify-between py-2 border-b-[2.4px] border-blue-medium
             cursor-pointer hover:border-blue-medium hover:text-blue-600`}>
               <p className='font-bold text-sm'>
                 ĐÃ THAM GIA
@@ -230,7 +260,10 @@ const ActivityInfo = ({ role }) => {
       {/* Activity List */}
       <div className='grid grid-cols-5 gap-4 overflow-y-auto pt-2'>
         {sortedActivities.map((activity, index) => (
-          <Link to={`/${role}/activity/${activity.activityId}`} state={{ role: role, id: activity.activityId }} key={index}>
+          <Link
+            to={`/${role}/activity/participated/${activity.activityId}`}
+            state={{ role: role, activity: activity }}
+            key={index}>
             <Activity
               key={index}
               title={activity.title}
@@ -240,10 +273,11 @@ const ActivityInfo = ({ role }) => {
               date={formatDate(activity.createdate)}
             />
           </Link>
+
         ))}
       </div>
     </div>
   );
 };
 
-export default ActivityInfo;
+export default ActivityParticipated;

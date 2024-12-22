@@ -385,7 +385,19 @@ INSERT INTO Activity (Name, StartDate, EndDate, Location, Images, Description, R
  'A competitive coding event. Work with your team to solve the problems.', 
  'Code cleanly / Collaborate effectively / Meet deadlines', 
  'Best solution / Most creative approach', 
- '20pt / 10pt for second place', 0, '2024-10-02', '2024-10-02', 'E002', 'All Employees');
+ '20pt / 10pt for second place', 0, '2024-10-02', '2024-10-02', 'E002', 'All Employees'),
+
+ ('Basketball Competition 2023', '2023-11-01', '2023-11-02', 'Beach Resort', ARRAY['uploads/activities/basketball.png'], 
+ 'A fun team building event. A chance to improve team dynamics.', 
+ 'Follow the rules / Show sportsmanship / Support your teammates', 
+ 'Team spirit / Best player / Most improved player', 
+ '10pt / 5pt for MVP', 5, '2023-10-01', '2023-10-01', 'E001', 'All Employees'),
+
+ ('Basketball Competition 2022', '2022-11-01', '2022-11-02', 'Beach Resort', ARRAY['uploads/activities/basketball.png'], 
+ 'A fun team building event. A chance to improve team dynamics.', 
+ 'Follow the rules / Show sportsmanship / Support your teammates', 
+ 'Team spirit / Best player / Most improved player', 
+ '10pt / 5pt for MVP', 5, '2022-10-01', '2022-10-01', 'E001', 'All Employees');
 
 -- ActivityApproval
 INSERT INTO ActivityApproval (CreateDate, ApprovalStatus, ActivityID, EmpID) VALUES
@@ -400,13 +412,34 @@ INSERT INTO ActivityApproval (CreateDate, ApprovalStatus, ActivityID, EmpID) VAL
 ('2024-10-06', 'Pending', 3, 'E007'),
 ('2024-10-06', 'Pending', 4, 'E008'),
 ('2024-10-06', 'Pending', 4, 'E001'),
-('2024-10-06', 'Pending', 4, 'E004');
+('2024-10-06', 'Pending', 4, 'E004'),
+('2024-10-06', 'Approved', 7, 'E002'),
+('2024-10-06', 'Approved', 7, 'E003'),
+('2024-10-06', 'Approved', 7, 'E004'),
+('2024-10-06', 'Approved', 7, 'E005'),
+('2024-10-06', 'Approved', 7, 'E006'),
+('2024-10-06', 'Approved', 8, 'E002'),
+('2024-10-06', 'Approved', 8, 'E003'),
+('2024-10-06', 'Approved', 8, 'E004'),
+('2024-10-06', 'Approved', 8, 'E005'),
+('2024-10-06', 'Approved', 8, 'E006');
 
 -- Participations
 INSERT INTO Participations (EmpID, ActivityID, Score, Rank, Notes) VALUES
 ('E001', 1, 85, 1, 'Great performance'),
 ('E002', 1, 90, 1, 'Excellent teamwork'),
-('E003', 2, 75, 2, 'Good effort');
+('E003', 2, 75, 2, 'Good effort'),
+
+('E002', 7, 85, 2, 'Great performance'),
+('E003', 7, 70, 5, 'Excellent teamwork'),
+('E004', 7, 75, 4, 'Good effort'),
+('E005', 7, 80, 3, 'Great performance'),
+('E006', 7, 100, 1, 'Excellent teamwork'),
+('E002', 8, 60, 5, 'Great performance'),
+('E003', 8, 90, 1, 'Excellent teamwork'),
+('E004', 8, 75, 4, 'Good effort'),
+('E005', 8, 85, 3, 'Great performance'),
+('E006', 8, 90, 1, 'Excellent teamwork');
 
 -- RewardPoint
 INSERT INTO RewardPoint (EmpID, TotalPoint, LastUpdate) VALUES
