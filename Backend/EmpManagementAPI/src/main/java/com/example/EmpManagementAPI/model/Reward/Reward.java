@@ -17,8 +17,11 @@ public class Reward {
     @Id
     private int rewardid;
     private Date createdate;
+    private String title;
     private String description;
     private String rewardtype;
     private int total;
+    private String unit;
+    private String note;
 
 }

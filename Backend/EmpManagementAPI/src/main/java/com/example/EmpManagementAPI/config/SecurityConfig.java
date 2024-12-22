@@ -43,6 +43,7 @@ public class SecurityConfig {
                             corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                             corsConfig.setAllowedHeaders(List.of("*"));
                             corsConfig.setAllowCredentials(true);
+                            corsConfig.setExposedHeaders(List.of("Content-Type", "Content-Disposition"));
                             return corsConfig;
                         }))
                 .authorizeHttpRequests(request -> request

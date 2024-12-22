@@ -51,6 +51,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/io.github.cdimascio/dotenv-java
 	implementation("io.github.cdimascio:dotenv-java:3.0.2")
 
+	implementation("com.itextpdf:itextpdf:5.5.13.4")
+
 }
 
 tasks.withType<Test> {

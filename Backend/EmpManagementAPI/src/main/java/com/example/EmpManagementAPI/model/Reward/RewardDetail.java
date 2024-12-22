@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "rewarddetail")
 @AllArgsConstructor
@@ -18,6 +20,6 @@ public class RewardDetail {
     private int id;
     private int rewardid;
     private String empid;
-    private int point;
+    private Date dateawarded;
 
 }

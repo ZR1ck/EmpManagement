@@ -21,4 +21,6 @@ public interface EmpRepo extends JpaRepository<Emp, String> {
             "WHERE e.dept.deptno = :dept")
     List<Object[]> findEmpDTOByDept(@Param("dept") int dept);
 
+    Emp findByEmpid(String empid);
+
 }
