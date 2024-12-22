@@ -261,16 +261,19 @@ FOREIGN KEY (EmpID) REFERENCES Emp (EmpID);
 CREATE TABLE Reward (
 	RewardID serial primary key,
 	CreateDate date,
+	Title text,
 	Description text,
 	RewardType text,
-	Total int
+	Total int,
+	Unit text,
+	Note text
 );
 
 CREATE TABLE RewardDetail (
 	ID serial primary key,
 	RewardID int,
 	EmpID text,
-	Point int
+	DateAwarded date
 );
 
 ALTER TABLE RewardDetail
@@ -451,15 +454,17 @@ INSERT INTO RewardPoint (EmpID, TotalPoint, LastUpdate) VALUES
 ('E006', 80, '2024-10-01');
 
 -- Reward
-INSERT INTO Reward (CreateDate, Description, RewardType, Total) VALUES
-('2024-10-10', 'Gift Voucher', 'Gift', 10),
-('2024-10-11', 'Extra Leave', 'Leave', 5);
+INSERT INTO Reward (CreateDate, Title, Description, RewardType, Total, Unit, Note) VALUES
+('2024-10-10', 'Employee of Month', 'A 50% discount voucher for vending machine purchases awarded to the best employee of December 2024', 'Voucher', 1, 'Voucher', 'Reward given for outstanding performance in December 2024'),
+('2024-10-11', 'Empoyee of year Extra Leave', '2 days leave for best employee of 2024', 'Paid leave', 2, 'Days', 'Annual recognition for exceptional contribution in 2024'),
+('2024-10-11', 'Best football players', '100 points for the employees who achieved the highest score in the Football Competition 2024', 'Points', 100, 'Points', 'Acknowledgment of achievements in company sports event 2024');
 
 -- RewardDetail
-INSERT INTO RewardDetail (RewardID, EmpID, Point) VALUES
-(1, 'E001', 20),
-(1, 'E002', 30),
-(2, 'E003', 15),
-(1, 'E004', 20),
-(1, 'E005', 30),
-(2, 'E006', 15);
+INSERT INTO RewardDetail (RewardID, EmpID, DateAwarded) VALUES
+(1, 'E003', '2024-12-12'),
+(2, 'E004', '2024-12-13'),
+(3, 'E002', '2024-12-14'),
+(3, 'E003', '2024-12-14'),
+(3, 'E004', '2024-12-14'),
+(3, 'E005', '2024-12-14'),
+(1, 'E004', '2023-12-12');
