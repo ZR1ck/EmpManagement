@@ -1,14 +1,9 @@
 import React, { useState } from 'react'
-import ErrorPage from '../../components/Error';
-import LoadingScreen from '../../components/Loading';
-import { IoSearchCircleSharp, IoSearchSharp } from 'react-icons/io5';
+import { IoSearchSharp } from 'react-icons/io5';
 import RequestView from './Reward/RequestView';
 import ListView from './Reward/ListView';
 
 const RewardPage = () => {
-
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
 
     const [isListView, setIsListView] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -17,13 +12,17 @@ const RewardPage = () => {
         setIsListView(!isListView);
     }
 
+    const handleSearchTermChange = (e) => {
+        setSearchTerm(e.target.value);
+    }
+
     return (
         <div className='bg-white rounded-lg w-full h-full py-6 px-6 font-inter 
         flex flex-col gap-6 overflow-y-auto'>
             <div className='flex flex-row justify-between'>
                 {/* Header */}
                 <h1 className='font-semibold text-2xl text-gray-medium '>
-                    QUẢN LÍ KHEN THƯỞNG 
+                    QUẢN LÍ KHEN THƯỞNG
                 </h1>
                 <div className='flex flex-row gap-4'>
                     <button className={isListView ?
@@ -48,7 +47,7 @@ const RewardPage = () => {
                             placeholder='Tìm kiếm'
                             className='outline-none text-sm placeholder:text-sm w-[250px]'
                             value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onChange={handleSearchTermChange}
                         />
                     </div>
                 </div>
@@ -58,15 +57,9 @@ const RewardPage = () => {
                 <span className='w-full h-[1.4px] bg-gray-300'></span>
             </div>
 
-            {error ? (
-                <ErrorPage />
-            ) : loading ? (
-                <LoadingScreen />
-            ) : (
-                <div className='w-full h-full py-6 px-6 font-inter flex flex-col gap-6 overflow-y-auto'>
-                    {isListView ? <ListView /> : <RequestView />}
-                </div>
-            )}
+            <div className='w-full h-full py-6 px-6 font-inter flex flex-col gap-6 overflow-y-auto'>
+                {isListView ? <ListView searchTerm={searchTerm} /> : <RequestView />}
+            </div>
         </div>
     )
 }
