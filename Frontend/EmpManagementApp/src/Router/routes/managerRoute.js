@@ -12,79 +12,80 @@ import ActivityDetail from "../../views/shared/ActivityDetail";
 import Reward from "../../views/manager/Reward";
 import ActivityParticipated from "../../views/shared/ActivityParticipated";
 import ActivityParticipatedDetail from "../../views/shared/ActivityParticipatedDetail";
+import RewardPage from "../../views/manager/RewardPage";
 
 
 const managerRoutes = [
   {
     path: '/manager/home',
-    element: <Home/>,
+    element: <Home />,
     role: 'manager',
   },
   {
     path: '/manager/account/detail',
-    element: <AccountDetail role="manager"/>,
+    element: <AccountDetail role="manager" />,
     role: 'manager',
   },
   {
     path: '/manager/account/contact',
-    element: <AccountContact role="manager"/>,
+    element: <AccountContact role="manager" />,
     role: 'manager',
   },
   {
     path: '/manager/account/work',
-    element: <Work role="manager"/>,
+    element: <Work role="manager" />,
     role: 'manager',
   },
   {
     path: '/manager/activity',
-    element: <ActivityInfo role="manager"/>,
+    element: <ActivityInfo role="manager" />,
     role: 'manager',
   },
   {
     path: '/manager/activity/participated',
-    element: <ActivityParticipated role="manager"/>,
+    element: <ActivityParticipated role="manager" />,
     role: 'manager',
   },
   {
     path: '/manager/activity/participated/:id',
-    element: <ActivityParticipatedDetail role="manager"/>,
+    element: <ActivityParticipatedDetail role="manager" />,
     role: 'manager',
   },
   {
     path: '/manager/activity/add',
-    element: <AddActivity/>,
+    element: <AddActivity />,
     role: 'manager',
   },
   {
     path: '/manager/request',
-    element: <Request/>,
+    element: <Request />,
     role: 'manager'
   },
   {
     path: '/manager/employees',
-    element: <EmpInfo/>,
+    element: <EmpInfo />,
     role: 'manager',
   },
   {
     path: '/manager/employees/detail',
-    element: <Info/>,
+    element: <Info />,
     role: 'manager',
   },
   {
     path: '/manager/activity/:id',
-    element: <ActivityDetail/>,
+    element: <ActivityDetail />,
     role: 'manager',
   },
   {
     path: '/manager/activity/approval',
-    element: <ApproveActivity/>,
+    element: <ApproveActivity />,
     role: 'manager',
   },
-    {
-        path: '/manager/reward',
-        element: <Reward/>,
-        role: 'manager',
-    }
+  {
+    path: '/manager/reward',
+    element: <RewardPage />,
+    role: 'manager',
+  }
 ]
 
 export default managerRoutes

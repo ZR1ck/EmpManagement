@@ -113,6 +113,6 @@ export const allNav = [
     title: "Điểm thưởng",
     icon: <MdOutlineCreditScore/>,
     role: 'manager',
-    path: '/manager/reward-point',
+    path: '/manager/point',
   },
 ]
