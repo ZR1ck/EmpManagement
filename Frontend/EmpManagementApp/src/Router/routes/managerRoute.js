@@ -9,7 +9,6 @@ import Info from "../../views/manager/emp-info/Info";
 import ActivityInfo from "../../views/shared/ActivityInfo";
 import AccountContact from './../../views/employee/account-info/AccountContact';
 import ActivityDetail from "../../views/shared/ActivityDetail";
-import Reward from "../../views/manager/Reward";
 import ActivityParticipated from "../../views/shared/ActivityParticipated";
 import ActivityParticipatedDetail from "../../views/shared/ActivityParticipatedDetail";
 import RewardPage from "../../views/manager/RewardPage";
