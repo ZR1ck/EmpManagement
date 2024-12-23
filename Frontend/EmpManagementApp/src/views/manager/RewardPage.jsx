@@ -58,7 +58,7 @@ const RewardPage = () => {
             </div>
 
             <div className='w-full h-full py-6 px-6 font-inter flex flex-col gap-6 overflow-y-auto'>
-                {isListView ? <ListView searchTerm={searchTerm} /> : <RequestView />}
+                {isListView ? <ListView searchTerm={searchTerm.trim()} /> : <RequestView searchTerm={searchTerm.trim()}/>}
             </div>
         </div>
     )

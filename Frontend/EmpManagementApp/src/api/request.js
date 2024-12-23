@@ -47,6 +47,15 @@ const getRequestTypePath = (type) => {
     }
 }
 
+export const getRecognitionUpdateRequest = async (token, managerId) => {
+    return await axios.get(host + `api/requests/recognition?managerId=${managerId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+}
+
 export const downloadFile = async (urls, token) => {
     try {
         const promises = urls.map((url) =>
@@ -98,7 +107,7 @@ export const approveRequest = async (requests, status, token) => {
 }
 
 export const getLeaveDaysLeft = async (empId, currentYear, token) => {
-    return await axios.get(`http://localhost:8080/api/leaveTypes/${empId}/${currentYear}`, {
+    return await axios.get(host + `api/leaveTypes/${empId}/${currentYear}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -106,10 +115,31 @@ export const getLeaveDaysLeft = async (empId, currentYear, token) => {
 }
 
 export const sendLeaveRequest = async (isHalfDay, data, token) => {
-    return await axios.post(`http://localhost:8080/api/${!isHalfDay ? 'leaveRequest' : 'halfDayLeaveRequest'}`,
+    return await axios.post(host + `api/${!isHalfDay ? 'leaveRequest' : 'halfDayLeaveRequest'}`,
         data, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
+}
+
+export const approveRURequest = async (requests, status, token, reason = "") => {
+    for (let request of requests) {
+        const data = new FormData();
+        data.append("requestId", request);
+        data.append("status", status)
+        data.append("declineReason", reason);
+
+        const response = await axios.post(host + "api/RURequest/approve", data, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+
+        if (response.data) {
+            console.log(response.data);
+        } else {
+            console.error('Updated failed for: ', request.requestId);
+        }
+    }
 }

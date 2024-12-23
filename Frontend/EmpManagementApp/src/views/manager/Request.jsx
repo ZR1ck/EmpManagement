@@ -43,7 +43,7 @@ const Request = () => {
 
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
 
-  const { user } = useAuthContext();
+  const { user, getToken } = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -68,9 +68,10 @@ const Request = () => {
 
   useEffect(() => {
 
+    const token = getToken();
+    if (!token || !user) return;
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem('token');
         if (user.empid) {
           const response = await getAllRequest(user.empid, token);
           if (response) {
@@ -94,7 +95,7 @@ const Request = () => {
     fetchData();
 
 
-  }, [user, refresh]);
+  }, [getToken, user, refresh]);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -105,8 +106,8 @@ const Request = () => {
         filterData = data.filter((item) => item.approvalStatus === "Pending")
       }
 
-      if (searchTerm) {
-        setFilteredData(data.filter(item =>
+      if (searchTerm !== '' && filterData.length > 0) {
+        setFilteredData(filterData.filter(item =>
           item.empName.toLowerCase().includes(searchTerm.toLowerCase()) ||
           requestTypeConvert(item.source).toLowerCase().includes(searchTerm.toLowerCase()) ||
           item.createDate.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -214,7 +215,8 @@ const Request = () => {
     console.log("action: ", action);
 
     try {
-      const token = localStorage.getItem('token');
+      const token = getToken();
+      if (!token) return;
       const choosenObjs = data.filter(item => checkedItems.includes(item.id));
       if (action === 'approve') {
         await approveRequest(choosenObjs, "Approved", token)
@@ -283,7 +285,7 @@ const Request = () => {
               </div>
             </div>
             {/* Select */}
-            <div className='flex flex-row gap-4'>
+            {/* <div className='flex flex-row gap-4'>
               <button
                 className='border-gray-medium px-4 py-1 border-2 rounded-md text-sm 
             font-semibold text-gray-medium hover:bg-gray-200 transition-colors'
@@ -298,7 +300,7 @@ const Request = () => {
                 onClick={handleSelectAll}>
                 CHỌN TẤT CẢ
               </button>
-            </div>
+            </div> */}
           </div>
           {/* Request List */}
           <div className='overflow-y-auto max-h-[500px]'>
@@ -309,6 +311,7 @@ const Request = () => {
                     <input
                       type="checkbox"
                       className="form-checkbox h-4 w-4"
+                      disabled={isShowHistory}
                       checked={selectAll}
                       onChange={() => (selectAll ? handleDeselectAll() : handleSelectAll())} />
                   </th>

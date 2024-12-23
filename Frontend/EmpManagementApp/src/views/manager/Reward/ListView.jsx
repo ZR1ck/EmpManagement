@@ -119,7 +119,7 @@ const ListView = ({ searchTerm }) => {
     }, [fetchData])
 
     useEffect(() => {
-        if (searchTerm && data.length > 0) {
+        if (searchTerm !== '' && data.length > 0) {
             setFilteredData(data.filter(item =>
                 item.empName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 item.dateAwarded.toLowerCase().includes(searchTerm.toLowerCase())
@@ -187,7 +187,7 @@ const ListView = ({ searchTerm }) => {
                                     {columns.map((column) => (
                                         <th
                                             key={column.id}
-                                            className="p-2 cursor-pointer border-2 items-center "
+                                            className="p-2 cursor-pointer border-2 items-center border-gray-300"
                                             style={{ width: column.width }}
                                         >
                                             <div className={column.id === 3 ? "flex flex-row items-center justify-center" : "flex flex-row items-center justify-between"}>
