@@ -191,6 +191,25 @@ ALTER TABLE TimeAttendanceUpdateRequest
 ADD CONSTRAINT fk_request_record
 FOREIGN KEY (RecordID) REFERENCES AttendanceRecords (RecordID);
 
+CREATE TABLE RecognitionUpdateRequest (
+	RequestID serial primary key,
+	CreateDate date,
+	ApprovalStatus text,
+	Notes text,
+	AttachmentUrl text[],
+	Reason text,
+	DeclineReason text,
+
+	EmpID text,
+	ManagerID text
+);
+ALTER TABLE RecognitionUpdateRequest
+ADD CONSTRAINT fk_request_emp
+FOREIGN KEY (EmpID) REFERENCES Emp (EmpID);
+ALTER TABLE RecognitionUpdateRequest
+ADD CONSTRAINT fk_request_manager
+FOREIGN KEY (ManagerID) REFERENCES Emp (EmpID);
+
 CREATE TABLE Activity (
 	ActivityID serial primary key,
 	Name text,
@@ -347,6 +366,15 @@ INSERT INTO AttendanceRecords (AttendanceDate, CheckInTime, CheckOutTime, Status
 ('2024-10-28', '09:00:00', '17:00:00', 'Present', 'E004'),
 ('2024-10-28', '09:30:00', '17:30:00', 'Present', 'E005'),
 ('2024-10-28', '09:15:00', '17:15:00', 'Present', 'E006');
+
+-- RecognitionUpdateRequest
+INSERT INTO RecognitionUpdateRequest (CreateDate, ApprovalStatus, Notes, AttachmentUrl, Reason, DeclineReason, EmpID, ManagerID) VALUES 
+('2024-12-01', 'Pending', 'Request for update', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'Performance recognition', NULL, 'E003', 'E002'),
+('2024-12-02', 'Approved', 'Approved for recognition update', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'Outstanding performance', NULL, 'E004', 'E002'),
+('2024-12-03', 'Declined', 'Insufficient details provided', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'Recognition request denied', 'Details were insufficient', 'E005', 'E002'),
+('2024-12-04', 'Pending', 'Awaiting manager review', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'Project milestone achieved', NULL, 'E006', 'E001'),
+('2024-12-05', 'Approved', 'Recognition request approved', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'Exceptional leadership', NULL, 'E008', 'E001');
+
 
 INSERT INTO TimeAttendanceUpdateRequest (CreateDate, ApprovalStatus, Notes, AttachmentUrl, RecordID, EmpID, ManagerID) VALUES 
 ('2024-10-30', 'Pending', 'Request for attendance update.', ARRAY['uploads/requests/TAURequest1.txt', 'uploads/requests/TAURequest2.txt'], 3, 'E003', 'E002');
