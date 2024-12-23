@@ -1,6 +1,8 @@
 package com.example.EmpManagementAPI.controller;
 
+import com.example.EmpManagementAPI.EmpManagementApiApplication;
 import com.example.EmpManagementAPI.model.Request.*;
+import com.example.EmpManagementAPI.repository.Request.RURequestRepo;
 import com.example.EmpManagementAPI.service.Request.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,6 +46,9 @@ public class RequestController {
 
 	@Autowired
 	private RequestService requestService;
+
+	@Autowired
+	private RURequestService ruRequestService;
 
 	// Other Request
 	@PreAuthorize("hasAuthority('Manager')")
@@ -199,6 +204,12 @@ public class RequestController {
 		return multiRequestService.getAllRequests(managerId);
 	}
 
+	@PreAuthorize("hasAuthority('Manager')")
+	@GetMapping("/requests/recognition")
+	public ResponseEntity<?> getRecognitionRequest(@RequestParam("managerId") String managerId) {
+		return ruRequestService.getAllRequests(managerId);
+	}
+
 	/**
 	 * Controllers from here down perform actions to update the status of the requests
 	 * */
@@ -235,5 +246,12 @@ public class RequestController {
 	@PostMapping("/WFHRequest/approve")
 	public ResponseEntity<?> approveWFHRequest(@RequestPart("requestId") String id, @RequestPart("status") String status, @RequestPart("requestType") String requestType) {
 		return wfhRequestService.updateRequestStatus(id, status, requestType);
+	}
+
+	// For WFH RecognitionRequest
+	@PreAuthorize("hasAuthority('Manager')")
+	@PostMapping("/RURequest/approve")
+	public ResponseEntity<?> approveRURequest(@RequestPart("requestId") String id, @RequestPart("status") String status, @RequestPart(value = "declineReason", required = false) String declineReason) {
+		return ruRequestService.updateRequestStatus(id, status, declineReason);
 	}
 }

@@ -4,6 +4,7 @@ import com.example.EmpManagementAPI.DTO.RewardDTO;
 import com.example.EmpManagementAPI.service.Reward.RewardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,11 +17,13 @@ public class RewardController {
     @Autowired
     private RewardService rewardService;
 
+    @PreAuthorize("hasAuthority('Manager')")
     @GetMapping("/all")
     public ResponseEntity<List<RewardDTO>> getAll(@RequestParam("managerId") String managerId) {
         return rewardService.getReward(managerId);
     }
 
+    @PreAuthorize("hasAuthority('Manager')")
     @GetMapping("/date")
     public ResponseEntity<List<RewardDTO>> getRewardByDate(@RequestParam("year") String year, @RequestParam("month") String month, @RequestParam("managerId") String managerId) {
         return rewardService.getRewardByDate(managerId, year, month);
