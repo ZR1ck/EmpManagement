@@ -5,10 +5,7 @@ import com.example.EmpManagementAPI.model.Activity.Participations;
 import com.example.EmpManagementAPI.service.Activity.ParticipationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +24,11 @@ public class ParticipationController {
     @GetMapping("/leaderboard")
     public ResponseEntity<List<LeaderboardDTO>> getLeaderboard(@RequestParam("activityId") int activityId) {
         return participationService.getLeaderboardDTO(activityId);
+    }
+
+    @GetMapping("/participated-count/{empId}")
+    public ResponseEntity<Integer> countParticipated(@PathVariable String empId) {
+        return participationService.countParticipated(empId);
     }
 
 }

@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import com.example.EmpManagementAPI.DTO.EmpDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -75,5 +77,18 @@ public class EmpService {
 
             return new EmpDTO(empid, name, personalemail != null && !personalemail.isEmpty() ? personalemail.getFirst() : null, position, isActive, timeDifference);
         }).toList();
+    }
+
+    public ResponseEntity<Integer> countEmpByManager(String managerid) {
+        try {
+            int count = empRepo.countEmpByDept_Managerid(managerid);
+            if (count > 0) {
+                return new ResponseEntity<>(count, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

@@ -95,4 +95,9 @@ public class EmpController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/employee/count/{managerId}")
+    public ResponseEntity<Integer> getEmpCount(@PathVariable String managerId) {
+        return empService.countEmpByManager(managerId);
+    }
 }

@@ -42,4 +42,17 @@ public class ParticipationService {
         }
     }
 
+    public ResponseEntity<Integer> countParticipated(String empId) {
+        try {
+            int count = participationRepo.countByEmpid(empId);
+            if (count == 0) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(count, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

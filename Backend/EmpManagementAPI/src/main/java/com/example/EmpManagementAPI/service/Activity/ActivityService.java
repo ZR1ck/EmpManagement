@@ -1,10 +1,13 @@
 package com.example.EmpManagementAPI.service.Activity;
 
 import com.example.EmpManagementAPI.DTO.ActivityDTO;
+import com.example.EmpManagementAPI.DTO.ActivitySmDTO;
 import com.example.EmpManagementAPI.model.Activity.Activity;
 import com.example.EmpManagementAPI.repository.Activity.ActivityRepo;
 import com.example.EmpManagementAPI.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -75,5 +78,23 @@ public class ActivityService {
             result.add(activityDTO);
         }
         return result;
+    }
+
+    public ResponseEntity<List<ActivitySmDTO>> findActivitySmDTO() {
+        List<Object[]> activitiesDTO = activityRepo.findOngoingActivityDTO();
+        List<ActivitySmDTO> result = new ArrayList<>();
+        try {
+            for (Object[] row : activitiesDTO) {
+                ActivitySmDTO activitySmDTO = new ActivitySmDTO();
+                activitySmDTO.setActivityId((int) row[0]);
+                activitySmDTO.setActivityName((String) row[1]);
+                activitySmDTO.setImageUrl(((ArrayList<String>) row[3]).getFirst());
+                result.add(activitySmDTO);
+            }
+            return new ResponseEntity<>(result.size() > 3 ? result.subList(0, 3) : result, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

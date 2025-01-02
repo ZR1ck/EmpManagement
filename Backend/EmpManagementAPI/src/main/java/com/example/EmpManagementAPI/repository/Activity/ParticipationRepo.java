@@ -18,4 +18,6 @@ public interface ParticipationRepo extends JpaRepository<Participations, Integer
             "ORDER BY p.rank")
     List<LeaderboardDTO> getLeaderboardDTO(int activityid);
 
+    int countByEmpid(String empid);
+
 }

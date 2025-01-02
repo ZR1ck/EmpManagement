@@ -23,4 +23,6 @@ public interface EmpRepo extends JpaRepository<Emp, String> {
 
     Emp findByEmpid(String empid);
 
+    int countEmpByDept_Managerid(String managerid);
+
 }

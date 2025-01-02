@@ -3,6 +3,7 @@ package com.example.EmpManagementAPI.controller;
 import java.util.List;
 
 import com.example.EmpManagementAPI.DTO.ActivityDTO;
+import com.example.EmpManagementAPI.DTO.ActivitySmDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -111,6 +112,11 @@ public class ActivityController {
         catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/smDTO")
+    public ResponseEntity<List<ActivitySmDTO>> getActivityDTO() {
+        return activityService.findActivitySmDTO();
     }
 
 }
