@@ -346,17 +346,17 @@ INSERT INTO LeaveTypes (EmpID, Year, Annual, Marriage, Funeral, Sick, Unpaid) VA
 
 -- Request
 INSERT INTO Request (CreateDate, ApprovalStatus, Notes, AttachmentUrl, EmpID, ManagerID) VALUES
-('2024-10-01', 'Pending', 'Need approval for leave', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'E003', 'E002');
+('2025-01-01', 'Pending', 'Need approval for leave', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'E003', 'E002');
 
 -- WFHRequest
 INSERT INTO WFHRequest (CreateDate, ApprovalStatus, Notes, AttachmentUrl, StartDate, EndDate, Reason, EmpID, ManagerID) VALUES
-('2024-10-05', 'Approved', 'Work from home request', ARRAY['uploads/requests/WFHRequest1.txt'], '2025-10-10', '2025-10-12', 'Personal reasons', 'E004', 'E002'),
-('2024-10-06', 'Pending', 'Need to work from home', ARRAY['uploads/requests/WFHRequest2.txt'], '2025-10-15', '2025-10-17', 'Family matters', 'E003', 'E002');
+('2025-01-01', 'Approved', 'Work from home request', ARRAY['uploads/requests/WFHRequest1.txt'], '2025-10-10', '2025-10-12', 'Personal reasons', 'E004', 'E002'),
+('2025-01-01', 'Pending', 'Need to work from home', ARRAY['uploads/requests/WFHRequest2.txt'], '2025-10-15', '2025-10-17', 'Family matters', 'E003', 'E002');
 
 -- LeaveRequest
 INSERT INTO LeaveRequest (CreateDate, ApprovalStatus, Notes, AttachmentUrl, StartDate, EndDate, Reason, LeaveType, EmpID, ManagerID) VALUES
-('2024-10-03', 'Pending', 'Annual leave request', ARRAY['uploads/requests/LeaveRequest1.txt'], '2025-10-10', '2025-10-15', 'Vacation', 'Annual', 'E005', 'E002'),
-('2024-10-04', 'Approved', 'Sick leave request', ARRAY['uploads/requests/LeaveRequest2.txt'], '2025-10-06', '2025-10-07', 'Illness', 'Sick', 'E007', 'E002');
+('2025-01-01', 'Pending', 'Annual leave request', ARRAY['uploads/requests/LeaveRequest1.txt'], '2025-10-10', '2025-10-15', 'Vacation', 'Annual', 'E005', 'E002'),
+('2025-01-01', 'Approved', 'Sick leave request', ARRAY['uploads/requests/LeaveRequest2.txt'], '2025-10-06', '2025-10-07', 'Illness', 'Sick', 'E007', 'E002');
 
 -- AttendanceRecords
 INSERT INTO AttendanceRecords (AttendanceDate, CheckInTime, CheckOutTime, Status, EmpID) VALUES
@@ -365,19 +365,35 @@ INSERT INTO AttendanceRecords (AttendanceDate, CheckInTime, CheckOutTime, Status
 ('2024-10-28', '09:15:00', '17:15:00', 'Present', 'E003'),
 ('2024-10-28', '09:00:00', '17:00:00', 'Present', 'E004'),
 ('2024-10-28', '09:30:00', '17:30:00', 'Present', 'E005'),
-('2024-10-28', '09:15:00', '17:15:00', 'Present', 'E006');
+('2024-10-28', '09:15:00', '17:15:00', 'Present', 'E006'),
+
+('2025-01-01', NULL, NULL, 'Absent', 'E003'),
+('2025-01-02', '09:30:00', '17:30:00', 'Present', 'E003'),
+('2025-01-03', '09:15:00', '17:15:00', 'Present', 'E003'),
+('2025-01-04', '09:15:00', NULL, 'Present', 'E003'),
+
+('2025-01-01', NULL, NULL, 'Absent', 'E001'),
+('2025-01-02', '09:30:00', '17:30:00', 'Present', 'E001'),
+('2025-01-03', '09:15:00', '17:15:00', 'Present', 'E001'),
+('2025-01-04', '09:15:00', NULL, 'Present', 'E001'),
+
+('2025-01-01', '09:30:00', '17:30:00', 'Present', 'E001'),
+('2025-01-02', '09:30:00', '17:30:00', 'Present', 'E002'),
+('2025-01-03', '09:15:00', '17:15:00', 'Present', 'E002'),
+('2025-01-04', '09:15:00', NULL, 'Present', 'E002');
+
 
 -- RecognitionUpdateRequest
 INSERT INTO RecognitionUpdateRequest (CreateDate, ApprovalStatus, Notes, AttachmentUrl, Reason, DeclineReason, EmpID, ManagerID) VALUES 
-('2024-12-01', 'Pending', 'Request for update', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'Performance recognition', NULL, 'E003', 'E002'),
-('2024-12-02', 'Approved', 'Approved for recognition update', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'Outstanding performance', NULL, 'E004', 'E002'),
-('2024-12-03', 'Declined', 'Insufficient details provided', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'Recognition request denied', 'Details were insufficient', 'E005', 'E002'),
-('2024-12-04', 'Pending', 'Awaiting manager review', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'Project milestone achieved', NULL, 'E006', 'E001'),
-('2024-12-05', 'Approved', 'Recognition request approved', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'Exceptional leadership', NULL, 'E008', 'E001');
+('2025-01-01', 'Pending', 'Request for update', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'Performance recognition', NULL, 'E003', 'E002'),
+('2025-01-01', 'Approved', 'Approved for recognition update', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'Outstanding performance', NULL, 'E004', 'E002'),
+('2025-01-01', 'Declined', 'Insufficient details provided', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'Recognition request denied', 'Details were insufficient', 'E005', 'E002'),
+('2025-01-01', 'Pending', 'Awaiting manager review', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'Project milestone achieved', NULL, 'E006', 'E001'),
+('2025-01-01', 'Approved', 'Recognition request approved', ARRAY['uploads/requests/OtherRequest1.txt', 'uploads/requests/OtherRequest2.txt'], 'Exceptional leadership', NULL, 'E008', 'E001');
 
 
 INSERT INTO TimeAttendanceUpdateRequest (CreateDate, ApprovalStatus, Notes, AttachmentUrl, RecordID, EmpID, ManagerID) VALUES 
-('2024-10-30', 'Pending', 'Request for attendance update.', ARRAY['uploads/requests/TAURequest1.txt', 'uploads/requests/TAURequest2.txt'], 3, 'E003', 'E002');
+('2025-01-01', 'Pending', 'Request for attendance update.', ARRAY['uploads/requests/TAURequest1.txt', 'uploads/requests/TAURequest2.txt'], 3, 'E003', 'E002');
 
 
 -- Activity
@@ -388,7 +404,7 @@ INSERT INTO Activity (Name, StartDate, EndDate, Location, Images, Description, R
  'Team spirit / Best player / Most improved player', 
  '10pt / 5pt for MVP', 3, '2024-10-01', '2024-10-01', 'E001', 'All Employees'),
 
-('Ping Pong Competition', '2024-11-15', '2025-11-16', 'Tech Center', ARRAY['uploads/activities/ping.png'], 
+('Ping Pong Competition', '2024-11-15', '2024-11-16', 'Tech Center', ARRAY['uploads/activities/ping.png'], 
  'A competitive event. Show your skills and compete for the top spot.', 
  'Follow the rules / Respect opponents', 
  'Best solution / Fastest response', 
@@ -436,7 +452,7 @@ INSERT INTO ActivityApproval (CreateDate, ApprovalStatus, ActivityID, EmpID) VAL
 ('2024-10-05', 'Approved', 1, 'E005'),
 ('2024-10-05', 'Approved', 1, 'E004'),
 ('2024-10-06', 'Pending', 2, 'E002'),
-('2024-10-06', 'Pending', 2, 'E003'),
+('2024-10-06', 'Approved', 2, 'E003'),
 ('2024-10-06', 'Pending', 2, 'E004'),
 ('2024-10-06', 'Pending', 3, 'E005'),
 ('2024-10-06', 'Pending', 3, 'E006'),
