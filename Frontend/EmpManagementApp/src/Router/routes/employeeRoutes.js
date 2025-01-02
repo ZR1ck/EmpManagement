@@ -12,7 +12,7 @@ import AccountContact from './../../views/employee/account-info/AccountContact';
 const employeeRoutes = [
   {
     path: '/employee/home',
-    element: <Home/>,
+    element: <Home role="employee"/>,
     role: 'employee',
   },
   {
@@ -31,7 +31,7 @@ const employeeRoutes = [
     role: 'employee',
   },
   {
-    path: '/employee/form',
+    path: '/employee/request',
     element: <RequestForm/>,
     role: 'employee',
   },

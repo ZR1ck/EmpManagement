@@ -1,5 +1,11 @@
+import { isTokenExpired } from "./tokenUtils";
+
 export const fetchImage = async (url) => {
     const token = localStorage.getItem('token');
+    if (!token || isTokenExpired(token)) {
+        console.log("Token expired");
+        return null;
+    }
     const response = await fetch(url, {
         headers: {
             'Authorization': `Bearer ${token}`

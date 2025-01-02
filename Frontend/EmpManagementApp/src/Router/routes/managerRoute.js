@@ -17,7 +17,7 @@ import RewardPage from "../../views/manager/RewardPage";
 const managerRoutes = [
   {
     path: '/manager/home',
-    element: <Home />,
+    element: <Home role="manager" />,
     role: 'manager',
   },
   {

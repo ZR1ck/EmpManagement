@@ -28,7 +28,7 @@ export const allNav = [
     title: "Đơn yêu cầu",
     icon: <FaWpforms/>,
     role: 'employee',
-    path: '/employee/form',
+    path: '/employee/request',
   },
   {
     id: 4,
