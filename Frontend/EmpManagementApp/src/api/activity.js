@@ -98,3 +98,19 @@ export const getLeaderboard = async (token, activityid) => {
         }
     })
 }
+
+export const countParticipatedActivities = async (empid, token) => {
+    return await axios.get(host + `api/participation/participated-count/${empid}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
+}
+
+export const getTempActivities = async (token) => {
+    return await axios.get(host + `api/activity/smDTO`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
+}

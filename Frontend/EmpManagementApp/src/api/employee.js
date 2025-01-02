@@ -18,3 +18,11 @@ export const getEmployeeByDept = async (deptno, token) => {
         }
     });
 }
+
+export const countEmpByManager = async (managerId, token) => {
+    return await axios.get(host + `api/employee/count/${managerId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
