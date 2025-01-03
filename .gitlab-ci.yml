@@ -6,7 +6,7 @@ default:
     - docker info
 
 stages:
-  # - build-frontend
+  - build-frontend
   - build-backend
   - deploy-backend
 
@@ -16,13 +16,14 @@ variables:
   POSTGRES_PASSWORD: ${DB_PASSWORD}
   POSTGRES_HOST: ${END_POINT}
 
-# build-frontend:
-#   stage: build-frontend
-#   image: node:20.16-alpine
-#   script:
-#     - cd Frontend/EmpManagementApp
-#     - npm install
-#     - CI=false npm run build
+build-frontend:
+  stage: build-frontend
+  script:
+    - echo "Building the frontend..."
+    - cd Frontend/EmpManagementApp
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker build -t duydang812/emp_management_fe:$CI_COMMIT_SHA .
+    - docker push duydang812/emp_management_fe:$CI_COMMIT_SHA
   # artifacts:
   #   paths:
   #     - Frontend/EmpManagementApp/build
