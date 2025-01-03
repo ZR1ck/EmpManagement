@@ -1,45 +1,52 @@
+default:
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  before_script:
+    - docker info
+
 stages:
-  - build-frontend
+  # - build-frontend
   - build-backend
-  # - deploy
-
-
-services:
-  - name: postgres:latest
-    alias: postgres
+  - deploy-backend
 
 variables:
   POSTGRES_DB: empmanagement
   POSTGRES_USER: ${DB_USERNAME}
   POSTGRES_PASSWORD: ${DB_PASSWORD}
+  POSTGRES_HOST: ${RDS_ENDPOINT}
 
-build-frontend:
-  stage: build-frontend
-  image: node:20.16-alpine
-  script:
-    - cd Frontend/EmpManagementApp
-    - npm install
-    - CI=false npm run build
+# build-frontend:
+#   stage: build-frontend
+#   image: node:20.16-alpine
+#   script:
+#     - cd Frontend/EmpManagementApp
+#     - npm install
+#     - CI=false npm run build
   # artifacts:
   #   paths:
   #     - Frontend/EmpManagementApp/build
 
 build-backend:
   stage: build-backend
-  image: gradle:8.11.1-jdk21-alpine
   script:
+    - echo "Building the backend..."
     - cd Backend/EmpManagementAPI
-    - gradle clean build
+    - echo "duydang20031501" | docker login -u "duydangtr4@gmail.com" --password-stdin
+    - docker build -t duydang812/emp_management:$CI_COMMIT_SHA .
+    - docker push duydang812/emp_management:$CI_COMMIT_SHA
   # artifacts:
   #   paths:
   #     - Backend/EmpManagementAPI/build/libs/*.jar
 
-
-
-# deploy:
-#   stage: deploy
-#   script:
-#     - echo "Deploying front-end..."
-#     - scp -r FEEComApp/build/* user@server:/var/www/html
-#     - echo "Deploying back-end..."
-#     - scp EComApp/target/*.jar user@server:/path/to/backend
+deploy_backend:
+  stage: deploy-backend
+  script:
+    - echo "Deploying the backend..."
+    - docker pull duydang812/emp_management:$CI_COMMIT_SHA
+    - docker rm -f emp-management-container
+    - docker run -d -p 8080:8080 --name emp-management-container duydang812/emp_management:$CI_COMMIT_SHA
+  tags:
+    - ec2-runner
+  only:
+    - deploy-to-ec2

@@ -47,7 +47,7 @@ public class SecurityConfig {
                             return corsConfig;
                         }))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("register", "login")
+                        .requestMatchers("register", "login", "test")
                         .permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
