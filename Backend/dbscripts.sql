@@ -490,25 +490,25 @@ INSERT INTO Participations (EmpID, ActivityID, Score, Rank, Notes) VALUES
 
 -- RewardPoint
 INSERT INTO RewardPoint (EmpID, TotalPoint, LastUpdate) VALUES
-('E001', 100, '2024-10-01'),
-('E002', 150, '2024-10-01'),
-('E003', 80, '2024-10-01'),
-('E004', 100, '2024-10-01'),
-('E005', 150, '2024-10-01'),
-('E006', 80, '2024-10-01');
+('E001', 100, '2025-01-01'),
+('E002', 150, '2025-01-01'),
+('E003', 80, '2025-01-01'),
+('E004', 100, '2025-01-01'),
+('E005', 150, '2025-01-01'),
+('E006', 80, '2025-01-01');
 
 -- Reward
 INSERT INTO Reward (CreateDate, Title, Description, RewardType, Total, Unit, Note) VALUES
-('2024-10-10', 'Employee of Month', 'A 50% discount voucher for vending machine purchases awarded to the best employee of December 2024', 'Voucher', 1, 'Voucher', 'Reward given for outstanding performance in December 2024'),
-('2024-10-11', 'Empoyee of year Extra Leave', '2 days leave for best employee of 2024', 'Paid leave', 2, 'Days', 'Annual recognition for exceptional contribution in 2024'),
-('2024-10-11', 'Best football players', '100 points for the employees who achieved the highest score in the Football Competition 2024', 'Points', 100, 'Points', 'Acknowledgment of achievements in company sports event 2024');
+('2025-01-01', 'Employee of Month', 'A 50% discount voucher for vending machine purchases awarded to the best employee of December 2024', 'Voucher', 1, 'Voucher', 'Reward given for outstanding performance in December 2024'),
+('2025-01-01', 'Empoyee of year Extra Leave', '2 days leave for best employee of 2024', 'Paid leave', 2, 'Days', 'Annual recognition for exceptional contribution in 2024'),
+('2025-01-01', 'Best football players', '100 points for the employees who achieved the highest score in the Football Competition 2024', 'Points', 100, 'Points', 'Acknowledgment of achievements in company sports event 2024');
 
 -- RewardDetail
 INSERT INTO RewardDetail (RewardID, EmpID, DateAwarded) VALUES
-(1, 'E003', '2024-12-12'),
-(2, 'E004', '2024-12-13'),
-(3, 'E002', '2024-12-14'),
-(3, 'E003', '2024-12-14'),
-(3, 'E004', '2024-12-14'),
-(3, 'E005', '2024-12-14'),
-(1, 'E004', '2023-12-12');
+(1, 'E003', '2025-01-01'),
+(2, 'E004', '2025-01-01'),
+(3, 'E002', '2025-01-01'),
+(3, 'E003', '2025-01-01'),
+(3, 'E004', '2025-01-01'),
+(3, 'E005', '2025-01-01'),
+(1, 'E004', '2025-01-01');
