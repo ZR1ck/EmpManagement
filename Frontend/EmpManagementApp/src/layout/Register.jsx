@@ -9,12 +9,14 @@ function Login() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
+    const host = process.env.REACT_APP_API_URL;
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('EmpId:', empid, 'Username:', username, 'Password:', password);
 
         try {
-            const response = await axios.post('http://localhost:8080/register', {
+            const response = await axios.post(host + 'register', {
                 empid,
                 username,
                 password,

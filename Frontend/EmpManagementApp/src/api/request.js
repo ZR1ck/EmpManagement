@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = "http://localhost:8080/" //process.env.REACT_APP_API_URL;
+const host = process.env.REACT_APP_API_URL;
 
 export const getAllRequest = async (id, token) => {
     if (!id) {

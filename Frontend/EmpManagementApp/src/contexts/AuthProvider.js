@@ -11,6 +11,8 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const host = process.env.REACT_APP_API_URL;
+
 
     const login = (token) => {
         localStorage.setItem('token', token);
@@ -40,7 +42,7 @@ export const AuthProvider = ({ children }) => {
 
             const fetchUserData = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:8080/api/employee/${empId}`, {
+                    const response = await axios.get(host + `api/employee/${empId}`, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
@@ -62,7 +64,7 @@ export const AuthProvider = ({ children }) => {
             logout();
             setLoading(false);
         }
-    }, [isAuthenticated]);
+    }, [isAuthenticated, host]);
 
     return (
         <AuthContext.Provider value={{ isAuthenticated, user, loading, error, login, logout, getToken }}>

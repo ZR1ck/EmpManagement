@@ -10,12 +10,14 @@ function Login() {
     const navigate = useNavigate();
     const { login } = useAuthContext();
 
+    const host = process.env.REACT_APP_API_URL;
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
 
         try {
-            const response = await axios.post('http://localhost:8080/login', {
+            const response = await axios.post(host + 'login', {
                 username,
                 password,
             });

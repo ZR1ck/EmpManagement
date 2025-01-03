@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = "http://localhost:8080/"
+const host = process.env.REACT_APP_API_URL;
 
 export const getReward = async (token, year = '', month = '', managerId) => {
 
