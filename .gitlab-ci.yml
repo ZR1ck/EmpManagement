@@ -49,7 +49,7 @@ deploy-frontend:
     - docker rm -f emp-management-fe-container
     - docker run -d -p 3000:3000 --name emp-management-fe-container duydang812/emp_management_fe:$CI_COMMIT_SHA
   tags:
-    - ec2-runner
+    - ec2-runner-2
 
 deploy_backend:
   stage: deploy-backend
