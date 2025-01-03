@@ -6,10 +6,8 @@ default:
     - docker info
 
 stages:
-  - build-frontend
-  - build-backend
-  - deploy-frontend
-  - deploy-backend
+  - build
+  - deploy
 
 variables:
   POSTGRES_DB: empmanagement
@@ -18,7 +16,7 @@ variables:
   POSTGRES_HOST: ${END_POINT}
 
 build-frontend:
-  stage: build-frontend
+  stage: build
   script:
     - echo "Building the frontend..."
     - cd Frontend/EmpManagementApp
@@ -30,7 +28,7 @@ build-frontend:
   #     - Frontend/EmpManagementApp/build
 
 build-backend:
-  stage: build-backend
+  stage: build
   script:
     - echo "Building the backend..."
     - cd Backend/EmpManagementAPI
@@ -42,7 +40,7 @@ build-backend:
   #     - Backend/EmpManagementAPI/build/libs/*.jar
 
 deploy-frontend:
-  stage: deploy-frontend
+  stage: deploy
   script:
     - echo "Deploying the frontend..."
     - docker pull duydang812/emp_management_fe:$CI_COMMIT_SHA
@@ -52,7 +50,7 @@ deploy-frontend:
     - ec2-runner-2
 
 deploy_backend:
-  stage: deploy-backend
+  stage: deploy
   script:
     - echo "Deploying the backend..."
     - docker pull duydang812/emp_management:$CI_COMMIT_SHA
