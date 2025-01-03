@@ -5,12 +5,10 @@ default:
   before_script:
     - docker info
 
-
 stages:
-  - build-frontend
+  # - build-frontend
   - build-backend
   - deploy-backend
-
 
 variables:
   POSTGRES_DB: empmanagement
@@ -18,13 +16,13 @@ variables:
   POSTGRES_PASSWORD: ${DB_PASSWORD}
   POSTGRES_HOST: ${RDS_ENDPOINT}
 
-build-frontend:
-  stage: build-frontend
-  image: node:20.16-alpine
-  script:
-    - cd Frontend/EmpManagementApp
-    - npm install
-    - CI=false npm run build
+# build-frontend:
+#   stage: build-frontend
+#   image: node:20.16-alpine
+#   script:
+#     - cd Frontend/EmpManagementApp
+#     - npm install
+#     - CI=false npm run build
   # artifacts:
   #   paths:
   #     - Frontend/EmpManagementApp/build
@@ -37,12 +35,9 @@ build-backend:
     - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
     - docker build -t duydangtr/emp_management:$CI_COMMIT_SHA .
     - docker push duydangtr/emp_management:$CI_COMMIT_SHA
-
   # artifacts:
   #   paths:
   #     - Backend/EmpManagementAPI/build/libs/*.jar
-
-
 
 deploy_backend:
   stage: deploy-backend
@@ -55,4 +50,3 @@ deploy_backend:
     - ec2-runner
   only:
     - deploy-to-ec2
-
