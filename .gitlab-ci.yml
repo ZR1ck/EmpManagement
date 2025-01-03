@@ -32,7 +32,7 @@ build-backend:
   script:
     - echo "Building the backend..."
     - cd Backend/EmpManagementAPI
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - echo "duydang20031501" | docker login -u "duydangtr4@gmail.com" --password-stdin
     - docker build -t duydang812/emp_management:$CI_COMMIT_SHA .
     - docker push duydang812/emp_management:$CI_COMMIT_SHA
   # artifacts:
