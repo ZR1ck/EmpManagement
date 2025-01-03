@@ -331,12 +331,12 @@ WHERE DeptNo = 2;
 -- LeaveTypes
 INSERT INTO LeaveTypes (EmpID, Year, Annual, Marriage, Funeral, Sick, Unpaid) VALUES
 ('E001', 2023, 10, 0, 0, 5, 2),
-('E001', 2024, 10, 0, 0, 5, 2),
-('E002', 2024, 12, 1, 0, 3, 1),
-('E003', 2024, 8, 0, 1, 4, 0),
-('E004', 2024, 10, 0, 0, 5, 2),
-('E005', 2024, 12, 1, 0, 3, 1),
-('E006', 2024, 8, 0, 1, 4, 0);
+('E001', 2025, 10, 0, 0, 5, 2),
+('E002', 2025, 12, 1, 0, 3, 1),
+('E003', 2025, 8, 0, 1, 4, 0),
+('E004', 2025, 10, 0, 0, 5, 2),
+('E005', 2025, 12, 1, 0, 3, 1),
+('E006', 2025, 8, 0, 1, 4, 0);
 
 -- Account
 -- INSERT INTO Account (EmpID, Username, Password, Role, CreateDate, LastUpdate, IsActive) VALUES
