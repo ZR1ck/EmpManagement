@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BsLightningChargeFill } from "react-icons/bs";
 import { FaCalendarAlt } from "react-icons/fa";
-import { Link, useLocation} from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FaArrowRight } from "react-icons/fa";
 import { formatDate } from '../../utils/formatDate';
 import { AiOutlineMinus } from "react-icons/ai";
@@ -109,8 +109,14 @@ const ActivityParticipatedDetail = ({ role }) => {
         if (response.data) {
           // console.log(response.data);
           setLeaderboard(response.data);
-          if (response.data.length > 0) {
+          if (response.data.length >= 3) {
             fetchImages([response.data[0].avatarUrl, response.data[1].avatarUrl, response.data[2].avatarUrl]);
+          }
+          else if (response.data.length === 2) {
+            fetchImages([response.data[0].avatarUrl, response.data[1].avatarUrl]);
+          }
+          else if (response.data.length === 1) {
+            fetchImages([response.data[0].avatarUrl]);
           }
           setLeaderboardError(false);
           setLeaderboardError(null);
@@ -200,74 +206,80 @@ const ActivityParticipatedDetail = ({ role }) => {
         {/* Top 3 chart */}
         <div className='flex flex-row gap-8 items-end'>
           {/* Top 3 */}
-          <div className='flex flex-col items-center'>
-            <div className='w-24 h-24 bg-gray-400 rounded-full'>
-              <img src={images[2] || avatar} className='w-full h-full rounded-full' alt='img-top3' onError={(e) => e.target.src = avatar} />
-            </div>
-            <span className='font-inter font-semibold bg-[#203C84] px-4 text-white 
+          {leaderboard && leaderboard[2] && (
+            <div className='flex flex-col items-center'>
+              <div className='w-24 h-24 bg-gray-400 rounded-full'>
+                <img src={images[2] || avatar} className='w-full h-full rounded-full' alt='img-top3' onError={(e) => e.target.src = avatar} />
+              </div>
+              <span className='font-inter font-semibold bg-[#203C84] px-4 text-white 
             rounded-full py-1 mt-[-25px] text-sm flex justify-center items-center'>
-              {leaderboard[2].empName}
-            </span>
-            <div className='bg-blue-medium w-full h-[250px] mt-4 rounded-xl flex flex-col 
+                {leaderboard[2].empName ? leaderboard[2].empName : 'Loading...'}
+              </span>
+              <div className='bg-blue-medium w-full h-[250px] mt-4 rounded-xl flex flex-col 
             justify-center items-center gap-1'>
-              <img
-                src={medal3}
-                alt='img-top3'
-                className='w-16' />
-              <span className='text-white font-bold text-[2.5rem] leading-none'>
-                {leaderboard[2].score}
-              </span>
-              <span className='text-white font-bold text-lg'>
-                Điểm
-              </span>
+                <img
+                  src={medal3}
+                  alt='img-top3'
+                  className='w-16' />
+                <span className='text-white font-bold text-[2.5rem] leading-none'>
+                  {leaderboard[2].score ? leaderboard[2].score : 'Loading...'}
+                </span>
+                <span className='text-white font-bold text-lg'>
+                  Điểm
+                </span>
+              </div>
             </div>
-          </div>
+          )}
           {/* Top 1 */}
-          <div className='flex flex-col items-center'>
-            <div className='w-24 h-24 bg-gray-400 rounded-full'>
-              <img src={images[0] || avatar} className='w-full h-full rounded-full' alt='img-top3' onError={(e) => e.target.src = avatar} />
-            </div>
-            <span className='font-inter font-semibold bg-[#203C84] px-4 text-white 
+          {leaderboard && leaderboard[0] && (
+            <div className='flex flex-col items-center'>
+              <div className='w-24 h-24 bg-gray-400 rounded-full'>
+                <img src={images[0] || avatar} className='w-full h-full rounded-full' alt='img-top3' onError={(e) => e.target.src = avatar} />
+              </div>
+              <span className='font-inter font-semibold bg-[#203C84] px-4 text-white 
             rounded-full py-1 mt-[-25px] text-sm min-w-[130px] flex justify-center items-center'>
-              {leaderboard[0].empName}
-            </span>
-            <div className='bg-blue-medium w-full h-[400px] mt-4 rounded-xl flex flex-col 
+                {leaderboard[0].empName ? leaderboard[0].empName : 'Loading...'}
+              </span>
+              <div className='bg-blue-medium w-full h-[400px] mt-4 rounded-xl flex flex-col 
             items-center'>
-              <img
-                src={medal1}
-                alt='img-top3'
-                className='w-16 mt-16' />
-              <span className='text-white font-bold text-[2.5rem] leading-none mt-8'>
-                {leaderboard[0].score}
-              </span>
-              <span className='text-white font-bold text-lg'>
-                Điểm
-              </span>
+                <img
+                  src={medal1}
+                  alt='img-top3'
+                  className='w-16 mt-16' />
+                <span className='text-white font-bold text-[2.5rem] leading-none mt-8'>
+                  {leaderboard[0].score ? leaderboard[0].score : 'Loading...'}
+                </span>
+                <span className='text-white font-bold text-lg'>
+                  Điểm
+                </span>
+              </div>
             </div>
-          </div>
+          )}
           {/* Top 2 */}
-          <div className='flex flex-col items-center'>
-            <div className='w-24 h-24 bg-gray-400 rounded-full'>
-              <img src={images[1] || avatar} className='w-full h-full rounded-full' alt='img-top3' onError={(e) => e.target.src = avatar} />
-            </div>
-            <span className='font-inter font-semibold bg-[#203C84] px-4 text-white 
+          {leaderboard && leaderboard[1] && (
+            <div className='flex flex-col items-center'>
+              <div className='w-24 h-24 bg-gray-400 rounded-full'>
+                <img src={images[1] || avatar} className='w-full h-full rounded-full' alt='img-top3' onError={(e) => e.target.src = avatar} />
+              </div>
+              <span className='font-inter font-semibold bg-[#203C84] px-4 text-white 
             rounded-full py-1 mt-[-25px] text-sm min-w-[120px] flex justify-center items-center'>
-              {leaderboard[1].empName}
-            </span>
-            <div className='bg-blue-medium w-full h-[300px] mt-4 rounded-xl flex flex-col 
+                {leaderboard[1].empName ? leaderboard[1].empName : 'Loading...'}
+              </span>
+              <div className='bg-blue-medium w-full h-[300px] mt-4 rounded-xl flex flex-col 
             justify-center items-center gap-1'>
-              <img
-                src={medal2}
-                alt='img-top3'
-                className='w-16' />
-              <span className='text-white font-bold text-[2.5rem] leading-none'>
-                {leaderboard[1].score}
-              </span>
-              <span className='text-white font-bold text-lg'>
-                Điểm
-              </span>
+                <img
+                  src={medal2}
+                  alt='img-top3'
+                  className='w-16' />
+                <span className='text-white font-bold text-[2.5rem] leading-none'>
+                  {leaderboard[1].score ? leaderboard[1].score : 'Loading...'}
+                </span>
+                <span className='text-white font-bold text-lg'>
+                  Điểm
+                </span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         {/* Ranking */}
         <div className='border-2 w-[600px] h-[500px] border-gray-medium rounded-lg px-4 overflow-y-auto'>
@@ -283,10 +295,10 @@ const ActivityParticipatedDetail = ({ role }) => {
             <tbody>
               {leaderboard.map((entry, index) => (
                 <tr key={index} className='hover:bg-gray-100 border-b-2 border-gray-400'>
-                  <td className='text-center align-middle py-3'>{entry.rank}</td>
-                  <td className='text-center align-middle py-3'>{entry.empName}</td>
-                  <td className='text-center align-middle py-3'>{entry.deptName}</td>
-                  <td className='text-center align-middle py-3'>{entry.score}</td>
+                  <td className='text-center align-middle py-3'>{entry.rank ? entry.rank : 'Loading...'}</td>
+                  <td className='text-center align-middle py-3'>{entry.empName ? entry.empName : 'Loading...'}</td>
+                  <td className='text-center align-middle py-3'>{entry.deptName ? entry.deptName : 'Loading...'}</td>
+                  <td className='text-center align-middle py-3'>{entry.score ? entry.score : 'Loading...'}</td>
                 </tr>
               ))}
             </tbody>

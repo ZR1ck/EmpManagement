@@ -105,7 +105,6 @@ const RequestView = ({ searchTerm }) => {
                 setFilteredData(filterData.filter(item =>
                     item.empName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                     formatDate(item.createDate).toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    item.requestInfo.toLowerCase().includes(searchTerm.toLowerCase()) ||
                     statusConvert(item.approvalStatus).toLowerCase().includes(searchTerm.toLowerCase())
                 ));
             } else {
@@ -298,7 +297,7 @@ const RequestView = ({ searchTerm }) => {
                         onClick={() => {
                             setApprovalStatus("Declined")
                             handleDecline();
-                            }}>
+                        }}>
                         TỪ CHỐI
                     </button>
                     <button
