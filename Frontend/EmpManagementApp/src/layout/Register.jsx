@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+const host = process.env.REACT_APP_API_URL;
+
 function Login() {
     const [empid, setEmpid] = useState('');
     const [username, setUsername] = useState('');
@@ -9,7 +11,6 @@ function Login() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const host = process.env.REACT_APP_API_URL;
 
     const handleSubmit = async (e) => {
         e.preventDefault();

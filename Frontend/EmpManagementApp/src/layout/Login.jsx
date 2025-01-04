@@ -3,14 +3,14 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthProvider';
 
+const host = process.env.REACT_APP_API_URL;
+
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const { login } = useAuthContext();
-
-    const host = process.env.REACT_APP_API_URL;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
