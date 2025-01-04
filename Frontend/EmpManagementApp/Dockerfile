@@ -13,6 +13,10 @@ RUN npm install
 # Copy the rest of the app's source code
 COPY . .
 
+# Chấp nhận biến môi trường từ CI/CD
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+
 # Build the React app
 RUN npm run build
 

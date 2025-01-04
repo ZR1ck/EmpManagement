@@ -21,7 +21,7 @@ build-frontend:
     - echo "Building the frontend..."
     - cd Frontend/EmpManagementApp
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker build -t duydang812/emp_management_fe:$CI_COMMIT_SHA .
+    - docker build --build-arg REACT_APP_API_URL=$REACT_APP_API_URL -t duydang812/emp_management_fe:$CI_COMMIT_SHA .
     - docker push duydang812/emp_management_fe:$CI_COMMIT_SHA
   # artifacts:
   #   paths:
@@ -45,7 +45,7 @@ deploy-frontend:
     - echo "Deploying the frontend..."
     - docker pull duydang812/emp_management_fe:$CI_COMMIT_SHA
     - docker rm -f emp-management-fe-container
-    - docker run -d -p 3000:80 --name emp-management-fe-container -e REACT_APP_API_URL=$REACT_APP_API_URL duydang812/emp_management_fe:$CI_COMMIT_SHA
+    - docker run -d -p 3000:80 --name emp-management-fe-container duydang812/emp_management_fe:$CI_COMMIT_SHA
   tags:
     - ec2-runner-2
 
