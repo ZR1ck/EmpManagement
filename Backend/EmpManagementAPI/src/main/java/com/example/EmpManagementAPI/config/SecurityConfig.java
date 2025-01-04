@@ -1,7 +1,9 @@
 package com.example.EmpManagementAPI.config;
 
+import java.util.Arrays;
 import java.util.List;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,7 +41,9 @@ public class SecurityConfig {
                 .cors(cors -> cors
                         .configurationSource(request -> {
                             var corsConfig = new org.springframework.web.cors.CorsConfiguration();
-                            corsConfig.setAllowedOrigins(List.of("http://localhost:3000"));
+                            Dotenv dotenv = Dotenv.load();
+                            String allowedOrigins = dotenv.get("ALLOWED_ORIGINS");
+                            corsConfig.setAllowedOriginPatterns(Arrays.asList(allowedOrigins.split(",")));
                             corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                             corsConfig.setAllowedHeaders(List.of("*"));
                             corsConfig.setAllowCredentials(true);
